@@ -6,7 +6,7 @@ Author: Parvaluna, SCUT
 
 Date: 2020-02-13
 
-Description: Generate a maze ramdomly and find its shortest path. 
+Description: Generate a maze randomly and find its shortest path. 
 
 \****************************************************************/
 
