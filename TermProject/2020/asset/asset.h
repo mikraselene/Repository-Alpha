@@ -1,9 +1,9 @@
+
 #include <iostream>
 #include <list>
 #include <string>
-#include "Date.h"
-#include "Period.h"
 
+/*
 using namespace std;
 
 void Test(string test)
@@ -182,3 +182,4 @@ private:
     Period interestPeriod;
     int typeFlag;
 };
+*/

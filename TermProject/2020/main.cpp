@@ -1,8 +1,9 @@
-#include "Asset.h"
 #include <iostream>
-
+#include "date/date.cpp"
+using namespace std;
 int main()
 {
+    /*
     list<Transaction *> pTransaction;
     SingleTransaction sg;
     RegularTransaction rg;
@@ -19,4 +20,15 @@ int main()
     {
         (*it)->Print();
     }
+*/
+    uint year = 2020;
+    uint month = 1;
+    uint day = 2;
+    //Year y;
+    //Month m;
+    //Day d;
+    Date da(Year(1111), Month(1), Day(123));
+    Date d;
+    d.Print();
+    da.Print();
 }
