@@ -1,7 +1,7 @@
 #include <iostream>
 #include <ctime>
 
-#include "date.h"
+#include "../include/date.h"
 
 Now::Now()
 {
