@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/date.h
+iostream
+-
+
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/main.cpp
+iostream
+-
+inc/date.h
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/date.h
+
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/src/date.cpp
+../inc/date.h
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/date.h
+
