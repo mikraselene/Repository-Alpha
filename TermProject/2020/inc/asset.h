@@ -25,22 +25,22 @@ public:
 class Transaction : public IAssetManagement
 {
 public:
+    Transaction(double, string);
     virtual void Add();
     virtual void Edit();
     virtual void Del();
     virtual void Print();
 
 protected:
-    string category;
     double amount;
-    int typeFlag;
+    string category;
 };
 
 class SingleTransaction : public Transaction
 {
 public:
-    SingleTransaction();
-    void Add();
+    SingleTransaction(double, string, Date);
+    void WriteIn();
     void Print();
 
 private:
@@ -49,8 +49,8 @@ private:
 class RegularTransaction : public Transaction
 {
 public:
-    RegularTransaction();
-    void Add();
+    RegularTransaction(double, string, Date, Period);
+    void WriteIn();
     void Print();
 
 private:

@@ -62,6 +62,12 @@ public:
     Date();
     Date(const Year &, const Month &, const Day &);
     void Print();
+    friend bool operator>(Date A, Date B);
+    friend bool operator>=(Date A, Date B);
+    friend bool operator==(Date A, Date B);
+    friend bool operator<(Date A, Date B);
+    friend bool operator<=(Date A, Date B);
+    friend bool operator!=(Date A, Date B);
 
 private:
     Year year;

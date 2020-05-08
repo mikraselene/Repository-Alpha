@@ -4,13 +4,29 @@
 
 list<Transaction *> pTransaction;
 
+Transaction::Transaction(double a, string s)
+{
+    amount = a;
+    category = s;
+}
+SingleTransaction::SingleTransaction(double a, string s, Date d)
+    : Transaction(a, s)
+{
+    date = d;
+}
+RegularTransaction::RegularTransaction(double a, string s, Date d, Period p)
+    : Transaction(a, s)
+{
+    startDate = d;
+    period = p;
+}
+
 void Transaction::Add()
 {
     pTransaction.push_back(this);
 }
 void Transaction::Edit()
 {
-    //
 }
 void Transaction::Del()
 {
@@ -26,29 +42,19 @@ void Transaction::Del()
 }
 void Transaction::Print()
 {
-    Test("Transaction");
 }
-
-SingleTransaction::SingleTransaction()
+void SingleTransaction::WriteIn()
 {
-    //
-}
-void SingleTransaction::Add()
-{
-    pTransaction.push_back(this);
 }
 void SingleTransaction::Print()
 {
+    std::cout << amount << "\t" << category << "\t";
+    date.Print();
     Test("Single");
 }
 
-RegularTransaction::RegularTransaction()
+void RegularTransaction::WriteIn()
 {
-    //
-}
-void RegularTransaction::Add()
-{
-    pTransaction.push_back(this);
 }
 void RegularTransaction::Print()
 {
@@ -120,10 +126,9 @@ void DepositAndLoan::Del()
 }
 void DepositAndLoan::Print()
 {
-    printf("Principle: %lf\n", principle);
-    printf("Interest: %lf\n", interest);
+    printf("Principle: %.2lf\n", principle);
+    printf("Interest: %.2lf%%\n", interest * 100);
     printf("Info: %s\n", info.c_str());
-    Test("DepositAndLoan");
 }
 
 void DepositAndLoan::WriteIn()

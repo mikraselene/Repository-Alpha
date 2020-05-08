@@ -5,9 +5,7 @@
 
 using namespace std;
 
-void Test(string test)
-{
-    cout << ">> Test: " << test << " <<" << endl;
-}
+void Test(string);
+void Test(string, int);
 
 #endif

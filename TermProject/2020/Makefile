@@ -231,6 +231,141 @@ src/date.cpp.s:
 	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/date.cpp.s
 .PHONY : src/date.cpp.s
 
+src/file.o: src/file.cpp.o
+
+.PHONY : src/file.o
+
+# target to build an object file
+src/file.cpp.o:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/file.cpp.o
+.PHONY : src/file.cpp.o
+
+src/file.i: src/file.cpp.i
+
+.PHONY : src/file.i
+
+# target to preprocess a source file
+src/file.cpp.i:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/file.cpp.i
+.PHONY : src/file.cpp.i
+
+src/file.s: src/file.cpp.s
+
+.PHONY : src/file.s
+
+# target to generate assembly for a file
+src/file.cpp.s:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/file.cpp.s
+.PHONY : src/file.cpp.s
+
+src/input.o: src/input.cpp.o
+
+.PHONY : src/input.o
+
+# target to build an object file
+src/input.cpp.o:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/input.cpp.o
+.PHONY : src/input.cpp.o
+
+src/input.i: src/input.cpp.i
+
+.PHONY : src/input.i
+
+# target to preprocess a source file
+src/input.cpp.i:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/input.cpp.i
+.PHONY : src/input.cpp.i
+
+src/input.s: src/input.cpp.s
+
+.PHONY : src/input.s
+
+# target to generate assembly for a file
+src/input.cpp.s:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/input.cpp.s
+.PHONY : src/input.cpp.s
+
+src/submenu.o: src/submenu.cpp.o
+
+.PHONY : src/submenu.o
+
+# target to build an object file
+src/submenu.cpp.o:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/submenu.cpp.o
+.PHONY : src/submenu.cpp.o
+
+src/submenu.i: src/submenu.cpp.i
+
+.PHONY : src/submenu.i
+
+# target to preprocess a source file
+src/submenu.cpp.i:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/submenu.cpp.i
+.PHONY : src/submenu.cpp.i
+
+src/submenu.s: src/submenu.cpp.s
+
+.PHONY : src/submenu.s
+
+# target to generate assembly for a file
+src/submenu.cpp.s:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/submenu.cpp.s
+.PHONY : src/submenu.cpp.s
+
+src/test.o: src/test.cpp.o
+
+.PHONY : src/test.o
+
+# target to build an object file
+src/test.cpp.o:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/test.cpp.o
+.PHONY : src/test.cpp.o
+
+src/test.i: src/test.cpp.i
+
+.PHONY : src/test.i
+
+# target to preprocess a source file
+src/test.cpp.i:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/test.cpp.i
+.PHONY : src/test.cpp.i
+
+src/test.s: src/test.cpp.s
+
+.PHONY : src/test.s
+
+# target to generate assembly for a file
+src/test.cpp.s:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/test.cpp.s
+.PHONY : src/test.cpp.s
+
+src/wallet.o: src/wallet.cpp.o
+
+.PHONY : src/wallet.o
+
+# target to build an object file
+src/wallet.cpp.o:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/wallet.cpp.o
+.PHONY : src/wallet.cpp.o
+
+src/wallet.i: src/wallet.cpp.i
+
+.PHONY : src/wallet.i
+
+# target to preprocess a source file
+src/wallet.cpp.i:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/wallet.cpp.i
+.PHONY : src/wallet.cpp.i
+
+src/wallet.s: src/wallet.cpp.s
+
+.PHONY : src/wallet.s
+
+# target to generate assembly for a file
+src/wallet.cpp.s:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/wallet.cpp.s
+.PHONY : src/wallet.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -252,6 +387,21 @@ help:
 	@echo "... src/date.o"
 	@echo "... src/date.i"
 	@echo "... src/date.s"
+	@echo "... src/file.o"
+	@echo "... src/file.i"
+	@echo "... src/file.s"
+	@echo "... src/input.o"
+	@echo "... src/input.i"
+	@echo "... src/input.s"
+	@echo "... src/submenu.o"
+	@echo "... src/submenu.i"
+	@echo "... src/submenu.s"
+	@echo "... src/test.o"
+	@echo "... src/test.i"
+	@echo "... src/test.s"
+	@echo "... src/wallet.o"
+	@echo "... src/wallet.i"
+	@echo "... src/wallet.s"
 .PHONY : help
 
 

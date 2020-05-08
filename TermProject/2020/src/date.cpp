@@ -90,4 +90,34 @@ void Date::Print()
     printf("%u\n", day.GetDay());
 }
 
+bool operator>(Date A, Date B)
+{
+    int x = A.year.GetYear() * 10000 + A.month.GetMonth() * 100 + A.day.GetDay();
+    int y = B.year.GetYear() * 10000 + B.month.GetMonth() * 100 + B.day.GetDay();
+    return x > y;
+}
+
+bool operator>=(Date A, Date B)
+{
+    return (A == B || A > B);
+}
+bool operator==(Date A, Date B)
+{
+    return (A.year.GetYear() == B.year.GetYear() &&
+            A.month.GetMonth() == B.month.GetMonth() &&
+            A.day.GetDay() == B.day.GetDay());
+}
+bool operator<(Date A, Date B)
+{
+    return !(A >= B);
+}
+bool operator<=(Date A, Date B)
+{
+    return !(A > B);
+}
+bool operator!=(Date A, Date B)
+{
+    return !(A == B);
+}
+
 #pragma endregion
