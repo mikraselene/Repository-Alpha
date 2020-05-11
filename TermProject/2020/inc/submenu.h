@@ -1,6 +1,12 @@
+#ifndef SUBMENU_H
+#define SUBMENU_H
+
 #include <iostream>
 #include "../inc/asset.h"
 #include "../inc/date.h"
+#include "../inc/input.h"
+#include "../inc/text.h"
+#include "../inc/category.h"
 
 class AssetSubMenu
 {
@@ -27,3 +33,5 @@ private:
     string category;
     Date date;
 };
+
+#endif

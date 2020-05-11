@@ -1,5 +1,4 @@
 #include "../inc/date.h"
-#include "../inc/text.h"
 
 using namespace std;
 

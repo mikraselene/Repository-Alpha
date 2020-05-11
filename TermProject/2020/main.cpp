@@ -8,12 +8,6 @@
 
 using namespace std;
 
-template <typename T>
-bool func(T A, T B)
-{
-    return A == B;
-}
-
 int main()
 {
     extern list<Category *> pCategory;

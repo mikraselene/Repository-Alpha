@@ -1,5 +1,7 @@
 #include "../inc/test.h"
 
+using namespace std;
+
 void Test(string test)
 {
     printf(">> TEST: ");

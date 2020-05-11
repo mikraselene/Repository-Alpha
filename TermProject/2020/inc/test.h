@@ -3,9 +3,7 @@
 
 #include <iostream>
 
-using namespace std;
-
-void Test(string);
-void Test(string, int);
+void Test(std::string);
+void Test(std::string, int);
 
 #endif

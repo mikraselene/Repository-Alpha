@@ -1,9 +1,11 @@
+#ifndef BILL_H
+#define BILL_H
+
 #include <iostream>
 #include <list>
+
 #include "date.h"
 #include "period.h"
-
-using namespace std;
 
 class IBillManagement
 {
@@ -14,7 +16,7 @@ private:
 class Bill : public IBillManagement
 {
 public:
-    Bill(double, Date, string);
+    Bill(double, Date, std::string);
     void Add();
     void Hide();
     void Print();
@@ -24,7 +26,7 @@ public:
 private:
     double amount;
     Date date;
-    string info;
+    std::string info;
     bool isHiden;
 };
 
@@ -58,9 +60,11 @@ public:
     Search();
 
 private:
-    string sStr;
+    std::string sStr;
 };
 
 class Statistics : public IBillManagement
 {
 };
+
+#endif

@@ -1,16 +1,13 @@
-#include <iostream>
 #include "../inc/submenu.h"
-#include "../inc/input.h"
-#include "../inc/text.h"
-#include "../inc/asset.h"
-#include "../inc/category.h"
 
 #define CLEAR system("clear")
 //#define CLEAR system("cls")
 
+const string ADD_NEW_CATEGORY = "新建类别";
 #pragma region "Public TransactionMenu"
 
-extern list<Transaction *> pTransaction;
+extern list<Transaction *>
+    pTransaction;
 extern list<Category *> pCategory;
 void TransactionMenu::InputSingleTransaction()
 {
@@ -25,6 +22,7 @@ void TransactionMenu::InputSingleTransaction()
     {
         cout << i++ << ". " << (*it)->GetCategory() << endl;
     }
+    cout << i << ". " << ADD_NEW_CATEGORY << endl;
     InputCategory();
 
     CLEAR;
@@ -78,7 +76,8 @@ void TransactionMenu::InputAmount()
     catch (const string msg)
     {
         cerr << msg << ", "
-             << PLEASE_INPUT_AGAIN << ": ";
+             << PLEASE_INPUT_AGAIN << ". "
+             << endl;
         InputAmount();
     }
 }
@@ -95,53 +94,56 @@ void TransactionMenu::InputDate()
     catch (const string msg)
     {
         cerr << msg << ", "
-             << PLEASE_INPUT_AGAIN << ": ";
+             << PLEASE_INPUT_AGAIN << ". "
+             << endl;
         InputDate();
     }
 }
 void TransactionMenu::InputCategory()
 {
+    cout << ">> ";
+    string code;
+    cin >> code;
+    NumberIn n(code);
     try
     {
-        cout << ">> ";
-        string code;
-        cin >> code;
-        NumberIn n(code);
-        try
+        int num = n.ToInt();
+        getchar();
+        if (num <= pCategory.size())
         {
-            int num = n.ToInt();
-            getchar();
-            if (num <= pCategory.size())
+            int i = 1;
+            for (auto it = pCategory.begin(); it != pCategory.end(); it++)
             {
-                int i = 1;
-                for (auto it = pCategory.begin(); it != pCategory.end(); it++)
+                if (i++ == num)
                 {
-                    if (i++ == num)
-                    {
-                        StringIn t((*it)->GetCategory());
-                        category = t.ToString();
-                    }
+                    StringIn t((*it)->GetCategory());
+                    category = t.ToString();
                 }
             }
-            else
-            {
-                string a;
-                getline(cin, a);
-                StringIn t(a);
-                category = t.ToString();
-            }
         }
-        catch (const string msg)
+        else if (num == pCategory.size() + 1)
         {
-            cerr << msg << ", "
-                 << PLEASE_INPUT_AGAIN << ": ";
+            cout << ">> ";
+            string a;
+            getline(cin, a);
+            StringIn t(a);
+            Category *x = new Category(a);
+            x->Add();
+            category = t.ToString();
+        }
+        else
+        {
+            cerr
+                << PLEASE_INPUT_AGAIN << ". "
+                << endl;
             InputCategory();
         }
     }
     catch (const string msg)
     {
         cerr << msg << ", "
-             << PLEASE_INPUT_AGAIN << ": ";
+             << PLEASE_INPUT_AGAIN << ". "
+             << endl;
         InputCategory();
     }
 }

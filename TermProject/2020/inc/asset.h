@@ -5,6 +5,7 @@
 #include <list>
 #include <string>
 
+#include "category.h"
 #include "date.h"
 #include "period.h"
 #include "test.h"

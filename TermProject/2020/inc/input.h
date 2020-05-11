@@ -1,43 +1,46 @@
+#ifndef INPUT_H
+#define INPUT_H
+
 #include <iostream>
 #include <cmath>
-#include "date.h"
 
-using namespace std;
+#include "date.h"
+#include "text.h"
 
 class NumberIn
 {
 public:
-    NumberIn(string);
+    NumberIn(std::string);
     int ToInt();
     double ToReal();
 
 private:
     void CheckInput();
     double GetAnswer();
-    string in;
+    std::string in;
 };
 
 class NumWithCalcIn
 {
 public:
-    NumWithCalcIn(string);
+    NumWithCalcIn(std::string);
     double ToRealWithCalc();
 
 private:
-    double Calc(string);
-    string in;
+    double Calc(std::string);
+    std::string in;
 };
 
 class DateIn
 {
 public:
-    DateIn(string);
+    DateIn(std::string);
     Date ToDate();
 
 private:
     void CheckInput();
-    int ToInt(string);
-    string in;
+    int ToInt(std::string);
+    std::string in;
     int year;
     int month;
     int day;
@@ -46,9 +49,11 @@ private:
 class StringIn
 {
 public:
-    StringIn(string);
-    string ToString();
+    StringIn(std::string);
+    std::string ToString();
 
 private:
-    string input;
+    std::string input;
 };
+
+#endif

@@ -1,14 +1,19 @@
+#ifndef CATEGORY_H
+#define CATEGORY_H
+
 #include <iostream>
-using namespace std;
+#include <list>
 
 class Category
 {
 public:
-    Category(string c);
+    Category(std::string c);
     void Add();
     void Del();
-    string GetCategory();
+    std::string GetCategory();
 
 private:
-    string category;
+    std::string category;
 };
+
+#endif

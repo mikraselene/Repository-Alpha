@@ -1,5 +1,7 @@
 #include "../inc/bill.h"
 
+using namespace std;
+
 #pragma region "Bill"
 
 list<Bill *> pBill;

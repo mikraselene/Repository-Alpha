@@ -3,7 +3,8 @@
 
 #include <iostream>
 #include <ctime>
-using namespace std;
+
+#include "text.h"
 
 #pragma region "Today"
 class Now
@@ -68,7 +69,7 @@ public:
     friend bool operator<(Date, Date);
     friend bool operator<=(Date, Date);
     friend bool operator!=(Date, Date);
-    friend ostream &operator<<(ostream &, Date);
+    friend std::ostream &operator<<(std::ostream &, Date);
 
 private:
     Year year;

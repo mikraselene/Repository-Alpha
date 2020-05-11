@@ -1,7 +1,9 @@
-#include <iostream>
-using namespace std;
+#ifndef TEXT_H
+#define TEXT_H
 
-#define T(code, text) const string(code) = (text)
+#include <iostream>
+
+#define T(code, text) const std::string(code) = (text)
 
 T(YEAR, "年");
 T(MONTH, "月");
@@ -58,3 +60,5 @@ T(ERR_ILLEGAL_NUMBER, "不合法的数字");
 T(ERR_NEGATIVE_NUMBER, "输入不能为负数");
 T(ERR_ILLEGAL_DATE, "不合法的日期");
 T(PLEASE_INPUT_AGAIN, "请重新输入");
+
+#endif

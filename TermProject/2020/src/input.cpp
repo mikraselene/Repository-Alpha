@@ -1,5 +1,6 @@
 #include "../inc/input.h"
-#include "../inc/text.h"
+
+using namespace std;
 
 #pragma region "Input Pure Number"
 

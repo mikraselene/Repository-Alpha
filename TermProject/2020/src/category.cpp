@@ -1,6 +1,5 @@
-#include <iostream>
-#include <list>
 #include "../inc/category.h"
+
 using namespace std;
 
 list<Category *> pCategory;
