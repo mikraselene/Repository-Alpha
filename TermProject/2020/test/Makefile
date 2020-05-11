@@ -123,6 +123,33 @@ build/fast:
 	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/build
 .PHONY : build/fast
 
+date.o: date.cpp.o
+
+.PHONY : date.o
+
+# target to build an object file
+date.cpp.o:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/date.cpp.o
+.PHONY : date.cpp.o
+
+date.i: date.cpp.i
+
+.PHONY : date.i
+
+# target to preprocess a source file
+date.cpp.i:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/date.cpp.i
+.PHONY : date.cpp.i
+
+date.s: date.cpp.s
+
+.PHONY : date.s
+
+# target to generate assembly for a file
+date.cpp.s:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/date.cpp.s
+.PHONY : date.cpp.s
+
 test.o: test.cpp.o
 
 .PHONY : test.o
@@ -159,6 +186,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... build"
+	@echo "... date.o"
+	@echo "... date.i"
+	@echo "... date.s"
 	@echo "... test.o"
 	@echo "... test.i"
 	@echo "... test.s"

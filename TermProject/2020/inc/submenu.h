@@ -5,18 +5,24 @@
 class AssetSubMenu
 {
 public:
-    void ShowSubMenu();
+    void SubMenu();
 };
 
 class TransactionMenu : public AssetSubMenu
 {
 public:
-    void InputTransaction();
-    void InputAmount();
+    void InputSingleTransaction();
+    void InputRegularTransaction();
+    void PrintAllSingle();
+    void PrintAllRegular();
 
 private:
+    void InputAmount();
     void InputCategory();
     void InputDate();
+    void InputPeriod();
+    template <typename T1, typename T2, typename T3>
+    void Print(T1, T2, T3);
     double amount;
     string category;
     Date date;

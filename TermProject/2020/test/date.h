@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <ctime>
-using namespace std;
 
 #pragma region "Today"
 class Now
@@ -62,13 +61,13 @@ class Date
 public:
     Date();
     Date(const Year &, const Month &, const Day &);
-    friend bool operator>(Date, Date);
-    friend bool operator>=(Date, Date);
-    friend bool operator==(Date, Date);
-    friend bool operator<(Date, Date);
-    friend bool operator<=(Date, Date);
-    friend bool operator!=(Date, Date);
-    friend ostream &operator<<(ostream &, Date);
+    void Print();
+    friend bool operator>(Date A, Date B);
+    friend bool operator>=(Date A, Date B);
+    friend bool operator==(Date A, Date B);
+    friend bool operator<(Date A, Date B);
+    friend bool operator<=(Date A, Date B);
+    friend bool operator!=(Date A, Date B);
 
 private:
     Year year;

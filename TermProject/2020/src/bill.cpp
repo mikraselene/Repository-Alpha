@@ -48,25 +48,23 @@ Filter::Filter(FLTR_DATE fltr)
 }
 void Filter::FilterByAmount()
 {
-    list<Bill *>::iterator it;
-    for (it = pBill.begin(); it != pBill.end(); it++)
+    for (auto it : pBill)
     {
-        double amount = (*it)->GetAmount();
+        double amount = it->GetAmount();
         if (fAmount.lowerLimit <= amount && fAmount.upperLimit >= amount)
         {
-            pFiltered.push_back(*it);
+            pFiltered.push_back(it);
         }
     }
 }
 void Filter::FilterByDate()
 {
-    list<Bill *>::iterator it;
-    for (it = pBill.begin(); it != pBill.end(); it++)
+    for (auto it : pBill)
     {
-        Date date = (*it)->GetDate();
+        Date date = it->GetDate();
         if (fDate.lowerLimit <= date && fDate.upperLimit >= date)
         {
-            pFiltered.push_back(*it);
+            pFiltered.push_back(it);
         }
     }
 }

@@ -1,7 +1,4 @@
-#include "../inc/date.h"
-#include "../inc/text.h"
-
-using namespace std;
+#include "date.h"
 
 #pragma region "Today"
 Now::Now()
@@ -86,6 +83,12 @@ Date::Date(const Year &y, const Month &m, const Day &d)
     month = m;
     day = d;
 }
+void Date::Print()
+{
+    printf("%u-", year.GetYear());
+    printf("%u-", month.GetMonth());
+    printf("%u\n", day.GetDay());
+}
 
 bool operator>(Date A, Date B)
 {
@@ -115,13 +118,6 @@ bool operator<=(Date A, Date B)
 bool operator!=(Date A, Date B)
 {
     return !(A == B);
-}
-ostream &operator<<(ostream &out, Date A)
-{
-    cout << A.year.GetYear() << YEAR
-         << A.month.GetMonth() << MONTH
-         << A.day.GetDay() << DAY;
-    return out;
 }
 
 #pragma endregion

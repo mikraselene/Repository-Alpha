@@ -204,6 +204,33 @@ src/bill.cpp.s:
 	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/bill.cpp.s
 .PHONY : src/bill.cpp.s
 
+src/category.o: src/category.cpp.o
+
+.PHONY : src/category.o
+
+# target to build an object file
+src/category.cpp.o:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/category.cpp.o
+.PHONY : src/category.cpp.o
+
+src/category.i: src/category.cpp.i
+
+.PHONY : src/category.i
+
+# target to preprocess a source file
+src/category.cpp.i:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/category.cpp.i
+.PHONY : src/category.cpp.i
+
+src/category.s: src/category.cpp.s
+
+.PHONY : src/category.s
+
+# target to generate assembly for a file
+src/category.cpp.s:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/category.cpp.s
+.PHONY : src/category.cpp.s
+
 src/date.o: src/date.cpp.o
 
 .PHONY : src/date.o
@@ -384,6 +411,9 @@ help:
 	@echo "... src/bill.o"
 	@echo "... src/bill.i"
 	@echo "... src/bill.s"
+	@echo "... src/category.o"
+	@echo "... src/category.i"
+	@echo "... src/category.s"
 	@echo "... src/date.o"
 	@echo "... src/date.i"
 	@echo "... src/date.s"

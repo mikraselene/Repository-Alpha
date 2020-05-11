@@ -3,6 +3,7 @@
 
 CMakeFiles/build.dir/main.cpp.o: inc/asset.h
 CMakeFiles/build.dir/main.cpp.o: inc/bill.h
+CMakeFiles/build.dir/main.cpp.o: inc/category.h
 CMakeFiles/build.dir/main.cpp.o: inc/date.h
 CMakeFiles/build.dir/main.cpp.o: inc/period.h
 CMakeFiles/build.dir/main.cpp.o: inc/submenu.h
@@ -20,20 +21,28 @@ CMakeFiles/build.dir/src/bill.cpp.o: inc/date.h
 CMakeFiles/build.dir/src/bill.cpp.o: inc/period.h
 CMakeFiles/build.dir/src/bill.cpp.o: src/bill.cpp
 
+CMakeFiles/build.dir/src/category.cpp.o: inc/category.h
+CMakeFiles/build.dir/src/category.cpp.o: src/category.cpp
+
 CMakeFiles/build.dir/src/date.cpp.o: inc/date.h
+CMakeFiles/build.dir/src/date.cpp.o: inc/text.h
 CMakeFiles/build.dir/src/date.cpp.o: src/date.cpp
 
 CMakeFiles/build.dir/src/file.cpp.o: src/file.cpp
 
+CMakeFiles/build.dir/src/input.cpp.o: inc/date.h
 CMakeFiles/build.dir/src/input.cpp.o: inc/input.h
+CMakeFiles/build.dir/src/input.cpp.o: inc/text.h
 CMakeFiles/build.dir/src/input.cpp.o: src/input.cpp
 
 CMakeFiles/build.dir/src/submenu.cpp.o: inc/asset.h
+CMakeFiles/build.dir/src/submenu.cpp.o: inc/category.h
 CMakeFiles/build.dir/src/submenu.cpp.o: inc/date.h
 CMakeFiles/build.dir/src/submenu.cpp.o: inc/input.h
 CMakeFiles/build.dir/src/submenu.cpp.o: inc/period.h
 CMakeFiles/build.dir/src/submenu.cpp.o: inc/submenu.h
 CMakeFiles/build.dir/src/submenu.cpp.o: inc/test.h
+CMakeFiles/build.dir/src/submenu.cpp.o: inc/text.h
 CMakeFiles/build.dir/src/submenu.cpp.o: src/submenu.cpp
 
 CMakeFiles/build.dir/src/test.cpp.o: inc/test.h

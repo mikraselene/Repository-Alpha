@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/build.dir/date.cpp.o"
   "CMakeFiles/build.dir/test.cpp.o"
   "build"
   "build.pdb"

@@ -30,12 +30,11 @@ void Transaction::Edit()
 }
 void Transaction::Del()
 {
-    list<Transaction *>::iterator it;
-    for (it = pTransaction.begin(); it != pTransaction.end(); it++)
+    for (auto it = pTransaction.begin(); it != pTransaction.end();)
     {
         if (*it == this)
         {
-            pTransaction.erase(it);
+            pTransaction.erase(it++);
             break;
         }
     }
@@ -48,9 +47,10 @@ void SingleTransaction::WriteIn()
 }
 void SingleTransaction::Print()
 {
-    std::cout << amount << "\t" << category << "\t";
-    date.Print();
-    Test("Single");
+    std::cout << amount << "\t\t"
+              << category << "\t\t"
+              << date << endl;
+    //Test("Single");
 }
 
 void RegularTransaction::WriteIn()
@@ -58,7 +58,7 @@ void RegularTransaction::WriteIn()
 }
 void RegularTransaction::Print()
 {
-    Test("Single");
+    //Test("Single");
 }
 
 #pragma endregion
@@ -81,12 +81,11 @@ void Budget::Edit()
 }
 void Budget::Del()
 {
-    list<Budget *>::iterator it;
-    for (it = pBudget.begin(); it != pBudget.end(); it++)
+    for (auto it = pBudget.begin(); it != pBudget.end();)
     {
         if (*it == this)
         {
-            pBudget.erase(it);
+            pBudget.erase(it)++;
             break;
         }
     }
@@ -114,12 +113,11 @@ void DepositAndLoan::Edit()
 }
 void DepositAndLoan::Del()
 {
-    list<DepositAndLoan *>::iterator it;
-    for (it = pDepoAndLoan.begin(); it != pDepoAndLoan.end(); it++)
+    for (auto it = pDepoAndLoan.begin(); it != pDepoAndLoan.end();)
     {
         if (*it == this)
         {
-            pDepoAndLoan.erase(it);
+            pDepoAndLoan.erase(it++);
             break;
         }
     }
