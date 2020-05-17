@@ -41,9 +41,7 @@ private:
     void CheckInput();
     int ToInt(std::string);
     std::string in;
-    int year;
-    int month;
-    int day;
+    Date date;
 };
 
 class StringIn

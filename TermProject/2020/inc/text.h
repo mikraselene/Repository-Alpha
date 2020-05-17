@@ -5,6 +5,14 @@
 
 #define T(code, text) const std::string(code) = (text)
 
+T(ROUTINE, "日常");
+T(FOOD, "饮食");
+T(CLOTHING, "服装");
+T(EDUCATION, "教育");
+T(ENTERTAINMENT, "娱乐");
+T(INTERNET, "网络");
+T(MISCELLANEOUS, "杂项");
+
 T(YEAR, "年");
 T(MONTH, "月");
 T(DAY, "日");
@@ -55,10 +63,21 @@ T(HELP, "帮助");
 T(BACK, "返回");
 T(END_OF_TITLE, "////////// ＝＝＝＝ //////////");
 
+T(REGULAR_EXPENSE_TITLE, "////////// 定期支出 //////////");
+T(START_DATE, "起始日期");
+T(PERIOD, "周期");
+
 T(ERR_ILLEGAL_OPERATION, "不合法的运算");
 T(ERR_ILLEGAL_NUMBER, "不合法的数字");
 T(ERR_NEGATIVE_NUMBER, "输入不能为负数");
 T(ERR_ILLEGAL_DATE, "不合法的日期");
 T(PLEASE_INPUT_AGAIN, "请重新输入");
+
+T(DEPO_AND_LOAN_TITLE, "////////// 存贷记录 //////////");
+T(PRINCIPLE, "本金");
+T(END_DATE, "结束日期");
+T(INTEREST_RATE, "利率");
+
+T(ADD_NEW_CATEGORY ,"新建类别");
 
 #endif

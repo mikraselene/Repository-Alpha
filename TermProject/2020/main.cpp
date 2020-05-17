@@ -10,15 +10,20 @@ using namespace std;
 
 int main()
 {
-    extern list<Category *> pCategory;
-    Category *p = new Category("hello");
-    Category *q = new Category("world");
-    p->Add();
-    q->Add();
-    TransactionMenu tMenu;
+    AddDefault();
+
+    DepositAndLoanMenu *pTMenu = new DepositAndLoanMenu;
     for (int i = 0; i < 2; i++)
     {
-        tMenu.InputSingleTransaction();
+        pTMenu->InputDepositAndLoan();
     }
-    tMenu.PrintAllSingle();
+    pTMenu->PrintAllDepositAndLoan();
+    /*
+    TransactionMenu *pTMenu = new TransactionMenu;
+    for (int i = 0; i < 2; i++)
+    {
+        pTMenu->InputSingleTransaction();
+    }
+    pTMenu->PrintAllSingle();
+    */
 }

@@ -61,13 +61,19 @@ class Date
 public:
     Date();
     Date(const Year &, const Month &, const Day &);
-    void Print();
-    friend bool operator>(Date A, Date B);
-    friend bool operator>=(Date A, Date B);
-    friend bool operator==(Date A, Date B);
-    friend bool operator<(Date A, Date B);
-    friend bool operator<=(Date A, Date B);
-    friend bool operator!=(Date A, Date B);
+    friend bool operator>(Date, Date);
+    friend bool operator>=(Date, Date);
+    friend bool operator==(Date, Date);
+    friend bool operator<(Date, Date);
+    friend bool operator<=(Date, Date);
+    friend bool operator!=(Date, Date);
+    friend int operator-(Date, Date);
+    operator int();
+    bool isLegal();
+    int GetYear();
+    int GetMonth();
+    int GetDay();
+    friend std::ostream &operator<<(std::ostream &, Date);
 
 private:
     Year year;

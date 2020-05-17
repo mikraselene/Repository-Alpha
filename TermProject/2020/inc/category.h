@@ -4,6 +4,9 @@
 #include <iostream>
 #include <list>
 
+#include "text.h"
+
+void AddDefault();
 class Category
 {
 public:

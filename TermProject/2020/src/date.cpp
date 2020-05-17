@@ -86,22 +86,53 @@ Date::Date(const Year &y, const Month &m, const Day &d)
     day = d;
 }
 
+bool Date::isLegal()
+{
+    int maxday[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    int y = year.GetYear();
+    int m = month.GetMonth();
+    int d = day.GetDay();
+    if ((y % 4 == 0 && y % 400 == 0) || (y % 4 == 0 && y % 100 != 0))
+    {
+        maxday[2]++;
+    }
+    return m > 0 && m <= 12 && d > 0 && d <= maxday[m];
+}
+Date::operator int()
+{
+    int maxday[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    if ((year.GetYear() % 4 == 0 && year.GetYear() % 100 != 0) ||
+        year.GetYear() % 400 == 0)
+    {
+        maxday[2]++;
+    }
+    int result = 0;
+    for (int i = 1; i < year.GetYear(); i++)
+    {
+        result += 365;
+        if ((i % 4 == 0 && i % 100 != 0) || i % 400 == 0)
+        {
+            result++;
+        }
+    }
+    for (int i = 1; i < month.GetMonth(); i++)
+    {
+        result += maxday[i];
+    }
+    result += day.GetDay();
+    return result;
+}
 bool operator>(Date A, Date B)
 {
-    int x = A.year.GetYear() * 10000 + A.month.GetMonth() * 100 + A.day.GetDay();
-    int y = B.year.GetYear() * 10000 + B.month.GetMonth() * 100 + B.day.GetDay();
-    return x > y;
+    return int(A) > int(B);
 }
-
 bool operator>=(Date A, Date B)
 {
     return (A == B || A > B);
 }
 bool operator==(Date A, Date B)
 {
-    return (A.year.GetYear() == B.year.GetYear() &&
-            A.month.GetMonth() == B.month.GetMonth() &&
-            A.day.GetDay() == B.day.GetDay());
+    return int(A) == int(B);
 }
 bool operator<(Date A, Date B)
 {
@@ -115,6 +146,11 @@ bool operator!=(Date A, Date B)
 {
     return !(A == B);
 }
+int operator-(Date A, Date B)
+{
+    return int(A) - int(B);
+}
+
 ostream &operator<<(ostream &out, Date A)
 {
     cout << A.year.GetYear() << YEAR

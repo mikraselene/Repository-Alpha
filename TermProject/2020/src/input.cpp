@@ -175,26 +175,22 @@ Date DateIn::ToDate()
     string monthstr = in.substr(first + 1, second - first - 1);
     string daystr = in.substr(second + 1, third - second - 1);
 
-    year = ToInt(yearstr);
-    month = ToInt(monthstr);
-    day = ToInt(daystr);
-    CheckInput();
+    int year = ToInt(yearstr);
+    int month = ToInt(monthstr);
+    int day = ToInt(daystr);
 
     Year Y(year);
     Month M(month);
     Day D(day);
-    Date x(Y, M, D);
+    date = Date(Y, M, D);
 
-    return x;
+    CheckInput();
+
+    return date;
 }
 void DateIn::CheckInput()
 {
-    int maxday[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    if ((year % 4 == 0 && year % 400 == 0) || (year % 4 == 0 && year % 100 != 0))
-    {
-        maxday[2]++;
-    }
-    if (month <= 0 || month > 12 || day <= 0 || day > maxday[month])
+    if (date.isLegal() == 0)
     {
         throw ERR_ILLEGAL_DATE;
     }

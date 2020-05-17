@@ -3,11 +3,22 @@
 using namespace std;
 
 list<Category *> pCategory;
+string defaultCategory[7] =
+    {ROUTINE, FOOD, CLOTHING, EDUCATION, ENTERTAINMENT, INTERNET, MISCELLANEOUS};
+void AddDefault()
+{
+    for (int i = 0; i < 7; i++)
+    {
+        Category *temp = new Category(defaultCategory[i]);
+        temp->Add();
+    }
+}
 
 Category::Category(string c)
 {
     category = c;
 }
+
 void Category::Add()
 {
     for (auto it : pCategory)

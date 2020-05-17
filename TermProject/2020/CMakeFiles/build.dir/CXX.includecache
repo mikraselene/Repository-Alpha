@@ -13,6 +13,8 @@ list
 -
 string
 -
+category.h
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/category.h
 date.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/date.h
 period.h
@@ -23,12 +25,18 @@ test.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/category.h
 iostream
 -
+list
+-
+text.h
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/text.h
 
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/date.h
 iostream
 -
 ctime
 -
+text.h
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/text.h
 
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/input.h
 iostream
@@ -37,6 +45,8 @@ cmath
 -
 date.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/date.h
+text.h
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/text.h
 
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/period.h
 
@@ -47,6 +57,12 @@ iostream
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/asset.h
 ../inc/date.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/date.h
+../inc/input.h
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/input.h
+../inc/text.h
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/text.h
+../inc/category.h
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/category.h
 
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/test.h
 iostream
@@ -57,16 +73,6 @@ iostream
 -
 
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/src/submenu.cpp
-iostream
--
 ../inc/submenu.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/submenu.h
-../inc/input.h
-/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/input.h
-../inc/text.h
-/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/text.h
-../inc/asset.h
-/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/asset.h
-../inc/category.h
-/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/category.h
 

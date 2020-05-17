@@ -63,12 +63,15 @@ class Date
 public:
     Date();
     Date(const Year &, const Month &, const Day &);
+    bool isLegal();
+    operator int();
     friend bool operator>(Date, Date);
     friend bool operator>=(Date, Date);
     friend bool operator==(Date, Date);
     friend bool operator<(Date, Date);
     friend bool operator<=(Date, Date);
     friend bool operator!=(Date, Date);
+    friend int operator-(Date, Date);
     friend std::ostream &operator<<(std::ostream &, Date);
 
 private:

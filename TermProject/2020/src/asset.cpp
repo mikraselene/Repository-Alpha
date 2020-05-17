@@ -14,7 +14,7 @@ SingleTransaction::SingleTransaction(double a, string s, Date d)
 {
     date = d;
 }
-RegularTransaction::RegularTransaction(double a, string s, Date d, Period p)
+RegularTransaction::RegularTransaction(double a, string s, Date d, string p)
     : Transaction(a, s)
 {
     startDate = d;
@@ -50,7 +50,6 @@ void SingleTransaction::Print()
     std::cout << amount << "\t\t"
               << category << "\t\t"
               << date << endl;
-    //Test("Single");
 }
 
 void RegularTransaction::WriteIn()
@@ -58,7 +57,10 @@ void RegularTransaction::WriteIn()
 }
 void RegularTransaction::Print()
 {
-    //Test("Single");
+    std::cout << amount << "\t\t"
+              << category << "\t\t"
+              << startDate << "\t\t"
+              << period << endl;
 }
 
 #pragma endregion
@@ -100,9 +102,19 @@ void Budget::Print()
 
 list<DepositAndLoan *> pDepoAndLoan;
 
+DepositAndLoan::DepositAndLoan(double pr, double rate,
+                               Date start, Date end, string p, string i)
+{
+    principle = pr;
+    interest = rate;
+    startDate = start;
+    endDate = end;
+    interestPeriod = p;
+    info = i;
+}
 void DepositAndLoan::Add()
 {
-    WriteIn();
+    //WriteIn();
     pDepoAndLoan.push_back(this);
 }
 void DepositAndLoan::Edit()
@@ -124,9 +136,13 @@ void DepositAndLoan::Del()
 }
 void DepositAndLoan::Print()
 {
-    printf("Principle: %.2lf\n", principle);
-    printf("Interest: %.2lf%%\n", interest * 100);
-    printf("Info: %s\n", info.c_str());
+    std::cout << principle << "\t\t"
+              << interest << "\t\t"
+              << startDate << "\t\t"
+              << endDate << "\t\t"
+              << interestPeriod << "\t\t"
+              << info << "\t\t"
+              << endl;
 }
 
 void DepositAndLoan::WriteIn()

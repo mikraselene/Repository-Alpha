@@ -50,13 +50,13 @@ private:
 class RegularTransaction : public Transaction
 {
 public:
-    RegularTransaction(double, string, Date, Period);
+    RegularTransaction(double, string, Date, string);
     void WriteIn();
     void Print();
 
 private:
     Date startDate;
-    Period period;
+    string period;
 };
 
 #pragma endregion
@@ -86,6 +86,7 @@ private:
 class DepositAndLoan : public IAssetManagement
 {
 public:
+    DepositAndLoan(double, double, Date, Date, string, string);
     void Add();
     void Edit();
     void Del();
@@ -93,12 +94,14 @@ public:
 
 private:
     void WriteIn();
-    string info;
+
     double principle;
+    double interest;
     Date startDate;
     Date endDate;
-    double interest;
-    Period interestPeriod;
+    string period;
+    string info;
+
     int typeFlag;
 };
 
