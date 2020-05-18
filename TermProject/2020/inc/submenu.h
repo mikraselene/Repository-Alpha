@@ -26,22 +26,19 @@ class TransactionMenu : public AssetSubMenu
 public:
     void InputSingleTransaction();
     void InputRegularTransaction();
-
     void PrintAllSingle();
     void PrintAllRegular();
 
 private:
     void ShowCategory();
     void InputCategory();
-
     template <typename T1, typename T2, typename T3>
     void PrintSingleBody(T1, T2, T3);
-
     template <typename T1, typename T2, typename T3, typename T4>
     void PrintRegularBody(T1 x, T2 y, T3 z, T4 u);
 
     double amount;
-    string category;
+    Category category;
     Date date;
     string period;
     int code;
@@ -51,13 +48,11 @@ class DepositAndLoanMenu : public AssetSubMenu
 {
 public:
     void InputDepositAndLoan();
-
     void PrintAllDepositAndLoan();
 
 private:
     double InputRate();
     string InputInfo();
-
     template <typename T1, typename T2, typename T3,
               typename T4, typename T5, typename T6>
     void PrintDepoLoanBody(T1 x, T2 y, T3 z, T4 u, T5 v, T6 w);
@@ -72,4 +67,27 @@ private:
     // int typeFlag;
 };
 
+class BudgetMenu : public AssetSubMenu
+{
+public:
+    void InputBudget();
+    void PrintAllBudget();
+
+private:
+    template <typename T1, typename T2, typename T3>
+    void PrintBudgetBody(T1 x, T2 y, T3 z);
+
+    double budget;
+    Category category;
+    Date start;
+};
+
 #endif
+
+/*
+budget
+    category
+    amount
+    start
+
+*/

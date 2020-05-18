@@ -11,19 +11,18 @@ using namespace std;
 int main()
 {
     AddDefault();
-
+    /*
     DepositAndLoanMenu *pTMenu = new DepositAndLoanMenu;
     for (int i = 0; i < 2; i++)
     {
         pTMenu->InputDepositAndLoan();
     }
-    pTMenu->PrintAllDepositAndLoan();
-    /*
+    pTMenu->PrintAllDepositAndLoan();*/
+
     TransactionMenu *pTMenu = new TransactionMenu;
     for (int i = 0; i < 2; i++)
     {
         pTMenu->InputSingleTransaction();
     }
     pTMenu->PrintAllSingle();
-    */
 }

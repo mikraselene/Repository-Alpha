@@ -19,6 +19,10 @@ Category::Category(string c)
     category = c;
 }
 
+Category::Category()
+{
+    category = "";
+}
 void Category::Add()
 {
     for (auto it : pCategory)
@@ -44,4 +48,9 @@ void Category::Del()
 string Category::GetCategory()
 {
     return category;
+}
+ostream &operator<<(ostream &out, Category A)
+{
+    cout << A.category;
+    return out;
 }

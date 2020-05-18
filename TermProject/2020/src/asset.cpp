@@ -4,17 +4,17 @@
 
 list<Transaction *> pTransaction;
 
-Transaction::Transaction(double a, string s)
+Transaction::Transaction(double a, Category s)
 {
     amount = a;
     category = s;
 }
-SingleTransaction::SingleTransaction(double a, string s, Date d)
+SingleTransaction::SingleTransaction(double a, Category s, Date d)
     : Transaction(a, s)
 {
     date = d;
 }
-RegularTransaction::RegularTransaction(double a, string s, Date d, string p)
+RegularTransaction::RegularTransaction(double a, Category s, Date d, string p)
     : Transaction(a, s)
 {
     startDate = d;
@@ -109,7 +109,7 @@ DepositAndLoan::DepositAndLoan(double pr, double rate,
     interest = rate;
     startDate = start;
     endDate = end;
-    interestPeriod = p;
+    period = p;
     info = i;
 }
 void DepositAndLoan::Add()
@@ -140,7 +140,7 @@ void DepositAndLoan::Print()
               << interest << "\t\t"
               << startDate << "\t\t"
               << endDate << "\t\t"
-              << interestPeriod << "\t\t"
+              << period << "\t\t"
               << info << "\t\t"
               << endl;
 }

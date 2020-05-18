@@ -223,12 +223,11 @@ void TransactionMenu::InputCategory()
         if (num <= pCategory.size())
         {
             int i = 1;
-            for (auto it = pCategory.begin(); it != pCategory.end(); it++)
+            for (auto it : pCategory)
             {
                 if (i++ == num)
                 {
-                    StringIn t((*it)->GetCategory());
-                    category = t.ToString();
+                    category = *it;
                 }
             }
         }
@@ -240,7 +239,7 @@ void TransactionMenu::InputCategory()
             StringIn t(a);
             Category *x = new Category(a);
             x->Add();
-            category = t.ToString();
+            category = *x;
         }
         else
         {
@@ -399,5 +398,13 @@ void DepositAndLoanMenu::PrintDepoLoanBody(T1 x, T2 y, T3 z, T4 u, T5 v, T6 w)
          << INFO << ":" << w << endl
          << DIVISION << endl;
 }
+
+#pragma endregion
+
+#pragma region "Public Budget Menu"
+
+#pragma endregion
+
+#pragma region "Private Budget Menu"
 
 #pragma endregion
