@@ -6,9 +6,25 @@
 extern list<Transaction *> pTransaction;
 extern list<DepositAndLoan *> pDepoAndLoan;
 extern list<Category *> pCategory;
+extern list<Budget *> pBudget;
 
 #pragma region "Protected Asset Menu"
 
+/*---------------------------------------------------------------------------
+FUNCTION: InputAmount()
+
+PURPOSE:
+    To get the amount which user inputs.
+
+PARAMETERS:
+    -
+
+CALLS:
+    ToRealWithCalc()
+
+RETURN VALUE:
+    The amount which user inputs.
+---------------------------------------------------------------------------*/
 double AssetSubMenu::InputAmount()
 {
     try
@@ -46,6 +62,69 @@ Date AssetSubMenu::InputDate()
              << PLEASE_INPUT_AGAIN << ". "
              << endl;
         return InputDate();
+    }
+}
+
+void AssetSubMenu::ShowCategory()
+{
+    int i = 1;
+    for (auto it = pCategory.begin(); it != pCategory.end(); it++)
+    {
+        cout << i++ << ". " << (*it)->GetCategory() << "\t\t";
+        if ((i - 1) % 4 == 0)
+        {
+            cout << endl;
+        }
+    }
+    cout << i << ". " << ADD_NEW_CATEGORY << endl;
+}
+Category AssetSubMenu::InputCategory()
+{
+    cout << ">> ";
+    string code;
+    cin >> code;
+    NumberIn n(code);
+    try
+    {
+        int num = n.ToInt();
+        getchar();
+        if (num <= pCategory.size())
+        {
+            int i = 1;
+            for (auto it : pCategory)
+            {
+                if (i++ == num)
+                {
+                    return *it;
+                }
+            }
+            Category t;
+            return t;
+        }
+        else if (num == pCategory.size() + 1)
+        {
+            cout << ">> ";
+            string a;
+            getline(cin, a);
+            StringIn t(a);
+            Category *x = new Category(a);
+            x->Add();
+            return *x;
+        }
+        else
+        {
+            cerr
+                << PLEASE_INPUT_AGAIN << ". "
+                << endl;
+            return InputCategory();
+        }
+    }
+    catch (const string msg)
+    {
+        cerr << msg << ", "
+             << PLEASE_INPUT_AGAIN << ". "
+             << endl;
+        return InputCategory();
     }
 }
 
@@ -96,7 +175,7 @@ void TransactionMenu::InputSingleTransaction()
     CLEAR;
     PrintSingleBody(amount, "?", "");
     ShowCategory();
-    InputCategory();
+    category = InputCategory();
 
     CLEAR;
     PrintSingleBody(amount, category, "?");
@@ -135,7 +214,7 @@ void TransactionMenu::InputRegularTransaction()
     CLEAR;
     PrintRegularBody(amount, "?", "", "");
     ShowCategory();
-    InputCategory();
+    category = InputCategory();
 
     CLEAR;
     PrintRegularBody(amount, category, "?", "");
@@ -196,67 +275,6 @@ void TransactionMenu::PrintAllRegular()
 #pragma endregion
 
 #pragma region "Private Transaction Menu"
-
-void TransactionMenu::ShowCategory()
-{
-    int i = 1;
-    for (auto it = pCategory.begin(); it != pCategory.end(); it++)
-    {
-        cout << i++ << ". " << (*it)->GetCategory() << "\t\t";
-        if ((i - 1) % 4 == 0)
-        {
-            cout << endl;
-        }
-    }
-    cout << i << ". " << ADD_NEW_CATEGORY << endl;
-}
-void TransactionMenu::InputCategory()
-{
-    cout << ">> ";
-    string code;
-    cin >> code;
-    NumberIn n(code);
-    try
-    {
-        int num = n.ToInt();
-        getchar();
-        if (num <= pCategory.size())
-        {
-            int i = 1;
-            for (auto it : pCategory)
-            {
-                if (i++ == num)
-                {
-                    category = *it;
-                }
-            }
-        }
-        else if (num == pCategory.size() + 1)
-        {
-            cout << ">> ";
-            string a;
-            getline(cin, a);
-            StringIn t(a);
-            Category *x = new Category(a);
-            x->Add();
-            category = *x;
-        }
-        else
-        {
-            cerr
-                << PLEASE_INPUT_AGAIN << ". "
-                << endl;
-            InputCategory();
-        }
-    }
-    catch (const string msg)
-    {
-        cerr << msg << ", "
-             << PLEASE_INPUT_AGAIN << ". "
-             << endl;
-        InputCategory();
-    }
-}
 
 template <typename T1, typename T2, typename T3>
 void TransactionMenu::PrintSingleBody(T1 x, T2 y, T3 z)
@@ -403,8 +421,71 @@ void DepositAndLoanMenu::PrintDepoLoanBody(T1 x, T2 y, T3 z, T4 u, T5 v, T6 w)
 
 #pragma region "Public Budget Menu"
 
+void BudgetMenu::InputBudget()
+{
+    CLEAR;
+    PrintBudgetBody("?", "", "");
+    budget = InputAmount();
+
+    CLEAR;
+    PrintBudgetBody(budget, "?", "");
+    ShowCategory();
+    category = InputCategory();
+
+    CLEAR;
+    PrintBudgetBody(budget, category, "?");
+    start = InputDate();
+
+    CLEAR;
+    PrintBudgetBody(budget, category, start);
+
+    PrintInstruction();
+    code = InputCode();
+
+    if (code == 1)
+    {
+        Budget *t = new Budget(budget, category, start);
+        t->Add();
+    }
+    if (code == 2)
+    {
+        InputBudget();
+    }
+    if (code == 3)
+    {
+        cout << "help" << endl;
+    }
+    if (code >= 4)
+    {
+        //
+    }
+
+    CLEAR;
+}
+
+void BudgetMenu::PrintAllBudget()
+{
+    cout << BUDGET << "\t\t"
+         << CATEGORY << "\t\t"
+         << START_DATE << endl;
+    for (auto it : pBudget)
+    {
+        it->Print();
+    }
+}
+
 #pragma endregion
 
 #pragma region "Private Budget Menu"
+
+template <typename T1, typename T2, typename T3>
+void BudgetMenu::PrintBudgetBody(T1 x, T2 y, T3 z)
+{
+    cout << BUDGET_TITLE << endl
+         << BUDGET << ": " << x << endl
+         << CATEGORY << ": " << y << endl
+         << START_DATE << ": " << z << endl
+         << DIVISION << endl;
+}
 
 #pragma endregion

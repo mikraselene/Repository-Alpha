@@ -6,19 +6,21 @@
 
 #include "text.h"
 
+#define uint unsigned int
+
 #pragma region "Today"
 class Now
 {
 public:
     Now();
-    uint GetCurrentYear() const;
-    uint GetCurrentMonth() const;
-    uint GetCurrentDay() const;
+    friend class Year;
+    friend class Month;
+    friend class Day;
 
-private:
-    uint currentYear;
-    uint currentMonth;
-    uint currentDay;
+protected:
+    uint m_currentYear;
+    uint m_currentMonth;
+    uint m_currentDay;
 };
 
 #pragma endregion
@@ -29,30 +31,30 @@ class Year
 public:
     Year();
     Year(const uint &);
-    uint GetYear() const;
+    friend class Date;
 
-private:
-    uint year;
+protected:
+    uint m_year;
 };
 class Month
 {
 public:
     Month();
     Month(const uint &);
-    uint GetMonth() const;
+    friend class Date;
 
-private:
-    uint month;
+protected:
+    uint m_month;
 };
 class Day
 {
 public:
     Day();
     Day(const uint &);
-    uint GetDay() const;
+    friend class Date;
 
-private:
-    uint day;
+protected:
+    uint m_day;
 };
 
 #pragma endregion
@@ -63,8 +65,6 @@ class Date
 public:
     Date();
     Date(const Year &, const Month &, const Day &);
-    bool isLegal();
-    operator int();
     friend bool operator>(Date, Date);
     friend bool operator>=(Date, Date);
     friend bool operator==(Date, Date);
@@ -72,12 +72,17 @@ public:
     friend bool operator<=(Date, Date);
     friend bool operator!=(Date, Date);
     friend int operator-(Date, Date);
+    operator int();
+    bool isLegal();
+    int GetYear();
+    int GetMonth();
+    int GetDay();
     friend std::ostream &operator<<(std::ostream &, Date);
 
 private:
-    Year year;
-    Month month;
-    Day day;
+    Year m_year;
+    Month m_month;
+    Day m_day;
 };
 
 #pragma endregion

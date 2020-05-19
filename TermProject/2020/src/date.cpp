@@ -9,22 +9,11 @@ Now::Now()
     time(&rawTime);
     struct tm *currentTime;
     currentTime = localtime(&rawTime);
-    currentYear = currentTime->tm_year + 1900;
-    currentMonth = currentTime->tm_mon + 1;
-    currentDay = currentTime->tm_mday;
+    m_currentYear = currentTime->tm_year + 1900;
+    m_currentMonth = currentTime->tm_mon + 1;
+    m_currentDay = currentTime->tm_mday;
 }
-uint Now::GetCurrentYear() const
-{
-    return currentYear;
-}
-uint Now::GetCurrentMonth() const
-{
-    return currentMonth;
-}
-uint Now::GetCurrentDay() const
-{
-    return currentDay;
-}
+
 Now *pNow = new Now;
 
 #pragma endregion
@@ -32,82 +21,74 @@ Now *pNow = new Now;
 #pragma region "Year, Month and Day"
 Year::Year()
 {
-    year = pNow->GetCurrentYear();
+    m_year = pNow->m_currentYear;
 }
-Year::Year(const uint &y)
+Year::Year(const uint &year)
 {
-    year = y;
+    m_year = year;
 }
-uint Year::GetYear() const
-{
-    return year;
-}
+
 Month::Month()
 {
-    month = pNow->GetCurrentMonth();
+    m_month = pNow->m_currentMonth;
 }
-Month::Month(const uint &m)
+Month::Month(const uint &month)
 {
-    month = m;
+    m_month = month;
 }
-uint Month::GetMonth() const
-{
-    return month;
-}
+
 Day::Day()
 {
-    day = pNow->GetCurrentDay();
+    m_day = pNow->m_currentDay;
 }
-Day::Day(const uint &d)
+Day::Day(const uint &day)
 {
-    day = d;
+    m_day = day;
 }
-uint Day::GetDay() const
-{
-    return day;
-}
-Year *pYear = new Year;
-Month *pMonth = new Month;
-Day *pDay = new Day;
 
 #pragma endregion
 
 #pragma region "Date"
 Date::Date()
 {
-    year = *pYear;
-    month = *pMonth;
-    day = *pDay;
+    Year *pYear = new Year;
+    Month *pMonth = new Month;
+    Day *pDay = new Day;
+    m_year = *pYear;
+    m_month = *pMonth;
+    m_day = *pDay;
 }
 Date::Date(const Year &y, const Month &m, const Day &d)
 {
-    year = y;
-    month = m;
-    day = d;
+    m_year = y;
+    m_month = m;
+    m_day = d;
 }
 
 bool Date::isLegal()
 {
     int maxday[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    int y = year.GetYear();
-    int m = month.GetMonth();
-    int d = day.GetDay();
-    if ((y % 4 == 0 && y % 400 == 0) || (y % 4 == 0 && y % 100 != 0))
+    int year = GetYear();
+    int month = GetMonth();
+    int day = GetDay();
+    if ((year % 4 == 0 && year % 400 == 0) || (year % 4 == 0 && year % 100 != 0))
     {
         maxday[2]++;
     }
-    return m > 0 && m <= 12 && d > 0 && d <= maxday[m];
+    return month > 0 && month <= 12 && day > 0 && day <= maxday[month];
 }
 Date::operator int()
 {
     int maxday[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    if ((year.GetYear() % 4 == 0 && year.GetYear() % 100 != 0) ||
-        year.GetYear() % 400 == 0)
+    int year = GetYear();
+    int month = GetMonth();
+    int day = GetDay();
+    if ((year % 4 == 0 && year % 400 == 0) || (year % 4 == 0 && year % 100 != 0))
     {
         maxday[2]++;
     }
     int result = 0;
-    for (int i = 1; i < year.GetYear(); i++)
+    for (int i = 1; i < year; i++)
     {
         result += 365;
         if ((i % 4 == 0 && i % 100 != 0) || i % 400 == 0)
@@ -115,11 +96,11 @@ Date::operator int()
             result++;
         }
     }
-    for (int i = 1; i < month.GetMonth(); i++)
+    for (int i = 1; i < month; i++)
     {
         result += maxday[i];
     }
-    result += day.GetDay();
+    result += day;
     return result;
 }
 bool operator>(Date A, Date B)
@@ -150,12 +131,24 @@ int operator-(Date A, Date B)
 {
     return int(A) - int(B);
 }
+int Date::GetYear()
+{
+    return m_year.m_year;
+}
+int Date::GetMonth()
+{
+    return m_month.m_month;
+}
+int Date::GetDay()
+{
+    return m_day.m_day;
+}
 
 ostream &operator<<(ostream &out, Date A)
 {
-    cout << A.year.GetYear() << YEAR
-         << A.month.GetMonth() << MONTH
-         << A.day.GetDay() << DAY;
+    cout << A.GetYear() << " "
+         << A.GetMonth() << " "
+         << A.GetDay();
     return out;
 }
 

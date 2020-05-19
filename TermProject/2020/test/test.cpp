@@ -14,9 +14,6 @@ list<Date *> dateList;
 class Period
 {
 public:
-    Period()
-    {
-    }
     Period(int am, int code, Date s)
     {
         amount = am;
@@ -53,36 +50,31 @@ public:
         int y = today.GetYear();
         int m = today.GetMonth();
         int d = today.GetDay();
-
-        int maxday[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-        if ((y % 4 == 0 && y % 400 == 0) || (y % 4 == 0 && y % 100 != 0))
-        {
-            maxday[2]++;
-        }
-
+        d = 31;
         Date *pt = new Date;
         while (1)
         {
-            if (m <= 12)
+            int maxday[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+            if ((y % 4 == 0 && y % 400 == 0) || (y % 4 == 0 && y % 100 != 0))
             {
-                pt = new Date(y, m, d);
-                if (*pt >= startDate)
-                {
-                    break;
-                }
-                if (pt->isLegal() == 0)
-                {
-                    pt = new Date(y, m, maxday[m]);
-                }
-                m++;
-                dateList.push_back(pt);
-                cout << *pt << endl;
+                maxday[2]++;
             }
-            else
+            pt = new Date(y, m % 12 + 1, d);
+            if (*pt >= startDate)
             {
-                m = 1;
+                break;
+            }
+            if (pt->isLegal() == 0)
+            {
+                pt = new Date(y, m % 12 + 1, maxday[m % 12 + 1]);
+            }
+            dateList.push_back(pt);
+            m++;
+            if (m % 12 == 0)
+            {
                 y++;
             }
+            //delete pt;
         }
         return amount * dateList.size();
     }
@@ -98,10 +90,18 @@ private:
 int main()
 {
     Date today;
-    Year Y(2021);
+
+    cout << today;
+
+    Year Y(2022);
     Month M(6);
-    Day D(18);
+    Day D(16);
     Date S(Y, M, D);
     Period K(2000, 3, S);
-    cout << K.CalculateMonthly();
+    cout << K.CalculateMonthly() << endl;
+    for (auto it : dateList)
+    {
+        cout << *it << endl;
+        delete it;
+    }
 }

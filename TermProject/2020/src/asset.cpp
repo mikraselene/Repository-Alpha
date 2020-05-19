@@ -69,6 +69,13 @@ void RegularTransaction::Print()
 
 list<Budget *> pBudget;
 
+Budget::Budget(double b, Category c, Date d)
+{
+    budget = b;
+    category = c;
+    startDate = d;
+}
+
 void Budget::WriteIn()
 {
 }
@@ -94,6 +101,9 @@ void Budget::Del()
 }
 void Budget::Print()
 {
+    std::cout << budget << "\t\t"
+              << category << "\t\t"
+              << startDate << endl;
 }
 
 #pragma endregion

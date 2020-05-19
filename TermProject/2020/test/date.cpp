@@ -3,99 +3,125 @@
 using namespace std;
 
 #pragma region "Today"
+
+/*---------------------------------------------------------------------------
+FUNCTION: <Funtion prototype>
+PURPOSE:
+ <Function description>
+---------------------------------------------------------------------------*/
+
 Now::Now()
 {
     time_t rawTime;
     time(&rawTime);
     struct tm *currentTime;
     currentTime = localtime(&rawTime);
-    currentYear = currentTime->tm_year + 1900;
-    currentMonth = currentTime->tm_mon + 1;
-    currentDay = currentTime->tm_mday;
+    m_currentYear = currentTime->tm_year + 1900;
+    m_currentMonth = currentTime->tm_mon + 1;
+    m_currentDay = currentTime->tm_mday;
 }
-uint Now::GetCurrentYear() const
-{
-    return currentYear;
-}
-uint Now::GetCurrentMonth() const
-{
-    return currentMonth;
-}
-uint Now::GetCurrentDay() const
-{
-    return currentDay;
-}
-Now *pNow = new Now;
+
+Now now;
 
 #pragma endregion
 
 #pragma region "Year, Month and Day"
 Year::Year()
 {
-    year = pNow->GetCurrentYear();
+    m_year = now.m_currentYear;
 }
-Year::Year(const uint &y)
+Year::Year(const uint &year)
 {
-    year = y;
+    m_year = year;
 }
-uint Year::GetYear() const
-{
-    return year;
-}
+
 Month::Month()
 {
-    month = pNow->GetCurrentMonth();
+    m_month = now.m_currentMonth;
 }
-Month::Month(const uint &m)
+Month::Month(const uint &month)
 {
-    month = m;
+    m_month = month;
 }
-uint Month::GetMonth() const
-{
-    return month;
-}
+
 Day::Day()
 {
-    day = pNow->GetCurrentDay();
+    m_day = now.m_currentDay;
 }
-Day::Day(const uint &d)
+Day::Day(const uint &day)
 {
-    day = d;
+    m_day = day;
 }
-uint Day::GetDay() const
-{
-    return day;
-}
-Year *pYear = new Year;
-Month *pMonth = new Month;
-Day *pDay = new Day;
 
 #pragma endregion
 
 #pragma region "Date"
 Date::Date()
 {
-    year = *pYear;
-    month = *pMonth;
-    day = *pDay;
+    Year year;
+    Month month;
+    Day day;
+    m_year = year;
+    m_month = month;
+    m_day = day;
 }
 Date::Date(const Year &y, const Month &m, const Day &d)
 {
-    year = y;
-    month = m;
-    day = d;
+    m_year = y;
+    m_month = m;
+    m_day = d;
 }
 
+/*---------------------------------------------------------------------------
+FUNCTION: isLegal()
+
+PURPOSE:
+    To determine whether the format of the date is legal or not.
+
+PARAMETERS:
+    -
+
+RETURN VALUE:
+    1, if the format of the date is legal;
+    0, if the format of the date is illegal.
+---------------------------------------------------------------------------*/
+bool Date::isLegal()
+{
+    int maxday[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    int year = GetYear();
+    int month = GetMonth();
+    int day = GetDay();
+    if ((year % 4 == 0 && year % 400 == 0) || (year % 4 == 0 && year % 100 != 0))
+    {
+        maxday[2]++;
+    }
+    return month > 0 && month <= 12 && day > 0 && day <= maxday[month];
+}
+
+/*---------------------------------------------------------------------------
+FUNCTION: operator int()
+
+PURPOSE:
+    To get the interval from Jan 1st 0001 to the given date.
+
+PARAMETERS:
+    -
+
+RETURN VALUE:
+    The interval from Jan 1st 0001 to the given date.
+---------------------------------------------------------------------------*/
 Date::operator int()
 {
     int maxday[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    if ((year.GetYear() % 4 == 0 && year.GetYear() % 100 != 0) ||
-        year.GetYear() % 400 == 0)
+    int year = GetYear();
+    int month = GetMonth();
+    int day = GetDay();
+    if ((year % 4 == 0 && year % 400 == 0) || (year % 4 == 0 && year % 100 != 0))
     {
         maxday[2]++;
     }
     int result = 0;
-    for (int i = 1; i < year.GetYear(); i++)
+    for (int i = 1; i < year; i++)
     {
         result += 365;
         if ((i % 4 == 0 && i % 100 != 0) || i % 400 == 0)
@@ -103,18 +129,16 @@ Date::operator int()
             result++;
         }
     }
-    for (int i = 1; i < month.GetMonth(); i++)
+    for (int i = 1; i < month; i++)
     {
         result += maxday[i];
     }
-    result += day.GetDay();
+    result += day;
     return result;
 }
 bool operator>(Date A, Date B)
 {
-    int x = A.year.GetYear() * 10000 + A.month.GetMonth() * 100 + A.day.GetDay();
-    int y = B.year.GetYear() * 10000 + B.month.GetMonth() * 100 + B.day.GetDay();
-    return x > y;
+    return int(A) > int(B);
 }
 bool operator>=(Date A, Date B)
 {
@@ -122,9 +146,7 @@ bool operator>=(Date A, Date B)
 }
 bool operator==(Date A, Date B)
 {
-    return (A.year.GetYear() == B.year.GetYear() &&
-            A.month.GetMonth() == B.month.GetMonth() &&
-            A.day.GetDay() == B.day.GetDay());
+    return int(A) == int(B);
 }
 bool operator<(Date A, Date B)
 {
@@ -142,36 +164,24 @@ int operator-(Date A, Date B)
 {
     return int(A) - int(B);
 }
+int Date::GetYear()
+{
+    return m_year.m_year;
+}
 int Date::GetMonth()
 {
-    return month.GetMonth();
+    return m_month.m_month;
 }
 int Date::GetDay()
 {
-    return day.GetDay();
-}
-int Date::GetYear()
-{
-    return year.GetYear();
-}
-bool Date::isLegal()
-{
-    int maxday[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    int y = year.GetYear();
-    int m = month.GetMonth();
-    int d = day.GetDay();
-    if ((y % 4 == 0 && y % 400 == 0) || (y % 4 == 0 && y % 100 != 0))
-    {
-        maxday[2]++;
-    }
-    return m > 0 && m <= 12 && d > 0 && d <= maxday[m];
+    return m_day.m_day;
 }
 
 ostream &operator<<(ostream &out, Date A)
 {
-    cout << A.year.GetYear() << "年"
-         << A.month.GetMonth() << "月"
-         << A.day.GetDay() << "日";
+    cout << A.GetYear() << " "
+         << A.GetMonth() << " "
+         << A.GetDay();
     return out;
 }
 

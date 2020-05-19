@@ -66,6 +66,7 @@ private:
 class Budget : public IAssetManagement
 {
 public:
+    Budget(double, Category, Date);
     void WriteIn();
     void Add();
     void Edit();
@@ -73,10 +74,9 @@ public:
     void Print();
 
 private:
+    double budget;
     Category category;
-    double amount;
     Date startDate;
-    Period period;
 };
 
 #pragma endregion "Budget"

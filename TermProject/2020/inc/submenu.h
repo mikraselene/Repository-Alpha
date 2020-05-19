@@ -16,6 +16,8 @@ public:
 protected:
     double InputAmount();
     Date InputDate();
+    void ShowCategory();
+    Category InputCategory();
     string InputPeriod();
     void PrintInstruction();
     int InputCode();
@@ -30,8 +32,6 @@ public:
     void PrintAllRegular();
 
 private:
-    void ShowCategory();
-    void InputCategory();
     template <typename T1, typename T2, typename T3>
     void PrintSingleBody(T1, T2, T3);
     template <typename T1, typename T2, typename T3, typename T4>
@@ -80,6 +80,7 @@ private:
     double budget;
     Category category;
     Date start;
+    int code;
 };
 
 #endif

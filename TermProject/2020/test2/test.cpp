@@ -1,4 +1,4 @@
-/*
+/*------------
 #include <iostream>
 #include <algorithm>
 #include <cmath>
@@ -131,3 +131,11 @@ int main()
         (*it)->Print();
     }
     */
+
+#include <iostream>
+using namespace std;
+int main()
+{
+    string alpha = "gulugulu";
+    cout << alpha.length();
+}

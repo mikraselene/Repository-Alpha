@@ -73,11 +73,13 @@ T(ERR_NEGATIVE_NUMBER, "输入不能为负数");
 T(ERR_ILLEGAL_DATE, "不合法的日期");
 T(PLEASE_INPUT_AGAIN, "请重新输入");
 
-T(DEPO_AND_LOAN_TITLE, "////////// 存贷记录 //////////");
+T(DEPO_AND_LOAN_TITLE, "////////// 存款贷款 //////////");
 T(PRINCIPLE, "本金");
 T(END_DATE, "结束日期");
 T(INTEREST_RATE, "利率");
 
-T(ADD_NEW_CATEGORY ,"新建类别");
+T(ADD_NEW_CATEGORY, "新建类别");
 
+T(BUDGET_TITLE, "////////// 编辑预算 //////////");
+T(BUDGET, "预算");
 #endif

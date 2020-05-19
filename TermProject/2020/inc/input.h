@@ -7,51 +7,54 @@
 #include "date.h"
 #include "text.h"
 
+using std::string;
+
 class NumberIn
 {
 public:
-    NumberIn(std::string);
+    NumberIn(string);
     int ToInt();
     double ToReal();
 
 private:
     void CheckInput();
     double GetAnswer();
-    std::string in;
+
+    string m_input;
 };
 
 class NumWithCalcIn
 {
 public:
-    NumWithCalcIn(std::string);
+    NumWithCalcIn(string);
     double ToRealWithCalc();
 
 private:
-    double Calc(std::string);
-    std::string in;
+    double Calc(string);
+
+    string m_input;
 };
 
 class DateIn
 {
 public:
-    DateIn(std::string);
+    DateIn(string);
     Date ToDate();
 
 private:
-    void CheckInput();
-    int ToInt(std::string);
-    std::string in;
-    Date date;
+    int ToInt(string);
+
+    string m_input;
 };
 
 class StringIn
 {
 public:
-    StringIn(std::string);
-    std::string ToString();
+    StringIn(string);
+    string ToString();
 
 private:
-    std::string input;
+    string m_input;
 };
 
 #endif
