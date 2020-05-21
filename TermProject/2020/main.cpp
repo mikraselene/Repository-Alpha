@@ -19,7 +19,7 @@ int main()
     }
     pTMenu->PrintAllDepositAndLoan();
 
-    /*
+    #if 0
     DepositAndLoanMenu *pTMenu = new DepositAndLoanMenu;
     for (int i = 0; i < 2; i++)
     {
@@ -33,7 +33,7 @@ int main()
         pTMenu->InputSingleTransaction();
     }
     pTMenu->PrintAllSingle();
-    */
+    
     /*
     BudgetMenu *pTMenu = new BudgetMenu;
     for (int i = 0; i < 2; i++)
@@ -42,4 +42,6 @@ int main()
     }
     pTMenu->PrintAllBudget();
     */
+    #endif
+
 }

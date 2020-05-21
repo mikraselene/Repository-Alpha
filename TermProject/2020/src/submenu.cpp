@@ -30,9 +30,9 @@ double AssetSubMenu::InputAmount()
     try
     {
         cout << ">> ";
-        NumWithCalcIn t;
+        CalcIn t;
         cin >> t;
-        double amount = t.ToReal();
+        double amount = t;
         return amount;
     }
     catch (const string msg)
@@ -49,9 +49,9 @@ Date AssetSubMenu::InputDate()
     try
     {
         cout << ">> ";
-        DateIn t;
+        In t;
         cin >> t;
-        Date date = t.ToDate();
+        Date date = t;
         return date;
     }
     catch (const string msg)
@@ -79,11 +79,11 @@ void AssetSubMenu::ShowCategory()
 Category AssetSubMenu::InputCategory()
 {
     cout << ">> ";
-    NumberIn n;
+    In n;
     cin >> n;
     try
     {
-        int num = n.ToInt();
+        int num = n;
         getchar();
         if (num <= pCategory.size())
         {
@@ -101,9 +101,9 @@ Category AssetSubMenu::InputCategory()
         else if (num == pCategory.size() + 1)
         {
             cout << ">> ";
-            StringIn t;
+            In t;
             cin >> t;
-            string a = t.ToString();
+            string a = t;
             Category *x = new Category(a);
             x->Add();
             return *x;
@@ -144,9 +144,9 @@ int AssetSubMenu::InputCode()
     try
     {
         cout << ">> ";
-        NumberIn t;
+        In t;
         cin >> t;
-        int code = t.ToInt();
+        int code = t;
         return code;
     }
     catch (const string msg)
@@ -376,9 +376,9 @@ double DepositAndLoanMenu::InputRate()
     try
     {
         cout << ">> ";
-        NumberIn t;
+        In t;
         cin >> t;
-        double rate = t.ToReal();
+        double rate = t;
         if (rate >= 0 || rate <= 10)
         {
             return rate;
