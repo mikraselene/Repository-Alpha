@@ -13,6 +13,11 @@ T(ENTERTAINMENT, "娱乐");
 T(INTERNET, "网络");
 T(MISCELLANEOUS, "杂项");
 
+T(ASSET_TITLE, "////////// 财产菜单 //////////");
+T(TRANSACTION_MENU, "交易");
+T(DEPO_AND_LOAN_MENU, "借款和贷款");
+T(BUDGET_MENU, "预算");
+
 T(YEAR, "年");
 T(MONTH, "月");
 T(DAY, "日");
@@ -27,7 +32,7 @@ T(DAY, "日");
 6. 删除收支
 /////////////////////////////
 */
-T(TRANSACTION_TITLE, "收支");
+T(TRANSACTION_TITLE, "////////// 收支菜单 //////////");
 T(ADD_SINGLE_EXPENSE, "添加单笔支出");
 T(ADD_SINGLE_INCOME, "添加单笔收入");
 T(ADD_REGULAR_EXPENSE, "添加定期支出");
@@ -82,4 +87,6 @@ T(ADD_NEW_CATEGORY, "新建类别");
 
 T(BUDGET_TITLE, "////////// 编辑预算 //////////");
 T(BUDGET, "预算");
+
+T(INPUT_NEW_CATEGORY, "新建类别");
 #endif

@@ -8,31 +8,45 @@ extern list<DepositAndLoan *> pDepoAndLoan;
 extern list<Category *> pCategory;
 extern list<Budget *> pBudget;
 
+void AssetSubMenu::SubMenu()
+{
+    cout << "" << endl;
+    cout << "1. " << TRANSACTION_MENU << endl
+         << "2. " << DEPO_AND_LOAN_MENU << endl
+         << "3. " << BUDGET_MENU << endl
+         << "4. " << BACK << endl
+         << DIVISION << endl;
+    code = SetCode();
+    if (code == 1)
+    {
+        TransactionMenu menu;
+        menu.SubMenu();
+    }
+    if (code == 2)
+    {
+        DepositAndLoanMenu menu;
+        menu.SubMenu();
+    }
+    if (code == 3)
+    {
+        BudgetMenu menu;
+        menu.SubMenu();
+    }
+    if (code == 4)
+    {
+        //TODO:
+    }
+}
+
 #pragma region "Protected Asset Menu"
 
-/*---------------------------------------------------------------------------
-FUNCTION: InputAmount()
-
-PURPOSE:
-    To get the amount which user inputs.
-
-PARAMETERS:
-    -
-
-CALLS:
-    ToReal()
-
-RETURN VALUE:
-    The amount which user inputs.
----------------------------------------------------------------------------*/
-double AssetSubMenu::InputAmount()
+double AssetSubMenu::SetAmount()
 {
     try
     {
         cout << ">> ";
-        CalcIn t;
-        cin >> t;
-        double amount = t;
+        CalcIn amount;
+        cin >> amount;
         return amount;
     }
     catch (const string msg)
@@ -40,18 +54,17 @@ double AssetSubMenu::InputAmount()
         cerr << msg << ", "
              << PLEASE_INPUT_AGAIN << ". "
              << endl;
-        return InputAmount();
+        return SetAmount();
     }
 }
 
-Date AssetSubMenu::InputDate()
+Date AssetSubMenu::SetDate()
 {
     try
     {
         cout << ">> ";
-        In t;
-        cin >> t;
-        Date date = t;
+        In date;
+        cin >> date;
         return date;
     }
     catch (const string msg)
@@ -59,7 +72,7 @@ Date AssetSubMenu::InputDate()
         cerr << msg << ", "
              << PLEASE_INPUT_AGAIN << ". "
              << endl;
-        return InputDate();
+        return SetDate();
     }
 }
 
@@ -76,7 +89,7 @@ void AssetSubMenu::ShowCategory()
     }
     cout << i << ". " << ADD_NEW_CATEGORY << endl;
 }
-Category AssetSubMenu::InputCategory()
+Category AssetSubMenu::SetCategory()
 {
     cout << ">> ";
     In n;
@@ -84,8 +97,7 @@ Category AssetSubMenu::InputCategory()
     try
     {
         int num = n;
-        getchar();
-        if (num <= pCategory.size())
+        if (num <= pCategory.size() + 1)
         {
             int i = 1;
             for (auto it : pCategory)
@@ -95,25 +107,20 @@ Category AssetSubMenu::InputCategory()
                     return *it;
                 }
             }
-            Category t;
-            return t;
-        }
-        else if (num == pCategory.size() + 1)
-        {
+            cout << INPUT_NEW_CATEGORY << ": " << endl;
             cout << ">> ";
-            In t;
-            cin >> t;
-            string a = t;
-            Category *x = new Category(a);
-            x->Add();
-            return *x;
+            In category;
+            cin >> category;
+            Category *newCate = new Category(category);
+            newCate->Add();
+            return *newCate;
         }
         else
         {
             cerr
                 << PLEASE_INPUT_AGAIN << ". "
                 << endl;
-            return InputCategory();
+            return SetCategory();
         }
     }
     catch (const string msg)
@@ -121,13 +128,30 @@ Category AssetSubMenu::InputCategory()
         cerr << msg << ", "
              << PLEASE_INPUT_AGAIN << ". "
              << endl;
-        return InputCategory();
+        return SetCategory();
     }
 }
 
-string AssetSubMenu::InputPeriod()
+Period AssetSubMenu::SetPeriod()
 {
-    string period = "hello";
+    cout << "1. " << MONTHLY << "\t\t"
+         << "2. " << WEEKLY << "\t\t"
+         << "3. " << DAILY << endl
+         << END_OF_TITLE << endl;
+    code = SetCode();
+    Period period;
+    if (code <= 3)
+    {
+        period = Period(code);
+    }
+    else
+    {
+        cerr << ERR_ILLEGAL_NUMBER << ", "
+             << PLEASE_INPUT_AGAIN << ". "
+             << endl;
+        return SetPeriod();
+    }
+
     return period;
 }
 
@@ -139,14 +163,13 @@ void AssetSubMenu::PrintInstruction()
          << "4. " << BACK << endl
          << END_OF_TITLE << endl;
 }
-int AssetSubMenu::InputCode()
+int AssetSubMenu::SetCode()
 {
     try
     {
         cout << ">> ";
-        In t;
-        cin >> t;
-        int code = t;
+        In code;
+        cin >> code;
         return code;
     }
     catch (const string msg)
@@ -154,7 +177,7 @@ int AssetSubMenu::InputCode()
         cerr << msg << ", "
              << PLEASE_INPUT_AGAIN << ". "
              << endl;
-        return InputCode();
+        return SetCode();
     }
 }
 
@@ -162,25 +185,71 @@ int AssetSubMenu::InputCode()
 
 #pragma region "Public Transaction Menu"
 
+void TransactionMenu::SubMenu()
+{
+    cout << TRANSACTION_TITLE << endl;
+    cout << "1. " << ADD_SINGLE_EXPENSE << endl
+         << "2. " << ADD_SINGLE_INCOME << endl
+         << "3. " << ADD_REGULAR_EXPENSE << endl
+         << "4. " << ADD_REGULAR_INCOME << endl
+         << "5. " << EDIT_EXPENSE_AND_INCOME << endl
+         << "6. " << DELETE_EXPENSE_AND_INCOME << endl
+         << "7. " << BACK << endl
+         << END_OF_TITLE << endl;
+    code = SetCode();
+    if (code == 1)
+    {
+        type = -1;
+        InputSingleTransaction();
+    }
+    if (code == 2)
+    {
+        type = 1;
+        InputSingleTransaction();
+    }
+    if (code == 3)
+    {
+        type = -1;
+        InputRegularTransaction();
+    }
+    if (code == 4)
+    {
+        type = 1;
+        InputRegularTransaction();
+    }
+    if (code == 5)
+    {
+        //TODO:
+    }
+    if (code == 6)
+    {
+        //TODO:
+    }
+    if (code == 7)
+    {
+        //TODO:
+    }
+}
+
 void TransactionMenu::InputSingleTransaction()
 {
     CLEAR;
     PrintSingleBody("?", "", "");
-    amount = InputAmount();
+    amount = SetAmount();
 
     CLEAR;
     PrintSingleBody(amount, "?", "");
     ShowCategory();
-    category = InputCategory();
+    category = SetCategory();
 
     CLEAR;
     PrintSingleBody(amount, category, "?");
-    date = InputDate();
+    date = SetDate();
 
     CLEAR;
     PrintSingleBody(amount, category, date);
     PrintInstruction();
-    code = InputCode();
+    code = SetCode();
 
     if (code == 1)
     {
@@ -205,25 +274,25 @@ void TransactionMenu::InputRegularTransaction()
 {
     CLEAR;
     PrintRegularBody("?", "", "", "");
-    amount = InputAmount();
+    amount = SetAmount();
 
     CLEAR;
     PrintRegularBody(amount, "?", "", "");
     ShowCategory();
-    category = InputCategory();
+    category = SetCategory();
 
     CLEAR;
     PrintRegularBody(amount, category, "?", "");
-    date = InputDate();
+    date = SetDate();
 
     CLEAR;
     PrintRegularBody(amount, category, date, "?");
-    period = InputPeriod();
+    period = SetPeriod();
 
     CLEAR;
     PrintRegularBody(amount, category, date, period);
     PrintInstruction();
-    code = InputCode();
+    code = SetCode();
 
     if (code == 1)
     {
@@ -300,37 +369,39 @@ void DepositAndLoanMenu::InputDepositAndLoan()
 {
     CLEAR;
     PrintDepoLoanBody("?", "", "", "", "", "");
-    principle = InputAmount();
+    principle = SetAmount();
 
     CLEAR;
     PrintDepoLoanBody(principle, "?", "", "", "", "");
-    interestRate = InputRate();
+    interest = SetRate();
 
     CLEAR;
-    PrintDepoLoanBody(principle, interestRate, "?", "", "", "");
-    start = InputDate();
+    PrintDepoLoanBody(principle, interest, "?", "", "", "");
+    start = SetDate();
 
     CLEAR;
-    PrintDepoLoanBody(principle, interestRate, start, "?", "", "");
-    end = InputDate();
+    PrintDepoLoanBody(principle, interest, start, "?", "", "");
+    end = SetDate();
 
     CLEAR;
-    PrintDepoLoanBody(principle, interestRate, start, end, "?", "");
-    period = InputPeriod();
+    PrintDepoLoanBody(principle, interest, start, end, "?", "");
+    period = SetPeriod();
 
     CLEAR;
-    PrintDepoLoanBody(principle, interestRate, start, end, period, "?");
-    info = InputInfo();
+    PrintDepoLoanBody(principle, interest, start, end, period, "?");
+    info = SetInfo();
 
     CLEAR;
-    PrintDepoLoanBody(principle, interestRate, start, end, period, info);
+    PrintDepoLoanBody(principle, interest, start, end, period, info);
     PrintInstruction();
-    code = InputCode();
+    code = SetCode();
 
     if (code == 1)
     {
         DepositAndLoan *t =
-            new DepositAndLoan(principle, interestRate, start, end, period, info);
+            new DepositAndLoan(principle, interest,
+                               start, end,
+                               period, info);
         t->Add();
     }
     if (code == 2)
@@ -367,18 +438,19 @@ void DepositAndLoanMenu::PrintAllDepositAndLoan()
 
 #pragma region "Private Deposit and Loan Menu"
 
-string DepositAndLoanMenu::InputInfo()
+string DepositAndLoanMenu::SetInfo()
 {
+    //TODO:
     return "hellos";
 }
-double DepositAndLoanMenu::InputRate()
+double DepositAndLoanMenu::SetRate()
 {
     try
     {
         cout << ">> ";
-        In t;
-        cin >> t;
-        double rate = t;
+        In r;
+        cin >> r;
+        double rate = double(r);
         if (rate >= 0 || rate <= 10)
         {
             return rate;
@@ -386,7 +458,7 @@ double DepositAndLoanMenu::InputRate()
         else
         {
             cerr << "error" << endl;
-            return InputRate();
+            return SetRate();
         }
     }
     catch (const string msg)
@@ -394,7 +466,7 @@ double DepositAndLoanMenu::InputRate()
         cerr << msg << ", "
              << PLEASE_INPUT_AGAIN << ". "
              << endl;
-        return InputRate();
+        return SetRate();
     }
 }
 
@@ -420,22 +492,22 @@ void BudgetMenu::InputBudget()
 {
     CLEAR;
     PrintBudgetBody("?", "", "");
-    budget = InputAmount();
+    budget = SetAmount();
 
     CLEAR;
     PrintBudgetBody(budget, "?", "");
     ShowCategory();
-    category = InputCategory();
+    category = SetCategory();
 
     CLEAR;
     PrintBudgetBody(budget, category, "?");
-    start = InputDate();
+    start = SetDate();
 
     CLEAR;
     PrintBudgetBody(budget, category, start);
 
     PrintInstruction();
-    code = InputCode();
+    code = SetCode();
 
     if (code == 1)
     {
@@ -484,3 +556,10 @@ void BudgetMenu::PrintBudgetBody(T1 x, T2 y, T3 z)
 }
 
 #pragma endregion
+
+void BudgetMenu::SubMenu()
+{
+}
+void DepositAndLoanMenu::SubMenu()
+{
+}

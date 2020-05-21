@@ -9,9 +9,9 @@ Now::Now()
     time(&rawTime);
     struct tm *currentTime;
     currentTime = localtime(&rawTime);
-    m_currentYear = currentTime->tm_year + 1900;
-    m_currentMonth = currentTime->tm_mon + 1;
-    m_currentDay = currentTime->tm_mday;
+    currentYear = currentTime->tm_year + 1900;
+    currentMonth = currentTime->tm_mon + 1;
+    currentDay = currentTime->tm_mday;
 }
 
 Now *pNow = new Now;
@@ -21,29 +21,29 @@ Now *pNow = new Now;
 #pragma region "Year, Month and Day"
 Year::Year()
 {
-    m_year = pNow->m_currentYear;
+    this->year = pNow->currentYear;
 }
 Year::Year(const uint &year)
 {
-    m_year = year;
+    this->year = year;
 }
 
 Month::Month()
 {
-    m_month = pNow->m_currentMonth;
+    this->month = pNow->currentMonth;
 }
 Month::Month(const uint &month)
 {
-    m_month = month;
+    this->month = month;
 }
 
 Day::Day()
 {
-    m_day = pNow->m_currentDay;
+    this->day = pNow->currentDay;
 }
 Day::Day(const uint &day)
 {
-    m_day = day;
+    this->day = day;
 }
 
 #pragma endregion
@@ -54,15 +54,15 @@ Date::Date()
     Year *pYear = new Year;
     Month *pMonth = new Month;
     Day *pDay = new Day;
-    m_year = *pYear;
-    m_month = *pMonth;
-    m_day = *pDay;
+    this->year = *pYear;
+    this->month = *pMonth;
+    this->day = *pDay;
 }
-Date::Date(const Year &y, const Month &m, const Day &d)
+Date::Date(const Year &year, const Month &month, const Day &day)
 {
-    m_year = y;
-    m_month = m;
-    m_day = d;
+    this->year = year;
+    this->month = month;
+    this->day = day;
 }
 
 bool Date::IsLegal()
@@ -133,15 +133,15 @@ int operator-(Date A, Date B)
 }
 int Date::GetYear()
 {
-    return m_year.m_year;
+    return year.year;
 }
 int Date::GetMonth()
 {
-    return m_month.m_month;
+    return month.month;
 }
 int Date::GetDay()
 {
-    return m_day.m_day;
+    return day.day;
 }
 
 ostream &operator<<(ostream &out, Date A)

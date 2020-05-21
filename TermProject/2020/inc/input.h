@@ -24,7 +24,7 @@ private:
     void CheckInput();
     double GetAnswer();
     int ToInt(string);
-    string m_input;
+    string input;
 };
 
 class CalcIn
@@ -35,7 +35,7 @@ public:
 
 private:
     double Calc(string);
-    string m_input;
+    string input;
 };
 
 #endif

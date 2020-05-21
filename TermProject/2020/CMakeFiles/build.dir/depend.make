@@ -42,6 +42,11 @@ CMakeFiles/build.dir/src/input.cpp.o: inc/input.h
 CMakeFiles/build.dir/src/input.cpp.o: inc/text.h
 CMakeFiles/build.dir/src/input.cpp.o: src/input.cpp
 
+CMakeFiles/build.dir/src/period.cpp.o: inc/date.h
+CMakeFiles/build.dir/src/period.cpp.o: inc/period.h
+CMakeFiles/build.dir/src/period.cpp.o: inc/text.h
+CMakeFiles/build.dir/src/period.cpp.o: src/period.cpp
+
 CMakeFiles/build.dir/src/submenu.cpp.o: inc/asset.h
 CMakeFiles/build.dir/src/submenu.cpp.o: inc/category.h
 CMakeFiles/build.dir/src/submenu.cpp.o: inc/date.h

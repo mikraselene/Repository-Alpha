@@ -6,6 +6,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/build.dir/src/date.cpp.o"
   "CMakeFiles/build.dir/src/file.cpp.o"
   "CMakeFiles/build.dir/src/input.cpp.o"
+  "CMakeFiles/build.dir/src/period.cpp.o"
   "CMakeFiles/build.dir/src/submenu.cpp.o"
   "CMakeFiles/build.dir/src/test.cpp.o"
   "CMakeFiles/build.dir/src/wallet.cpp.o"

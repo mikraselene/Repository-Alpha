@@ -4,17 +4,17 @@
 
 list<Transaction *> pTransaction;
 
-Transaction::Transaction(double a, Category s)
+Transaction::Transaction(double amount, Category category)
 {
-    amount = a;
-    category = s;
+    this->amount = amount;
+    this->category = category;
 }
-SingleTransaction::SingleTransaction(double a, Category s, Date d)
-    : Transaction(a, s)
+SingleTransaction::SingleTransaction(double amount, Category category, Date date)
+    : Transaction(amount, category)
 {
-    date = d;
+    this->date = date;
 }
-RegularTransaction::RegularTransaction(double a, Category s, Date d, string p)
+RegularTransaction::RegularTransaction(double a, Category s, Date d, Period p)
     : Transaction(a, s)
 {
     startDate = d;
@@ -113,7 +113,7 @@ void Budget::Print()
 list<DepositAndLoan *> pDepoAndLoan;
 
 DepositAndLoan::DepositAndLoan(double pr, double rate,
-                               Date start, Date end, string p, string i)
+                               Date start, Date end, Period p, string i)
 {
     principle = pr;
     interest = rate;

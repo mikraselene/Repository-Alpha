@@ -42,6 +42,11 @@ CMakeFiles/build.dir/src/input.cpp.o
  /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/input.h
  /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/text.h
  /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/src/input.cpp
+CMakeFiles/build.dir/src/period.cpp.o
+ /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/date.h
+ /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/period.h
+ /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/text.h
+ /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/src/period.cpp
 CMakeFiles/build.dir/src/submenu.cpp.o
  /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/asset.h
  /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/category.h

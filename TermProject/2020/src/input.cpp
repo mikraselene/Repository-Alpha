@@ -1,61 +1,99 @@
 #include "../inc/input.h"
 
+#pragma region "Public"
+
+/*---------------------------------------------------------------------------
+FUNCTION: friend istream &operator>>(istream &, In &);
+
+PURPOSE:
+    Receive a string as a string member of class In.
+---------------------------------------------------------------------------*/
 istream &operator>>(istream &in, In &A)
 {
-    getline(cin, A.m_input);
+    getline(cin, A.input);
     return in;
 }
 
 /*---------------------------------------------------------------------------
-FUNCTION: ToReal()
+FUNCTION: operator int()
 
 PURPOSE:
-    To determine whether the return value of Calc() is negative or not.
-    If the return value of Calc() is negative, throw ERR_NEGATIVE_NUMBER.
+    Receive a string member and check whether it is legal or not.
+    If it is legal, return the value of the equivalent integer.
 
 CALLS:
-    Calc()
+    CheckInput()
+    GetAnswer()
 
 RETURN VALUE:
-    The positive equivalent real value of the string.
+    The equivalent int value of the string.
 ---------------------------------------------------------------------------*/
-
 In::operator int()
 {
     CheckInput();
     int ans = int(GetAnswer());
     return ans;
 }
+
+/*---------------------------------------------------------------------------
+FUNCTION: operator double()
+
+PURPOSE:
+    Receive a string member and check whether it is legal or not.
+    If it is legal, return the value of the equivalent real number.
+
+CALLS:
+    CheckInput()
+    GetAnswer()
+
+RETURN VALUE:
+    The equivalent real value of the string.
+---------------------------------------------------------------------------*/
 In::operator double()
 {
     int decim = 0;
-    if (m_input.find('.') != m_input.npos)
+    if (input.find('.') != input.npos)
     {
-        decim = m_input.size() - m_input.find('.') - 1;
-        m_input.erase(m_input.find('.'), 1);
+        decim = input.size() - input.find('.') - 1;
+        input.erase(input.find('.'), 1);
     }
     CheckInput();
     double ans = GetAnswer() / pow(10, decim);
     return ans;
 }
+
+/*---------------------------------------------------------------------------
+FUNCTION: operator Date()
+
+PURPOSE:
+    Receive a string member and check whether it is legal or not.
+    If it is legal, return the equivalent date.
+
+CALLS:
+    ToInt()
+    IsLegal()
+
+RETURN VALUE:
+    The equivalent date of the string.
+---------------------------------------------------------------------------*/
 In::operator Date()
 {
-    auto first = m_input.find(" ");
-    auto second = m_input.find_last_of(" ");
-    auto third = m_input.size();
-    if (m_input == "")
+    auto first = input.find(" ");
+    auto second = input.find_last_of(" ");
+    auto third = input.size();
+    if (input == "")
     {
         Date today;
         return today;
     }
-    if (first == m_input.npos || second == m_input.npos || first == second)
+    if (first == input.npos || second == input.npos || first == second)
     {
         throw ERR_ILLEGAL_DATE;
     }
 
-    string yearstr = m_input.substr(0, first);
-    string monthstr = m_input.substr(first + 1, second - first - 1);
-    string daystr = m_input.substr(second + 1, third - second - 1);
+    string yearstr = input.substr(0, first);
+    string monthstr = input.substr(first + 1, second - first - 1);
+    string daystr = input.substr(second + 1, third - second - 1);
 
     int year = ToInt(yearstr);
     int month = ToInt(monthstr);
@@ -73,13 +111,65 @@ In::operator Date()
 
     return date;
 }
+
+/*---------------------------------------------------------------------------
+FUNCTION: operator string()
+
+PURPOSE:
+    Receive a string and return it intactly.
+
+RETURN VALUE:
+    The string itself.
+---------------------------------------------------------------------------*/
 In::operator string()
 {
-    return m_input;
+    return input;
 }
 
 /*---------------------------------------------------------------------------
-FUNCTION: CheckInput()
+FUNCTION: friend istream &operator>>(istream &, CalcIn &);
+
+PURPOSE:
+    Receive a string as a string member of class CalcIn.
+---------------------------------------------------------------------------*/
+istream &operator>>(istream &in, CalcIn &A)
+{
+    getline(cin, A.input);
+    return in;
+}
+
+/*---------------------------------------------------------------------------
+FUNCTION: operator double()
+
+PURPOSE:
+    To determine whether the return value of Calc() is negative or not.
+    If the return value of Calc() is negative, throw ERR_NEGATIVE_NUMBER.
+
+CALLS:
+    Calc()
+
+RETURN VALUE:
+    The positive equivalent real value of the string.
+---------------------------------------------------------------------------*/
+CalcIn::operator double()
+{
+    double ans = Calc(input);
+    if (ans >= 0)
+    {
+        return ans;
+    }
+    else
+    {
+        throw ERR_NEGATIVE_NUMBER;
+    }
+}
+
+#pragma endregion
+
+#pragma region "Private"
+
+/*---------------------------------------------------------------------------
+FUNCTION: void CheckInput()
 
 PURPOSE:
     Receive a string member and check whether it is legal or not.
@@ -89,15 +179,15 @@ PURPOSE:
 void In::CheckInput()
 {
     bool isNegative = 0;
-    if (m_input[0] == '+' || m_input[0] == '-')
+    if (input[0] == '+' || input[0] == '-')
     {
-        isNegative = (m_input[0] == '-');
-        m_input.erase(0, 1);
+        isNegative = (input[0] == '-');
+        input.erase(0, 1);
     }
     bool isIllegal = 0;
-    for (int i = 0; i < m_input.size(); i++)
+    for (int i = 0; i < input.size(); i++)
     {
-        if (isdigit(m_input[i]) == 0)
+        if (isdigit(input[i]) == 0)
         {
             isIllegal = 1;
         }
@@ -113,7 +203,7 @@ void In::CheckInput()
 }
 
 /*---------------------------------------------------------------------------
-FUNCTION: GetAnswer()
+FUNCTION: double GetAnswer()
 
 PURPOSE:
     Receive a number-legal string member and give it's number-equivalent value.
@@ -125,35 +215,16 @@ double In::GetAnswer()
 {
     double rawans = 0;
     int p = 0;
-    for (int i = m_input.size() - 1; i >= 0; i--)
+    for (int i = input.size() - 1; i >= 0; i--)
     {
-        rawans += (m_input[i] - '0') * pow(10, p);
+        rawans += (input[i] - '0') * pow(10, p);
         p++;
     }
     return rawans;
 }
 
-istream &operator>>(istream &in, CalcIn &A)
-{
-    getline(cin, A.m_input);
-    return in;
-}
-
-CalcIn::operator double()
-{
-    double ans = Calc(m_input);
-    if (ans >= 0)
-    {
-        return ans;
-    }
-    else
-    {
-        throw ERR_NEGATIVE_NUMBER;
-    }
-}
-
 /*---------------------------------------------------------------------------
-FUNCTION: Calc()
+FUNCTION: double Calc()
 
 PURPOSE:
     Receive a string member and check whether it is legal or not.
@@ -229,6 +300,16 @@ double CalcIn::Calc(string input)
     return ans;
 }
 
+/*---------------------------------------------------------------------------
+FUNCTION: int ToInt()
+
+PURPOSE:
+    Receive a string  and check whether it is legal or not.
+    If it is legal, return the value of the equivalent integer.
+
+RETURN VALUE:
+    The equivalent int value of the string.
+---------------------------------------------------------------------------*/
 int In::ToInt(string input)
 {
     for (int i = 0; i < input.size(); i++)
@@ -248,10 +329,12 @@ int In::ToInt(string input)
     return ans;
 }
 
+#pragma endregion
+
 // Previous
 #if 0
 /*---------------------------------------------------------------------------
-FUNCTION: ToReal()
+FUNCTION: double ToReal()
 
 PURPOSE:
     To determine whether the return value of Calc() is negative or not.
@@ -265,7 +348,7 @@ RETURN VALUE:
 ---------------------------------------------------------------------------*/
 double CalcIn::ToReal()
 {
-    double ans = Calc(m_input);
+    double ans = Calc(input);
     if (ans >= 0)
     {
         return ans;
@@ -277,7 +360,7 @@ double CalcIn::ToReal()
 }
 
 /*---------------------------------------------------------------------------
-FUNCTION: ToInt()
+FUNCTION: int ToInt()
 
 PURPOSE:
     Receive a string member and check whether it is legal or not.
@@ -298,7 +381,7 @@ int In::ToInt()
 }
 
 /*---------------------------------------------------------------------------
-FUNCTION: ToReal()
+FUNCTION: double ToReal()
 
 PURPOSE:
     Receive a string member and check whether it is legal or not.
@@ -314,10 +397,10 @@ RETURN VALUE:
 double In::ToReal()
 {
     int decim = 0;
-    if (m_input.find('.') != m_input.npos)
+    if (input.find('.') !=  input.npos)
     {
-        decim = m_input.size() - m_input.find('.') - 1;
-        m_input.erase(m_input.find('.'), 1);
+        decim = input.size() - input.find('.') - 1;
+        input.erase(input.find('.'), 1);
     }
     CheckInput();
     double ans = GetAnswer() / pow(10, decim);
@@ -325,7 +408,7 @@ double In::ToReal()
 }
 
 /*---------------------------------------------------------------------------
-FUNCTION: ToDate()
+FUNCTION: Date ToDate()
 
 PURPOSE:
     Receive a string member and check whether it is legal or not.
@@ -340,22 +423,22 @@ RETURN VALUE:
 ---------------------------------------------------------------------------*/
 Date In::ToDate()
 {
-    auto first = m_input.find(" ");
-    auto second = m_input.find_last_of(" ");
-    auto third = m_input.size();
-    if (m_input == "")
+    auto first = input.find(" ");
+    auto second = input.find_last_of(" ");
+    auto third = input.size();
+    if (input == "")
     {
         Date today;
         return today;
     }
-    if (first == m_input.npos || second == m_input.npos || first == second)
+    if (first == input.npos || second == input.npos || first == second)
     {
         throw ERR_ILLEGAL_DATE;
     }
 
-    string yearstr = m_input.substr(0, first);
-    string monthstr = m_input.substr(first + 1, second - first - 1);
-    string daystr = m_input.substr(second + 1, third - second - 1);
+    string yearstr = input.substr(0, first);
+    string monthstr = input.substr(first + 1, second - first - 1);
+    string daystr = input.substr(second + 1, third - second - 1);
 
     int year = ToInt(yearstr);
     int month = ToInt(monthstr);

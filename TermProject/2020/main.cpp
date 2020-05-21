@@ -10,16 +10,19 @@ using namespace std;
 
 int main()
 {
-    AddDefault();
 
+    AddDefault();
+    /*
+    AssetSubMenu *pTMenu = new AssetSubMenu;
+    pTMenu->SubMenu();
+*/
     DepositAndLoanMenu *pTMenu = new DepositAndLoanMenu;
     for (int i = 0; i < 2; i++)
     {
         pTMenu->InputDepositAndLoan();
     }
     pTMenu->PrintAllDepositAndLoan();
-
-    #if 0
+#if 0
     DepositAndLoanMenu *pTMenu = new DepositAndLoanMenu;
     for (int i = 0; i < 2; i++)
     {
@@ -42,6 +45,5 @@ int main()
     }
     pTMenu->PrintAllBudget();
     */
-    #endif
-
+#endif
 }

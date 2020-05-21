@@ -18,9 +18,9 @@ public:
     friend class Day;
 
 protected:
-    uint m_currentYear;
-    uint m_currentMonth;
-    uint m_currentDay;
+    uint currentYear;
+    uint currentMonth;
+    uint currentDay;
 };
 
 #pragma endregion
@@ -34,7 +34,7 @@ public:
     friend class Date;
 
 protected:
-    uint m_year;
+    uint year;
 };
 class Month
 {
@@ -44,7 +44,7 @@ public:
     friend class Date;
 
 protected:
-    uint m_month;
+    uint month;
 };
 class Day
 {
@@ -54,7 +54,7 @@ public:
     friend class Date;
 
 protected:
-    uint m_day;
+    uint day;
 };
 
 #pragma endregion
@@ -80,9 +80,9 @@ public:
     friend std::ostream &operator<<(std::ostream &, Date);
 
 private:
-    Year m_year;
-    Month m_month;
-    Day m_day;
+    Year year;
+    Month month;
+    Day day;
 };
 
 #pragma endregion

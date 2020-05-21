@@ -9,4 +9,10 @@
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/test2/test.cpp
 iostream
 -
+numeric
+-
+iomanip
+-
+algorithm
+-
 
