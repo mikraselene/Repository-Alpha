@@ -20,7 +20,7 @@ PARAMETERS:
     -
 
 CALLS:
-    ToRealWithCalc()
+    ToReal()
 
 RETURN VALUE:
     The amount which user inputs.
@@ -30,10 +30,9 @@ double AssetSubMenu::InputAmount()
     try
     {
         cout << ">> ";
-        string a;
-        getline(cin, a);
-        NumWithCalcIn t(a);
-        double amount = t.ToRealWithCalc();
+        NumWithCalcIn t;
+        cin >> t;
+        double amount = t.ToReal();
         return amount;
     }
     catch (const string msg)
@@ -50,9 +49,8 @@ Date AssetSubMenu::InputDate()
     try
     {
         cout << ">> ";
-        string a;
-        getline(cin, a);
-        DateIn t(a);
+        DateIn t;
+        cin >> t;
         Date date = t.ToDate();
         return date;
     }
@@ -81,9 +79,8 @@ void AssetSubMenu::ShowCategory()
 Category AssetSubMenu::InputCategory()
 {
     cout << ">> ";
-    string code;
-    cin >> code;
-    NumberIn n(code);
+    NumberIn n;
+    cin >> n;
     try
     {
         int num = n.ToInt();
@@ -104,9 +101,9 @@ Category AssetSubMenu::InputCategory()
         else if (num == pCategory.size() + 1)
         {
             cout << ">> ";
-            string a;
-            getline(cin, a);
-            StringIn t(a);
+            StringIn t;
+            cin >> t;
+            string a = t.ToString();
             Category *x = new Category(a);
             x->Add();
             return *x;
@@ -147,9 +144,8 @@ int AssetSubMenu::InputCode()
     try
     {
         cout << ">> ";
-        string a;
-        getline(cin, a);
-        NumberIn t(a);
+        NumberIn t;
+        cin >> t;
         int code = t.ToInt();
         return code;
     }
@@ -380,9 +376,8 @@ double DepositAndLoanMenu::InputRate()
     try
     {
         cout << ">> ";
-        string a;
-        getline(cin, a);
-        NumberIn t(a);
+        NumberIn t;
+        cin >> t;
         double rate = t.ToReal();
         if (rate >= 0 || rate <= 10)
         {

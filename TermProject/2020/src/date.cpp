@@ -65,7 +65,7 @@ Date::Date(const Year &y, const Month &m, const Day &d)
     m_day = d;
 }
 
-bool Date::isLegal()
+bool Date::IsLegal()
 {
     int maxday[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     int year = GetYear();

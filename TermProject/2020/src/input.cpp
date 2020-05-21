@@ -2,11 +2,10 @@
 
 using namespace std;
 
-#pragma region "Input Pure Number"
-
-NumberIn::NumberIn(string input)
+istream &operator>>(istream &in, NumberIn &A)
 {
-    m_input = input;
+    getline(cin, A.m_input);
+    return in;
 }
 
 /*---------------------------------------------------------------------------
@@ -112,17 +111,14 @@ double NumberIn::GetAnswer()
     return rawans;
 }
 
-#pragma endregion
-
-#pragma region "Input Number"
-
-NumWithCalcIn::NumWithCalcIn(string input)
+istream &operator>>(istream &in, NumWithCalcIn &A)
 {
-    m_input = input;
+    getline(cin, A.m_input);
+    return in;
 }
 
 /*---------------------------------------------------------------------------
-FUNCTION: ToRealWithCalc()
+FUNCTION: ToReal()
 
 PURPOSE:
     To determine whether the return value of Calc() is negative or not.
@@ -134,7 +130,7 @@ CALLS:
 RETURN VALUE:
     The positive equivalent real value of the string.
 ---------------------------------------------------------------------------*/
-double NumWithCalcIn::ToRealWithCalc()
+double NumWithCalcIn::ToReal()
 {
     double ans = Calc(m_input);
     if (ans >= 0)
@@ -224,13 +220,10 @@ double NumWithCalcIn::Calc(string input)
     return ans;
 }
 
-#pragma endregion
-
-#pragma region "Input Date"
-
-DateIn::DateIn(string input)
+istream &operator>>(istream &in, DateIn &A)
 {
-    m_input = input;
+    getline(cin, A.m_input);
+    return in;
 }
 
 /*---------------------------------------------------------------------------
@@ -275,7 +268,7 @@ Date DateIn::ToDate()
     Day D(day);
     Date date(Y, M, D);
 
-    if (date.isLegal() == 0)
+    if (date.IsLegal() == 0)
     {
         throw ERR_ILLEGAL_DATE;
     }
@@ -302,12 +295,12 @@ int DateIn::ToInt(string input)
     return ans;
 }
 
-#pragma endregion
-
-StringIn::StringIn(string input)
+istream &operator>>(istream &in, StringIn &A)
 {
-    m_input = input;
+    getline(cin, A.m_input);
+    return in;
 }
+
 string StringIn::ToString()
 {
     return m_input;

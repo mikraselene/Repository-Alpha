@@ -7,54 +7,51 @@
 #include "date.h"
 #include "text.h"
 
+using std::istream;
 using std::string;
 
-class NumberIn
+class In
+{
+protected:
+    string m_input;
+};
+class NumberIn : public In
 {
 public:
-    NumberIn(string);
+    friend istream &operator>>(istream &, NumberIn &);
     int ToInt();
     double ToReal();
 
 private:
     void CheckInput();
     double GetAnswer();
-
-    string m_input;
 };
 
-class NumWithCalcIn
+class NumWithCalcIn : public In
 {
 public:
-    NumWithCalcIn(string);
-    double ToRealWithCalc();
+    friend istream &operator>>(istream &, NumWithCalcIn &);
+    double ToReal();
 
 private:
     double Calc(string);
-
-    string m_input;
 };
 
-class DateIn
+class DateIn : public In
 {
 public:
-    DateIn(string);
+    friend istream &operator>>(istream &, DateIn &);
     Date ToDate();
 
 private:
     int ToInt(string);
-
-    string m_input;
 };
 
-class StringIn
+class StringIn : public In
 {
 public:
-    StringIn(string);
+    friend istream &operator>>(istream &, StringIn &);
     string ToString();
-
-private:
-    string m_input;
 };
 
 #endif

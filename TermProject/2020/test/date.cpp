@@ -73,19 +73,16 @@ Date::Date(const Year &y, const Month &m, const Day &d)
 }
 
 /*---------------------------------------------------------------------------
-FUNCTION: isLegal()
+FUNCTION: IsLegal()
 
 PURPOSE:
     To determine whether the format of the date is legal or not.
-
-PARAMETERS:
-    -
-
+    
 RETURN VALUE:
     1, if the format of the date is legal;
     0, if the format of the date is illegal.
 ---------------------------------------------------------------------------*/
-bool Date::isLegal()
+bool Date::IsLegal()
 {
     int maxday[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     int year = GetYear();
@@ -164,6 +161,9 @@ int operator-(Date A, Date B)
 {
     return int(A) - int(B);
 }
+/*
+hello
+*/
 int Date::GetYear()
 {
     return m_year.m_year;

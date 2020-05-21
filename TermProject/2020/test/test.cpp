@@ -32,6 +32,10 @@ public:
             period = DAILY;
         }
     }
+    ~Period()
+    {
+        cout << "hello" << endl;
+    }
     int CalculateWeekly()
     {
         Date today;
@@ -64,7 +68,7 @@ public:
             {
                 break;
             }
-            if (pt->isLegal() == 0)
+            if (pt->IsLegal() == 0)
             {
                 pt = new Date(y, m % 12 + 1, maxday[m % 12 + 1]);
             }
@@ -99,9 +103,16 @@ int main()
     Date S(Y, M, D);
     Period K(2000, 3, S);
     cout << K.CalculateMonthly() << endl;
+
     for (auto it : dateList)
     {
-        cout << *it << endl;
+        cout << it << endl;
         delete it;
+    }
+    cout << endl;
+    delete &K;
+    for (auto it : dateList)
+    {
+        cout << it << endl;
     }
 }

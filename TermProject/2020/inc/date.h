@@ -73,7 +73,7 @@ public:
     friend bool operator!=(Date, Date);
     friend int operator-(Date, Date);
     operator int();
-    bool isLegal();
+    bool IsLegal();
     int GetYear();
     int GetMonth();
     int GetDay();

@@ -67,7 +67,7 @@ public:
                 {
                     break;
                 }
-                if (pt->isLegal() == 0)
+                if (pt->IsLegal() == 0)
                 {
                     pt = new Date(y, m, maxday[m]);
                 }
