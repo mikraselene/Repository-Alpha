@@ -22,7 +22,7 @@ Period::Period()
     this->code = 1;
     period = MONTHLY;
 }
-std::list<Date *> dateList;
+std::vector<Date *> dateList;
 
 std::ostream &operator<<(std::ostream &out, Period A)
 {

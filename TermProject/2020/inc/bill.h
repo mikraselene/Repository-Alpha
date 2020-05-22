@@ -2,7 +2,7 @@
 #define BILL_H
 
 #include <iostream>
-#include <list>
+#include <vector>
 
 #include "date.h"
 #include "period.h"

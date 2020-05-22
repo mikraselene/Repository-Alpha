@@ -3,10 +3,10 @@
 #define CLEAR system("clear")
 //#define CLEAR system("cls")
 
-extern list<Transaction *> pTransaction;
-extern list<DepositAndLoan *> pDepoAndLoan;
-extern list<Category *> pCategory;
-extern list<Budget *> pBudget;
+extern vector<Transaction *> pTransaction;
+extern vector<DepositAndLoan *> pDepoAndLoan;
+extern vector<Category *> pCategory;
+extern vector<Budget *> pBudget;
 
 void AssetSubMenu::SubMenu()
 {

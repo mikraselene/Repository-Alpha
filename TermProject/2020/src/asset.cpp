@@ -2,7 +2,7 @@
 
 #pragma region "Transaction"
 
-list<Transaction *> pTransaction;
+vector<Transaction *> pTransaction;
 
 Transaction::Transaction(double amount, Category category)
 {
@@ -67,7 +67,7 @@ void RegularTransaction::Print()
 
 #pragma region "Budget"
 
-list<Budget *> pBudget;
+vector<Budget *> pBudget;
 
 Budget::Budget(double b, Category c, Date d)
 {
@@ -110,7 +110,7 @@ void Budget::Print()
 
 #pragma region "Deposit and Loan"
 
-list<DepositAndLoan *> pDepoAndLoan;
+vector<DepositAndLoan *> pDepoAndLoan;
 
 DepositAndLoan::DepositAndLoan(double pr, double rate,
                                Date start, Date end, Period p, string i)

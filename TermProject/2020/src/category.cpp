@@ -2,7 +2,7 @@
 
 using namespace std;
 
-list<Category *> pCategory;
+vector<Category *> pCategory;
 string defaultCategory[7] =
     {ROUTINE, FOOD, CLOTHING, EDUCATION, ENTERTAINMENT, INTERNET, MISCELLANEOUS};
 void AddDefault()

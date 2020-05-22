@@ -4,7 +4,7 @@ using namespace std;
 
 #pragma region "Bill"
 
-list<Bill *> pBill;
+vector<Bill *> pBill;
 
 Bill::Bill(double a, Date d, string i)
 {
@@ -38,7 +38,7 @@ Date Bill::GetDate()
 
 #pragma region "Filter"
 
-list<Bill *> pFiltered;
+vector<Bill *> pFiltered;
 
 Filter::Filter(FLTR_AMOUNT fltr)
 {

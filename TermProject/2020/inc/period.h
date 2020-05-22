@@ -2,7 +2,7 @@
 #define PERIOD_H
 
 #include <iostream>
-#include <list>
+#include <vector>
 
 #include "date.h"
 

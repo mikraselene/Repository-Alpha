@@ -4,14 +4,25 @@
 #include <algorithm>
 using namespace std;
 
-void print(double *x)
+class K
 {
-}
+public:
+    K(const int &s)
+    {
+        data = s;
+    }
+    void Print() const
+    {
+        cout << data;
+    }
+
+private:
+    int data;
+};
 int main()
 {
-    int k = 9;
-    double *per =
-        new double[k]{12, 30, 40, 53, 22, 52, 11, 40, 23};
+    double per[] = {12, 30, 40, 53, 22, 52, 11, 40, 23};
+    int k = sizeof(per) / 8;
     double p[k];
     double sum = accumulate(per, per + k, 0);
     double max = 0;

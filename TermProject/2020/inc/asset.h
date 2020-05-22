@@ -2,7 +2,7 @@
 #define ASSET_H
 
 #include <iostream>
-#include <list>
+#include <vector>
 #include <string>
 
 #include "category.h"

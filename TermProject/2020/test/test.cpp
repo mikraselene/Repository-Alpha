@@ -1,5 +1,5 @@
 #include <iostream>
-#include <list>
+#include <vector>
 #include <string>
 
 #include "date.h"
@@ -10,7 +10,7 @@ const string MONTHLY = "";
 const string WEEKLY = "";
 const string DAILY = "";
 
-list<Date *> dateList;
+vector<Date *> dateList;
 class Period
 {
 public:
