@@ -1,14 +1,18 @@
-#ifndef ASSET_H
-#define ASSET_H
-
-#include <iostream>
-#include <vector>
-#include <string>
-
 #include "category.h"
 #include "date.h"
 #include "period.h"
 #include "test.h"
+#include <iostream>
+#include <vector>
+#include <string>
+
+#if 0
+
+#ifndef ASSET_H
+#define ASSET_H
+
+
+
 
 using namespace std;
 
@@ -106,5 +110,7 @@ private:
 };
 
 #pragma endregion
+
+#endif
 
 #endif

@@ -312,6 +312,33 @@ src/input.cpp.s:
 	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/input.cpp.s
 .PHONY : src/input.cpp.s
 
+src/menu.o: src/menu.cpp.o
+
+.PHONY : src/menu.o
+
+# target to build an object file
+src/menu.cpp.o:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/menu.cpp.o
+.PHONY : src/menu.cpp.o
+
+src/menu.i: src/menu.cpp.i
+
+.PHONY : src/menu.i
+
+# target to preprocess a source file
+src/menu.cpp.i:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/menu.cpp.i
+.PHONY : src/menu.cpp.i
+
+src/menu.s: src/menu.cpp.s
+
+.PHONY : src/menu.s
+
+# target to generate assembly for a file
+src/menu.cpp.s:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/menu.cpp.s
+.PHONY : src/menu.cpp.s
+
 src/period.o: src/period.cpp.o
 
 .PHONY : src/period.o
@@ -339,32 +366,32 @@ src/period.cpp.s:
 	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/period.cpp.s
 .PHONY : src/period.cpp.s
 
-src/submenu.o: src/submenu.cpp.o
+src/sub.o: src/sub.cpp.o
 
-.PHONY : src/submenu.o
+.PHONY : src/sub.o
 
 # target to build an object file
-src/submenu.cpp.o:
-	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/submenu.cpp.o
-.PHONY : src/submenu.cpp.o
+src/sub.cpp.o:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/sub.cpp.o
+.PHONY : src/sub.cpp.o
 
-src/submenu.i: src/submenu.cpp.i
+src/sub.i: src/sub.cpp.i
 
-.PHONY : src/submenu.i
+.PHONY : src/sub.i
 
 # target to preprocess a source file
-src/submenu.cpp.i:
-	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/submenu.cpp.i
-.PHONY : src/submenu.cpp.i
+src/sub.cpp.i:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/sub.cpp.i
+.PHONY : src/sub.cpp.i
 
-src/submenu.s: src/submenu.cpp.s
+src/sub.s: src/sub.cpp.s
 
-.PHONY : src/submenu.s
+.PHONY : src/sub.s
 
 # target to generate assembly for a file
-src/submenu.cpp.s:
-	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/submenu.cpp.s
-.PHONY : src/submenu.cpp.s
+src/sub.cpp.s:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/sub.cpp.s
+.PHONY : src/sub.cpp.s
 
 src/test.o: src/test.cpp.o
 
@@ -450,12 +477,15 @@ help:
 	@echo "... src/input.o"
 	@echo "... src/input.i"
 	@echo "... src/input.s"
+	@echo "... src/menu.o"
+	@echo "... src/menu.i"
+	@echo "... src/menu.s"
 	@echo "... src/period.o"
 	@echo "... src/period.i"
 	@echo "... src/period.s"
-	@echo "... src/submenu.o"
-	@echo "... src/submenu.i"
-	@echo "... src/submenu.s"
+	@echo "... src/sub.o"
+	@echo "... src/sub.i"
+	@echo "... src/sub.s"
 	@echo "... src/test.o"
 	@echo "... src/test.i"
 	@echo "... src/test.s"

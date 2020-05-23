@@ -1,3 +1,5 @@
+#if 0
+
 #include "../inc/asset.h"
 
 #pragma region "Transaction"
@@ -167,3 +169,5 @@ void DepositAndLoan::WriteIn()
 }
 
 #pragma endregion
+
+#endif

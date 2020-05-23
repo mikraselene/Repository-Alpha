@@ -2,13 +2,15 @@
 #define SUBMENU_H
 
 #include <iostream>
-#include "../inc/asset.h"
-#include "../inc/date.h"
-#include "../inc/input.h"
-#include "../inc/text.h"
-#include "../inc/category.h"
 
-class AssetSubMenu
+#include "asset.h"
+#include "date.h"
+#include "input.h"
+#include "text.h"
+#include "period.h"
+#include "category.h"
+
+class Asset
 {
 public:
     void SubMenu();
@@ -26,15 +28,15 @@ protected:
     int code;
 };
 
-class TransactionMenu : public AssetSubMenu
+class Transaction : public Asset
 {
 public:
     void SubMenu();
-    void InputSingleTransaction();
-    void InputRegularTransaction();
+    void InputSingleTransaction(int);
+    void InputRegularTransaction(int);
 
-    void PrintAllSingle();
-    void PrintAllRegular();
+    void Print();
+    void PrintAll();
 
 private:
     template <typename T1, typename T2, typename T3>
@@ -49,14 +51,14 @@ private:
     int type;
 };
 
-class DepositAndLoanMenu : public AssetSubMenu
+class DepositAndLoan : public Asset
 {
 public:
     void SubMenu();
 
     void InputDepositAndLoan();
-
-    void PrintAllDepositAndLoan();
+    void Print();
+    void PrintAll();
 
 private:
     double SetRate();
@@ -72,17 +74,18 @@ private:
     Date end;
     Period period;
     string info;
-    // int typeFlag;
+    int type;
 };
 
-class BudgetMenu : public AssetSubMenu
+class Budget : public Asset
 {
 public:
     void SubMenu();
 
     void InputBudget();
 
-    void PrintAllBudget();
+    void Print();
+    void PrintAll();
 
 private:
     template <typename T1, typename T2, typename T3>

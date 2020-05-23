@@ -2,6 +2,7 @@
 
 Period::Period(int code)
 {
+    using namespace NPeriod;
     this->code = code;
     if (code == monthly)
     {
@@ -19,6 +20,7 @@ Period::Period(int code)
 
 Period::Period()
 {
+    using namespace NPeriod;
     this->code = 1;
     period = MONTHLY;
 }

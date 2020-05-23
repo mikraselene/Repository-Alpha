@@ -146,9 +146,10 @@ int Date::GetDay()
 
 ostream &operator<<(ostream &out, Date A)
 {
-    cout << A.GetYear() << " "
-         << A.GetMonth() << " "
-         << A.GetDay();
+    using namespace NDate;
+    cout << A.GetYear() << YEAR
+         << A.GetMonth() << MONTH
+         << A.GetDay() << DAY;
     return out;
 }
 

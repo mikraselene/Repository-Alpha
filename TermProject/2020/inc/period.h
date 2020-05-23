@@ -5,14 +5,12 @@
 #include <vector>
 
 #include "date.h"
+#include "text.h"
 
 using std::cout;
 using std::endl;
 using std::string;
 
-const string MONTHLY = "yue";
-const string WEEKLY = "zhou";
-const string DAILY = "ri";
 class Period
 {
 public:

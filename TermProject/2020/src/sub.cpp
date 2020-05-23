@@ -1,46 +1,19 @@
-#include "../inc/submenu.h"
+#include "../inc/sub.h"
 
 #define CLEAR system("clear")
 //#define CLEAR system("cls")
 
-extern vector<Transaction *> pTransaction;
-extern vector<DepositAndLoan *> pDepoAndLoan;
-extern vector<Category *> pCategory;
-extern vector<Budget *> pBudget;
+using std::cerr;
+using std::vector;
 
-void AssetSubMenu::SubMenu()
-{
-    cout << "" << endl;
-    cout << "1. " << TRANSACTION_MENU << endl
-         << "2. " << DEPO_AND_LOAN_MENU << endl
-         << "3. " << BUDGET_MENU << endl
-         << "4. " << BACK << endl
-         << DIVISION << endl;
-    code = SetCode();
-    if (code == 1)
-    {
-        TransactionMenu menu;
-        menu.SubMenu();
-    }
-    if (code == 2)
-    {
-        DepositAndLoanMenu menu;
-        menu.SubMenu();
-    }
-    if (code == 3)
-    {
-        BudgetMenu menu;
-        menu.SubMenu();
-    }
-    if (code == 4)
-    {
-        //TODO:
-    }
-}
+vector<Transaction *> pTransaction;
+vector<DepositAndLoan *> pDepoAndLoan;
+extern vector<Category *> pCategory;
+vector<Budget *> pBudget;
 
 #pragma region "Protected Asset Menu"
 
-double AssetSubMenu::SetAmount()
+double Asset::SetAmount()
 {
     try
     {
@@ -51,6 +24,7 @@ double AssetSubMenu::SetAmount()
     }
     catch (const string msg)
     {
+        using namespace NError;
         cerr << msg << ", "
              << PLEASE_INPUT_AGAIN << ". "
              << endl;
@@ -58,7 +32,7 @@ double AssetSubMenu::SetAmount()
     }
 }
 
-Date AssetSubMenu::SetDate()
+Date Asset::SetDate()
 {
     try
     {
@@ -69,6 +43,7 @@ Date AssetSubMenu::SetDate()
     }
     catch (const string msg)
     {
+        using namespace NError;
         cerr << msg << ", "
              << PLEASE_INPUT_AGAIN << ". "
              << endl;
@@ -76,8 +51,9 @@ Date AssetSubMenu::SetDate()
     }
 }
 
-void AssetSubMenu::ShowCategory()
+void Asset::ShowCategory()
 {
+    using namespace NCategory;
     int i = 1;
     for (auto it = pCategory.begin(); it != pCategory.end(); it++)
     {
@@ -89,8 +65,10 @@ void AssetSubMenu::ShowCategory()
     }
     cout << i << ". " << ADD_NEW_CATEGORY << endl;
 }
-Category AssetSubMenu::SetCategory()
+
+Category Asset::SetCategory()
 {
+    using namespace NCategory;
     cout << ">> ";
     In n;
     cin >> n;
@@ -107,7 +85,7 @@ Category AssetSubMenu::SetCategory()
                     return *it;
                 }
             }
-            cout << INPUT_NEW_CATEGORY << ": " << endl;
+            cout << ADD_NEW_CATEGORY << ": " << endl;
             cout << ">> ";
             In category;
             cin >> category;
@@ -117,6 +95,7 @@ Category AssetSubMenu::SetCategory()
         }
         else
         {
+            using namespace NError;
             cerr
                 << PLEASE_INPUT_AGAIN << ". "
                 << endl;
@@ -125,6 +104,7 @@ Category AssetSubMenu::SetCategory()
     }
     catch (const string msg)
     {
+        using namespace NError;
         cerr << msg << ", "
              << PLEASE_INPUT_AGAIN << ". "
              << endl;
@@ -132,12 +112,13 @@ Category AssetSubMenu::SetCategory()
     }
 }
 
-Period AssetSubMenu::SetPeriod()
+Period Asset::SetPeriod()
 {
+    using namespace NPeriod;
     cout << "1. " << MONTHLY << "\t\t"
          << "2. " << WEEKLY << "\t\t"
          << "3. " << DAILY << endl
-         << END_OF_TITLE << endl;
+         << END << endl;
     code = SetCode();
     Period period;
     if (code <= 3)
@@ -146,6 +127,7 @@ Period AssetSubMenu::SetPeriod()
     }
     else
     {
+        using namespace NError;
         cerr << ERR_ILLEGAL_NUMBER << ", "
              << PLEASE_INPUT_AGAIN << ". "
              << endl;
@@ -155,15 +137,17 @@ Period AssetSubMenu::SetPeriod()
     return period;
 }
 
-void AssetSubMenu::PrintInstruction()
+void Asset::PrintInstruction()
 {
+    using namespace NInstruction;
     cout << "1. " << COMFIRM_AND_SAVE << endl
          << "2. " << INPUT_AGAIN << endl
          << "3. " << HELP << endl
          << "4. " << BACK << endl
-         << END_OF_TITLE << endl;
+         << END << endl;
 }
-int AssetSubMenu::SetCode()
+
+int Asset::SetCode()
 {
     try
     {
@@ -174,6 +158,7 @@ int AssetSubMenu::SetCode()
     }
     catch (const string msg)
     {
+        using namespace NError;
         cerr << msg << ", "
              << PLEASE_INPUT_AGAIN << ". "
              << endl;
@@ -185,54 +170,9 @@ int AssetSubMenu::SetCode()
 
 #pragma region "Public Transaction Menu"
 
-void TransactionMenu::SubMenu()
+void Transaction::InputSingleTransaction(int type)
 {
-    cout << TRANSACTION_TITLE << endl;
-    cout << "1. " << ADD_SINGLE_EXPENSE << endl
-         << "2. " << ADD_SINGLE_INCOME << endl
-         << "3. " << ADD_REGULAR_EXPENSE << endl
-         << "4. " << ADD_REGULAR_INCOME << endl
-         << "5. " << EDIT_EXPENSE_AND_INCOME << endl
-         << "6. " << DELETE_EXPENSE_AND_INCOME << endl
-         << "7. " << BACK << endl
-         << END_OF_TITLE << endl;
-    code = SetCode();
-    if (code == 1)
-    {
-        type = -1;
-        InputSingleTransaction();
-    }
-    if (code == 2)
-    {
-        type = 1;
-        InputSingleTransaction();
-    }
-    if (code == 3)
-    {
-        type = -1;
-        InputRegularTransaction();
-    }
-    if (code == 4)
-    {
-        type = 1;
-        InputRegularTransaction();
-    }
-    if (code == 5)
-    {
-        //TODO:
-    }
-    if (code == 6)
-    {
-        //TODO:
-    }
-    if (code == 7)
-    {
-        //TODO:
-    }
-}
-
-void TransactionMenu::InputSingleTransaction()
-{
+    this->type = type;
     CLEAR;
     PrintSingleBody("?", "", "");
     amount = SetAmount();
@@ -253,12 +193,11 @@ void TransactionMenu::InputSingleTransaction()
 
     if (code == 1)
     {
-        SingleTransaction *t = new SingleTransaction(amount, category, date);
-        t->Add();
+        pTransaction.push_back(this);
     }
     if (code == 2)
     {
-        InputSingleTransaction();
+        InputSingleTransaction(type);
     }
     if (code == 3)
     {
@@ -270,8 +209,9 @@ void TransactionMenu::InputSingleTransaction()
 
     CLEAR;
 }
-void TransactionMenu::InputRegularTransaction()
+void Transaction::InputRegularTransaction(int type)
 {
+    this->type = type;
     CLEAR;
     PrintRegularBody("?", "", "", "");
     amount = SetAmount();
@@ -296,13 +236,11 @@ void TransactionMenu::InputRegularTransaction()
 
     if (code == 1)
     {
-        RegularTransaction *t =
-            new RegularTransaction(amount, category, date, period);
-        t->Add();
+        pTransaction.push_back(this);
     }
     if (code == 2)
     {
-        InputRegularTransaction();
+        InputRegularTransaction(type);
     }
     if (code == 3)
     {
@@ -315,8 +253,17 @@ void TransactionMenu::InputRegularTransaction()
     CLEAR;
 }
 
-void TransactionMenu::PrintAllSingle()
+void Transaction::Print()
 {
+    cout << amount << "\t\t"
+         << category << "\t\t"
+         << date << endl;
+}
+void Transaction::PrintAll()
+{
+    //TODO:
+    //NOT GOOD!!
+    using namespace NTransaction;
     cout << AMOUNT << "\t\t"
          << CATEGORY << "\t\t"
          << DATE << endl;
@@ -325,25 +272,15 @@ void TransactionMenu::PrintAllSingle()
         it->Print();
     }
 }
-void TransactionMenu::PrintAllRegular()
-{
-    cout << AMOUNT << "\t\t"
-         << CATEGORY << "\t\t"
-         << START_DATE << "\t\t"
-         << PERIOD << endl;
-    for (auto it : pTransaction)
-    {
-        it->Print();
-    }
-}
 
 #pragma endregion
 
-#pragma region "Private Transaction Menu"
+#pragma region "Private Transaction"
 
 template <typename T1, typename T2, typename T3>
-void TransactionMenu::PrintSingleBody(T1 x, T2 y, T3 z)
+void Transaction::PrintSingleBody(T1 x, T2 y, T3 z)
 {
+    using namespace NTransaction;
     cout << SINGLE_EXPENSE_TITLE << endl
          << AMOUNT << ": " << x << endl
          << CATEGORY << ": " << y << endl
@@ -351,8 +288,9 @@ void TransactionMenu::PrintSingleBody(T1 x, T2 y, T3 z)
          << DIVISION << endl;
 }
 template <typename T1, typename T2, typename T3, typename T4>
-void TransactionMenu::PrintRegularBody(T1 x, T2 y, T3 z, T4 u)
+void Transaction::PrintRegularBody(T1 x, T2 y, T3 z, T4 u)
 {
+    using namespace NTransaction;
     cout << REGULAR_EXPENSE_TITLE << endl
          << AMOUNT << ": " << x << endl
          << CATEGORY << ": " << y << endl
@@ -365,7 +303,7 @@ void TransactionMenu::PrintRegularBody(T1 x, T2 y, T3 z, T4 u)
 
 #pragma region "Public Deposit and Loan Menu"
 
-void DepositAndLoanMenu::InputDepositAndLoan()
+void DepositAndLoan::InputDepositAndLoan()
 {
     CLEAR;
     PrintDepoLoanBody("?", "", "", "", "", "");
@@ -398,11 +336,7 @@ void DepositAndLoanMenu::InputDepositAndLoan()
 
     if (code == 1)
     {
-        DepositAndLoan *t =
-            new DepositAndLoan(principle, interest,
-                               start, end,
-                               period, info);
-        t->Add();
+        pDepoAndLoan.push_back(this);
     }
     if (code == 2)
     {
@@ -419,8 +353,12 @@ void DepositAndLoanMenu::InputDepositAndLoan()
     CLEAR;
 }
 
-void DepositAndLoanMenu::PrintAllDepositAndLoan()
+void DepositAndLoan::Print()
 {
+}
+void DepositAndLoan::PrintAll()
+{
+    using namespace NDepositAndLoan;
     cout << PRINCIPLE << "\t\t"
          << INTEREST_RATE << "\t\t"
          << START_DATE << "\t\t"
@@ -438,12 +376,12 @@ void DepositAndLoanMenu::PrintAllDepositAndLoan()
 
 #pragma region "Private Deposit and Loan Menu"
 
-string DepositAndLoanMenu::SetInfo()
+string DepositAndLoan::SetInfo()
 {
     //TODO:
     return "hellos";
 }
-double DepositAndLoanMenu::SetRate()
+double DepositAndLoan::SetRate()
 {
     try
     {
@@ -463,6 +401,7 @@ double DepositAndLoanMenu::SetRate()
     }
     catch (const string msg)
     {
+        using namespace NError;
         cerr << msg << ", "
              << PLEASE_INPUT_AGAIN << ". "
              << endl;
@@ -472,9 +411,10 @@ double DepositAndLoanMenu::SetRate()
 
 template <typename T1, typename T2, typename T3,
           typename T4, typename T5, typename T6>
-void DepositAndLoanMenu::PrintDepoLoanBody(T1 x, T2 y, T3 z, T4 u, T5 v, T6 w)
+void DepositAndLoan::PrintDepoLoanBody(T1 x, T2 y, T3 z, T4 u, T5 v, T6 w)
 {
-    cout << DEPO_AND_LOAN_TITLE << endl
+    using namespace NDepositAndLoan;
+    cout << TITLE << endl
          << PRINCIPLE << ": " << x << endl
          << INTEREST_RATE << ": " << y << endl
          << START_DATE << ": " << z << endl
@@ -488,7 +428,7 @@ void DepositAndLoanMenu::PrintDepoLoanBody(T1 x, T2 y, T3 z, T4 u, T5 v, T6 w)
 
 #pragma region "Public Budget Menu"
 
-void BudgetMenu::InputBudget()
+void Budget::InputBudget()
 {
     CLEAR;
     PrintBudgetBody("?", "", "");
@@ -511,8 +451,7 @@ void BudgetMenu::InputBudget()
 
     if (code == 1)
     {
-        Budget *t = new Budget(budget, category, start);
-        t->Add();
+        pBudget.push_back(this);
     }
     if (code == 2)
     {
@@ -530,8 +469,12 @@ void BudgetMenu::InputBudget()
     CLEAR;
 }
 
-void BudgetMenu::PrintAllBudget()
+void Budget::Print()
 {
+}
+void Budget::PrintAll()
+{
+    using namespace NBudget;
     cout << BUDGET << "\t\t"
          << CATEGORY << "\t\t"
          << START_DATE << endl;
@@ -546,9 +489,10 @@ void BudgetMenu::PrintAllBudget()
 #pragma region "Private Budget Menu"
 
 template <typename T1, typename T2, typename T3>
-void BudgetMenu::PrintBudgetBody(T1 x, T2 y, T3 z)
+void Budget::PrintBudgetBody(T1 x, T2 y, T3 z)
 {
-    cout << BUDGET_TITLE << endl
+    using namespace NBudget;
+    cout << TITLE << endl
          << BUDGET << ": " << x << endl
          << CATEGORY << ": " << y << endl
          << START_DATE << ": " << z << endl
@@ -556,10 +500,3 @@ void BudgetMenu::PrintBudgetBody(T1 x, T2 y, T3 z)
 }
 
 #pragma endregion
-
-void BudgetMenu::SubMenu()
-{
-}
-void DepositAndLoanMenu::SubMenu()
-{
-}

@@ -3,10 +3,12 @@
 using namespace std;
 
 vector<Category *> pCategory;
-string defaultCategory[7] =
-    {ROUTINE, FOOD, CLOTHING, EDUCATION, ENTERTAINMENT, INTERNET, MISCELLANEOUS};
+
 void AddDefault()
 {
+    using namespace NCategory;
+    string defaultCategory[7] =
+        {ROUTINE, FOOD, CLOTHING, EDUCATION, ENTERTAINMENT, INTERNET, MISCELLANEOUS};
     for (int i = 0; i < 7; i++)
     {
         Category *temp = new Category(defaultCategory[i]);

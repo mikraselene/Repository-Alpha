@@ -5,88 +5,142 @@
 
 #define T(code, text) const std::string(code) = (text)
 
-T(ROUTINE, "日常");
-T(FOOD, "饮食");
-T(CLOTHING, "服装");
-T(EDUCATION, "教育");
-T(ENTERTAINMENT, "娱乐");
-T(INTERNET, "网络");
-T(MISCELLANEOUS, "杂项");
+namespace NCategory
+{
+    T(ROUTINE, "日常");
+    T(FOOD, "饮食");
+    T(CLOTHING, "服装");
+    T(EDUCATION, "教育");
+    T(ENTERTAINMENT, "娱乐");
+    T(INTERNET, "网络");
+    T(MISCELLANEOUS, "杂项");
+    T(ADD_NEW_CATEGORY, "新建类别");
 
-T(ASSET_TITLE, "////////// 财产菜单 //////////");
-T(TRANSACTION_MENU, "交易");
-T(DEPO_AND_LOAN_MENU, "借款和贷款");
-T(BUDGET_MENU, "预算");
+} // namespace NCategory
 
-T(YEAR, "年");
-T(MONTH, "月");
-T(DAY, "日");
+namespace NPeriod
+{
+    T(MONTHLY, "按月");
+    T(WEEKLY, "按周");
+    T(DAILY, "按日");
+    T(END, "////////// ＝＝＝＝ //////////");
 
-/*
-//////////// 收支 ////////////
-1. 添加单笔支出
-2. 添加单笔收入
-3. 添加定期支出
-4. 添加定期收入
-5. 编辑收支
-6. 删除收支
-/////////////////////////////
-*/
-T(TRANSACTION_TITLE, "////////// 收支菜单 //////////");
-T(ADD_SINGLE_EXPENSE, "添加单笔支出");
-T(ADD_SINGLE_INCOME, "添加单笔收入");
-T(ADD_REGULAR_EXPENSE, "添加定期支出");
-T(ADD_REGULAR_INCOME, "添加定期收入");
-T(EDIT_EXPENSE_AND_INCOME, "编辑收支");
-T(DELETE_EXPENSE_AND_INCOME, "删除收支");
+} // namespace NPeriod
 
-/*
-////////////////////////////
-////////// 单笔支出 //////////
-金额: 
-类别: 
-日期(默认今天): 
-附加信息(可选): 
------------------------------
-1. 确认并保存
-2. 重新输入
-3. 帮助
-4. 返回
-/////////////////////////////
-*/
-T(SINGLE_EXPENSE_TITLE, "////////// 单笔支出 //////////");
-T(AMOUNT, "金额");
-T(CATEGORY, "类别");
-T(DATE, "日期");
-T(TODAY_AS_DEFAULT, "默认今天");
-T(INFO, "附加信息");
-T(OPTIONAL, "可选");
-T(DIVISION, "-----------------------------");
-T(COMFIRM_AND_SAVE, "确认并保存");
-T(INPUT_AGAIN, "重新输入");
-T(HELP, "帮助");
-T(BACK, "返回");
-T(END_OF_TITLE, "////////// ＝＝＝＝ //////////");
+namespace NDate
+{
+    T(YEAR, "年");
+    T(MONTH, "月");
+    T(DAY, "日");
 
-T(REGULAR_EXPENSE_TITLE, "////////// 定期支出 //////////");
-T(START_DATE, "起始日期");
-T(PERIOD, "周期");
+} // namespace NDate
 
-T(ERR_ILLEGAL_OPERATION, "不合法的运算");
-T(ERR_ILLEGAL_NUMBER, "不合法的数字");
-T(ERR_NEGATIVE_NUMBER, "输入不能为负数");
-T(ERR_ILLEGAL_DATE, "不合法的日期");
-T(PLEASE_INPUT_AGAIN, "请重新输入");
+namespace NAssetMenu
+{
+    T(TITLE, "////////// 财产菜单 //////////");
+    T(TRANSACTION, "收入和支出");
+    T(DEPO_AND_LOAN, "借款和贷款");
+    T(BUDGET, "预算");
+    T(BACK, "返回");
+    T(END, "////////// ＝＝＝＝ //////////");
 
-T(DEPO_AND_LOAN_TITLE, "////////// 存款贷款 //////////");
-T(PRINCIPLE, "本金");
-T(END_DATE, "结束日期");
-T(INTEREST_RATE, "利率");
+} // namespace NAssetMenu
 
-T(ADD_NEW_CATEGORY, "新建类别");
+namespace NTransactionMenu
+{
+    T(TITLE, "////////// 收支菜单 //////////");
+    T(ADD_SINGLE_EXPENSE, "添加单笔支出");
+    T(ADD_SINGLE_INCOME, "添加单笔收入");
+    T(ADD_REGULAR_EXPENSE, "添加定期支出");
+    T(ADD_REGULAR_INCOME, "添加定期收入");
+    T(EDIT, "编辑收支");
+    T(DELETE, "删除收支");
+    T(BACK, "返回");
+    T(END, "////////// ＝＝＝＝ //////////");
 
-T(BUDGET_TITLE, "////////// 编辑预算 //////////");
-T(BUDGET, "预算");
+} // namespace NTransactionMenu
 
-T(INPUT_NEW_CATEGORY, "新建类别");
+namespace NBudgetMenu
+{
+    T(TITLE, "////////// 预算菜单 //////////");
+    T(ADD, "添加预算");
+    T(EDIT, "编辑预算");
+    T(STATISTICS, "统计");
+    T(BACK, "返回");
+    T(END, "////////// ＝＝＝＝ //////////");
+
+} // namespace NBudgetMenu
+
+namespace NTransaction
+{
+    T(SINGLE_EXPENSE_TITLE, "////////// 单笔支出 //////////");
+    T(REGULAR_EXPENSE_TITLE, "////////// 定期支出 //////////");
+    T(AMOUNT, "金额");
+    T(CATEGORY, "类别");
+    T(DATE, "日期");
+    T(START_DATE, "起始日期");
+    T(TODAY_AS_DEFAULT, "默认今天");
+    T(PERIOD, "周期");
+    T(INFO, "附加信息");
+    T(OPTIONAL, "可选");
+    T(DIVISION, "-----------------------------");
+    T(END, "////////// ＝＝＝＝ //////////");
+
+} // namespace NTransaction
+
+namespace NInstruction
+{
+    T(COMFIRM_AND_SAVE, "确认并保存");
+    T(INPUT_AGAIN, "重新输入");
+    T(HELP, "帮助");
+    T(BACK, "返回");
+    T(END, "////////// ＝＝＝＝ //////////");
+
+} // namespace NInstruction
+
+namespace NError
+{
+    T(ERR_ILLEGAL_OPERATION, "不合法的运算");
+    T(ERR_ILLEGAL_NUMBER, "不合法的数字");
+    T(ERR_NEGATIVE_NUMBER, "输入不能为负数");
+    T(ERR_ILLEGAL_DATE, "不合法的日期");
+    T(PLEASE_INPUT_AGAIN, "请重新输入");
+
+} // namespace NError
+
+namespace NDepositAndLoanMenu
+{
+    T(TITLE, "////////// 存贷菜单 //////////");
+    T(ADD_DEPOSIT, "添加存款");
+    T(ADD_LOAN, "添加存款");
+    T(EDIT, "编辑存贷");
+    T(STATISTICS, "统计");
+    T(BACK, "返回");
+    T(END, "////////// ＝＝＝＝ //////////");
+
+} // namespace NDepositAndLoanMenu
+
+namespace NDepositAndLoan
+{
+    T(TITLE, "////////// 存款贷款 //////////");
+    T(PRINCIPLE, "本金");
+    T(INTEREST_RATE, "利率");
+    T(START_DATE, "起始日期");
+    T(END_DATE, "结束日期");
+    T(PERIOD, "周期");
+    T(INFO, "附加信息");
+    T(DIVISION, "-----------------------------");
+
+} // namespace NDepositAndLoan
+
+namespace NBudget
+{
+    T(TITLE, "////////// 编辑预算 //////////");
+    T(BUDGET, "预算");
+    T(CATEGORY, "类别");
+    T(START_DATE, "起始日期");
+    T(DIVISION, "-----------------------------");
+
+} // namespace NBudget
+
 #endif

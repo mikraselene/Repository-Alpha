@@ -88,6 +88,7 @@ In::operator Date()
     }
     if (first == input.npos || second == input.npos || first == second)
     {
+        using namespace NError;
         throw ERR_ILLEGAL_DATE;
     }
 
@@ -106,6 +107,7 @@ In::operator Date()
 
     if (date.IsLegal() == 0)
     {
+        using namespace NError;
         throw ERR_ILLEGAL_DATE;
     }
 
@@ -160,6 +162,7 @@ CalcIn::operator double()
     }
     else
     {
+        using namespace NError;
         throw ERR_NEGATIVE_NUMBER;
     }
 }
@@ -194,10 +197,12 @@ void In::CheckInput()
     }
     if (isIllegal)
     {
+        using namespace NError;
         throw ERR_ILLEGAL_NUMBER;
     }
     if (isNegative)
     {
+        using namespace NError;
         throw ERR_NEGATIVE_NUMBER;
     }
 }
@@ -258,6 +263,7 @@ double CalcIn::Calc(string input)
             string b = input.substr(input.find_last_of(op[i]) + 1, input.size());
             if (a.size() == 0 || b.size() == 0)
             {
+                using namespace NError;
                 throw ERR_ILLEGAL_OPERATION;
             }
             switch (op[i])
@@ -285,6 +291,7 @@ double CalcIn::Calc(string input)
     {
         if (isdigit(input[i]) == 0)
         {
+            using namespace NError;
             throw ERR_ILLEGAL_NUMBER;
         }
     }
@@ -316,6 +323,7 @@ int In::ToInt(string input)
     {
         if (isdigit(input[i]) == 0)
         {
+            using namespace NError;
             throw ERR_ILLEGAL_NUMBER;
         }
     }

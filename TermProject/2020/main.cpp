@@ -3,7 +3,7 @@
 #include "inc/date.h"
 #include "inc/asset.h"
 #include "inc/bill.h"
-#include "inc/submenu.h"
+#include "inc/menu.h"
 #include "inc/category.h"
 
 using namespace std;
@@ -12,16 +12,15 @@ int main()
 {
 
     AddDefault();
-    /*
-    AssetSubMenu *pTMenu = new AssetSubMenu;
-    pTMenu->SubMenu();
-*/
-    DepositAndLoanMenu *pTMenu = new DepositAndLoanMenu;
-    for (int i = 0; i < 2; i++)
+
+    extern vector<Transaction *> pTransaction;
+    extern MainMenu *pMenu;
+    pMenu->Menu();
+    for (auto it : pTransaction)
     {
-        pTMenu->InputDepositAndLoan();
+        it->Print();
     }
-    pTMenu->PrintAllDepositAndLoan();
+
 #if 0
     DepositAndLoanMenu *pTMenu = new DepositAndLoanMenu;
     for (int i = 0; i < 2; i++)
