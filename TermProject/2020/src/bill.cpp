@@ -6,21 +6,28 @@ using namespace std;
 
 vector<Bill *> pBill;
 
-Bill::Bill(double a, Date d, string i)
+Bill::Bill(int type, double amount, Date date, string info)
 {
-    amount = a;
-    date = d;
-    info = i;
-    isHiden = 0;
+    this->type = type;
+    this->amount = amount;
+    this->date = date;
+    this->info = info;
+    this->isHiden = 0;
 }
 void Bill::Add()
 {
     pBill.push_back(this);
 }
+
 void Bill::Hide()
 {
     isHiden = 1;
 }
+void Bill::Unhide()
+{
+    isHiden = 0;
+}
+
 void Bill::Print()
 {
     std::cout << amount << endl;

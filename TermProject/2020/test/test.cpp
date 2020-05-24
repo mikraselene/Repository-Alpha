@@ -6,6 +6,42 @@
 
 using namespace std;
 
+#include <iostream>
+#include <numeric>
+#include <iomanip>
+#include <algorithm>
+#include <vector>
+
+using namespace std;
+class Bill;
+vector<Bill *> pBill;
+class Bill
+{
+public:
+    Bill(int type, double amount, string info, Date date)
+    {
+        this->type = type;
+        this->amount = amount;
+        this->info = info;
+        this->date = date;
+    }
+    void Add()
+    {
+        pBill.push_back(this);
+    }
+
+private:
+    int type;
+    double amount;
+    string info;
+    Date date;
+};
+
+int main()
+{
+}
+
+#if 0
 const string MONTHLY = "";
 const string WEEKLY = "";
 const string DAILY = "";
@@ -116,3 +152,4 @@ int main()
         cout << it << endl;
     }
 }
+#endif

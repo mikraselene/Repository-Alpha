@@ -14,3 +14,8 @@ void Wallet::Edit(double am)
 {
     amount = am;
 }
+
+double Wallet::GetBalance()
+{
+    return amount;
+}

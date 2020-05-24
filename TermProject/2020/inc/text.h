@@ -23,6 +23,7 @@ namespace NPeriod
     T(MONTHLY, "按月");
     T(WEEKLY, "按周");
     T(DAILY, "按日");
+    T(NO_PERIOD, "-");
     T(END, "////////// ＝＝＝＝ //////////");
 
 } // namespace NPeriod
@@ -71,6 +72,18 @@ namespace NBudgetMenu
 
 } // namespace NBudgetMenu
 
+namespace NMainMenu
+{
+    T(TITLE, "/////////// 主菜单 ///////////");
+    T(ASSET, "财产");
+    T(BILL, "账单");
+    T(WALLET, "钱包");
+    T(MFILE, "文件");
+    T(HELP, "帮助");
+    T(EXIT, "退出");
+    T(END, "/////////// ＝＝＝ ///////////");
+} // namespace NMainMenu
+
 namespace NTransaction
 {
     T(SINGLE_EXPENSE_TITLE, "////////// 单笔支出 //////////");
@@ -101,6 +114,7 @@ namespace NInstruction
 namespace NError
 {
     T(ERR_ILLEGAL_OPERATION, "不合法的运算");
+    T(ERR_ILLEGAL_CATEGORY, "不合法的类别");
     T(ERR_ILLEGAL_NUMBER, "不合法的数字");
     T(ERR_NEGATIVE_NUMBER, "输入不能为负数");
     T(ERR_ILLEGAL_DATE, "不合法的日期");
@@ -142,5 +156,26 @@ namespace NBudget
     T(DIVISION, "-----------------------------");
 
 } // namespace NBudget
+
+namespace NBillMenu
+{
+    T(TITLE, "////////// 账单菜单 //////////");
+    T(OVERVIEW, "总览");
+    T(FILTER, "过滤器");
+    T(STATISTICS, "统计");
+    T(BACK, "返回");
+    T(END, "////////// ＝＝＝＝ //////////");
+} // namespace NBillMenu
+
+namespace NWalletMenu
+{
+    T(TITLE, "////////// 我的钱包 //////////");
+    T(BALANCE, "余额");
+    T(NEGATIVE_BALANCE_WARNING, "余额小于零, 请合理消费");
+    T(FILTER, "过滤器");
+    T(EDIT, "编辑");
+    T(BACK, "返回");
+    T(END, "////////// ＝＝＝＝ //////////");
+} // namespace NWalletMenu
 
 #endif

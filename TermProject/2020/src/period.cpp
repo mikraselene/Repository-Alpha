@@ -8,13 +8,17 @@ Period::Period(int code)
     {
         period = MONTHLY;
     }
-    if (code == weekly)
+    else if (code == weekly)
     {
         period = WEEKLY;
     }
-    if (code == daily)
+    else if (code == daily)
     {
         period = DAILY;
+    }
+    else
+    {
+        period = NO_PERIOD;
     }
 }
 

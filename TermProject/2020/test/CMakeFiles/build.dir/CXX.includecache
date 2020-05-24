@@ -6,6 +6,10 @@
 
 #IncludeRegexTransform: 
 
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/test/date.cpp
+date.h
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/test/date.h
+
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/test/date.h
 iostream
 -
@@ -17,10 +21,20 @@ stdio.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/test/test.cpp
 iostream
 -
-list
+vector
 -
 string
 -
 date.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/test/date.h
+iostream
+-
+numeric
+-
+iomanip
+-
+algorithm
+-
+vector
+-
 

@@ -12,14 +12,8 @@ int main()
 {
 
     AddDefault();
-
-    extern vector<Transaction *> pTransaction;
     extern MainMenu *pMenu;
     pMenu->Menu();
-    for (auto it : pTransaction)
-    {
-        it->Print();
-    }
 
 #if 0
     DepositAndLoanMenu *pTMenu = new DepositAndLoanMenu;

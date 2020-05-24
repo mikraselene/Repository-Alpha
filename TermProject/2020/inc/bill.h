@@ -7,6 +7,8 @@
 #include "date.h"
 #include "period.h"
 
+using std::string;
+
 class IBillManagement
 {
 public:
@@ -16,14 +18,16 @@ private:
 class Bill : public IBillManagement
 {
 public:
-    Bill(double, Date, std::string);
+    Bill(int, double, Date, string);
     void Add();
     void Hide();
+    void Unhide();
     void Print();
     double GetAmount();
     Date GetDate();
 
 private:
+    int type;
     double amount;
     Date date;
     std::string info;
@@ -61,10 +65,6 @@ public:
 
 private:
     std::string sStr;
-};
-
-class Statistics : public IBillManagement
-{
 };
 
 #endif

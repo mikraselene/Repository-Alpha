@@ -9,6 +9,7 @@ public:
     void TopUp(double);
     void Withdraw(double);
     void Edit(double);
+    double GetBalance();
 
 private:
     double amount;

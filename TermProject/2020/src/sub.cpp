@@ -11,7 +11,7 @@ vector<DepositAndLoan *> pDepoAndLoan;
 extern vector<Category *> pCategory;
 vector<Budget *> pBudget;
 
-#pragma region "Protected Asset Menu"
+#pragma region "Asset"
 
 double Asset::SetAmount()
 {
@@ -96,9 +96,9 @@ Category Asset::SetCategory()
         else
         {
             using namespace NError;
-            cerr
-                << PLEASE_INPUT_AGAIN << ". "
-                << endl;
+            cerr << ERR_ILLEGAL_CATEGORY << ", "
+                 << PLEASE_INPUT_AGAIN << ". "
+                 << endl;
             return SetCategory();
         }
     }
@@ -119,7 +119,7 @@ Period Asset::SetPeriod()
          << "2. " << WEEKLY << "\t\t"
          << "3. " << DAILY << endl
          << END << endl;
-    code = SetCode();
+    int code = SetCode();
     Period period;
     if (code <= 3)
     {
@@ -168,11 +168,15 @@ int Asset::SetCode()
 
 #pragma endregion
 
-#pragma region "Public Transaction Menu"
+#pragma region "Transaction"
 
 void Transaction::InputSingleTransaction(int type)
 {
     this->type = type;
+
+    Period period(4);
+    this->period = period;
+
     CLEAR;
     PrintSingleBody("?", "", "");
     amount = SetAmount();
@@ -189,29 +193,49 @@ void Transaction::InputSingleTransaction(int type)
     CLEAR;
     PrintSingleBody(amount, category, date);
     PrintInstruction();
-    code = SetCode();
 
-    if (code == 1)
-    {
-        pTransaction.push_back(this);
-    }
-    if (code == 2)
-    {
-        InputSingleTransaction(type);
-    }
-    if (code == 3)
-    {
-        cout << "help" << endl;
-    }
-    if (code >= 4)
-    {
-    }
+    InputSingleCode();
 
     CLEAR;
 }
+
+void Transaction::InputSingleCode()
+{
+    int code = SetCode();
+    if (code == 1)
+    {
+        pTransaction.push_back(this);
+        extern vector<Bill *> pBill;
+        Bill *b = new Bill(type, amount, date, category.GetCategory());
+        pBill.push_back(b);
+    }
+    else if (code == 2)
+    {
+        InputSingleTransaction(type);
+    }
+    else if (code == 3)
+    {
+        //TODO:
+        cout << "help" << endl;
+    }
+    else if (code == 4)
+    {
+        extern MainMenu *pMenu;
+        pMenu->Menu();
+    }
+    else
+    {
+        using namespace NError;
+        cerr << ERR_ILLEGAL_NUMBER << ", "
+             << PLEASE_INPUT_AGAIN << ". " << endl;
+        InputSingleCode();
+    }
+}
+
 void Transaction::InputRegularTransaction(int type)
 {
     this->type = type;
+
     CLEAR;
     PrintRegularBody("?", "", "", "");
     amount = SetAmount();
@@ -232,50 +256,49 @@ void Transaction::InputRegularTransaction(int type)
     CLEAR;
     PrintRegularBody(amount, category, date, period);
     PrintInstruction();
-    code = SetCode();
 
+    InputRegularCode();
+
+    CLEAR;
+}
+
+void Transaction::InputRegularCode()
+{
+    int code = SetCode();
     if (code == 1)
     {
         pTransaction.push_back(this);
     }
-    if (code == 2)
+    else if (code == 2)
     {
         InputRegularTransaction(type);
     }
-    if (code == 3)
+    else if (code == 3)
     {
+        //TODO:
         cout << "help" << endl;
     }
-    if (code >= 4)
+    else if (code == 4)
     {
+        extern MainMenu *pMenu;
+        pMenu->Menu();
     }
-
-    CLEAR;
+    else
+    {
+        using namespace NError;
+        cerr << ERR_ILLEGAL_NUMBER << ", "
+             << PLEASE_INPUT_AGAIN << ". " << endl;
+        InputRegularCode();
+    }
 }
 
 void Transaction::Print()
 {
     cout << amount << "\t\t"
          << category << "\t\t"
-         << date << endl;
+         << date << "\t\t"
+         << period << endl;
 }
-void Transaction::PrintAll()
-{
-    //TODO:
-    //NOT GOOD!!
-    using namespace NTransaction;
-    cout << AMOUNT << "\t\t"
-         << CATEGORY << "\t\t"
-         << DATE << endl;
-    for (auto it : pTransaction)
-    {
-        it->Print();
-    }
-}
-
-#pragma endregion
-
-#pragma region "Private Transaction"
 
 template <typename T1, typename T2, typename T3>
 void Transaction::PrintSingleBody(T1 x, T2 y, T3 z)
@@ -287,6 +310,7 @@ void Transaction::PrintSingleBody(T1 x, T2 y, T3 z)
          << DATE << ": " << z << endl
          << DIVISION << endl;
 }
+
 template <typename T1, typename T2, typename T3, typename T4>
 void Transaction::PrintRegularBody(T1 x, T2 y, T3 z, T4 u)
 {
@@ -301,10 +325,11 @@ void Transaction::PrintRegularBody(T1 x, T2 y, T3 z, T4 u)
 
 #pragma endregion
 
-#pragma region "Public Deposit and Loan Menu"
+#pragma region "Deposit and Loan"
 
-void DepositAndLoan::InputDepositAndLoan()
+void DepositAndLoan::InputDepositAndLoan(int type)
 {
+    this->type = type;
     CLEAR;
     PrintDepoLoanBody("?", "", "", "", "", "");
     principle = SetAmount();
@@ -332,55 +357,59 @@ void DepositAndLoan::InputDepositAndLoan()
     CLEAR;
     PrintDepoLoanBody(principle, interest, start, end, period, info);
     PrintInstruction();
-    code = SetCode();
 
-    if (code == 1)
-    {
-        pDepoAndLoan.push_back(this);
-    }
-    if (code == 2)
-    {
-        InputDepositAndLoan();
-    }
-    if (code == 3)
-    {
-        cout << "help" << endl;
-    }
-    if (code >= 4)
-    {
-    }
+    InputCode();
 
     CLEAR;
 }
 
-void DepositAndLoan::Print()
+void DepositAndLoan::InputCode()
 {
-}
-void DepositAndLoan::PrintAll()
-{
-    using namespace NDepositAndLoan;
-    cout << PRINCIPLE << "\t\t"
-         << INTEREST_RATE << "\t\t"
-         << START_DATE << "\t\t"
-         << END_DATE << "\t\t"
-         << PERIOD << "\t\t"
-         << INFO << "\t\t"
-         << endl;
-    for (auto it : pDepoAndLoan)
+    int code = SetCode();
+    if (code == 1)
     {
-        it->Print();
+        pDepoAndLoan.push_back(this);
+    }
+    else if (code == 2)
+    {
+        InputDepositAndLoan(type);
+    }
+    else if (code == 3)
+    {
+        //TODO:
+        cout << "help" << endl;
+    }
+    else if (code == 4)
+    {
+        extern MainMenu *pMenu;
+        pMenu->Menu();
+    }
+    else
+    {
+        using namespace NError;
+        cerr << ERR_ILLEGAL_NUMBER << ", "
+             << PLEASE_INPUT_AGAIN << ". " << endl;
+        InputCode();
     }
 }
 
-#pragma endregion
-
-#pragma region "Private Deposit and Loan Menu"
+void DepositAndLoan::Print()
+{
+    cout << principle << "\t\t"
+         << interest << "\t\t"
+         << start << "\t\t"
+         << end << "\t\t"
+         << period << "\t\t"
+         << info << endl;
+}
 
 string DepositAndLoan::SetInfo()
 {
-    //TODO:
-    return "hellos";
+    In info;
+    cin >> info;
+    return info;
 }
+
 double DepositAndLoan::SetRate()
 {
     try
@@ -395,7 +424,9 @@ double DepositAndLoan::SetRate()
         }
         else
         {
-            cerr << "error" << endl;
+            using namespace NError;
+            cerr << ERR_ILLEGAL_NUMBER << ", "
+                 << PLEASE_INPUT_AGAIN << ". " << endl;
             return SetRate();
         }
     }
@@ -426,7 +457,7 @@ void DepositAndLoan::PrintDepoLoanBody(T1 x, T2 y, T3 z, T4 u, T5 v, T6 w)
 
 #pragma endregion
 
-#pragma region "Public Budget Menu"
+#pragma region "Budget"
 
 void Budget::InputBudget()
 {
@@ -447,46 +478,48 @@ void Budget::InputBudget()
     PrintBudgetBody(budget, category, start);
 
     PrintInstruction();
-    code = SetCode();
 
-    if (code == 1)
-    {
-        pBudget.push_back(this);
-    }
-    if (code == 2)
-    {
-        InputBudget();
-    }
-    if (code == 3)
-    {
-        cout << "help" << endl;
-    }
-    if (code >= 4)
-    {
-        //
-    }
+    InputCode();
 
     CLEAR;
 }
 
-void Budget::Print()
+void Budget::InputCode()
 {
-}
-void Budget::PrintAll()
-{
-    using namespace NBudget;
-    cout << BUDGET << "\t\t"
-         << CATEGORY << "\t\t"
-         << START_DATE << endl;
-    for (auto it : pBudget)
+    int code = SetCode();
+    if (code == 1)
     {
-        it->Print();
+        pBudget.push_back(this);
+    }
+    else if (code == 2)
+    {
+        InputBudget();
+    }
+    else if (code == 3)
+    {
+        //TODO:
+        cout << "help" << endl;
+    }
+    else if (code == 4)
+    {
+        extern MainMenu *pMenu;
+        pMenu->Menu();
+    }
+    else
+    {
+        using namespace NError;
+        cerr << ERR_ILLEGAL_NUMBER << ", "
+             << PLEASE_INPUT_AGAIN << ". " << endl;
+        InputCode();
     }
 }
 
-#pragma endregion
-
-#pragma region "Private Budget Menu"
+void Budget::Print()
+{
+    cout << budget << "\t\t"
+         << category << "\t\t"
+         << start << endl;
+}
 
 template <typename T1, typename T2, typename T3>
 void Budget::PrintBudgetBody(T1 x, T2 y, T3 z)

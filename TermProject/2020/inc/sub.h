@@ -9,6 +9,8 @@
 #include "text.h"
 #include "period.h"
 #include "category.h"
+#include "menu.h"
+#include "bill.h"
 
 class Asset
 {
@@ -24,8 +26,6 @@ protected:
 
     void ShowCategory();
     void PrintInstruction();
-
-    int code;
 };
 
 class Transaction : public Asset
@@ -43,6 +43,8 @@ private:
     void PrintSingleBody(T1, T2, T3);
     template <typename T1, typename T2, typename T3, typename T4>
     void PrintRegularBody(T1 x, T2 y, T3 z, T4 u);
+    void InputSingleCode();
+    void InputRegularCode();
 
     double amount;
     Category category;
@@ -56,7 +58,7 @@ class DepositAndLoan : public Asset
 public:
     void SubMenu();
 
-    void InputDepositAndLoan();
+    void InputDepositAndLoan(int);
     void Print();
     void PrintAll();
 
@@ -67,6 +69,7 @@ private:
     template <typename T1, typename T2, typename T3,
               typename T4, typename T5, typename T6>
     void PrintDepoLoanBody(T1 x, T2 y, T3 z, T4 u, T5 v, T6 w);
+    void InputCode();
 
     double principle;
     double interest;
@@ -90,6 +93,7 @@ public:
 private:
     template <typename T1, typename T2, typename T3>
     void PrintBudgetBody(T1 x, T2 y, T3 z);
+    void InputCode();
 
     double budget;
     Category category;

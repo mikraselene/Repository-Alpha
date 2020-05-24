@@ -4,6 +4,26 @@
 #include <algorithm>
 using namespace std;
 
+class Bill
+{
+private:
+    double amount;
+    int type;
+    string info;
+    //Date date;
+};
+
+int main()
+{
+}
+
+/*
+
+2020.5  
+2020.4  
+2020.3  
+2020.2  
+2020.1  
 class K
 {
 public:
@@ -48,14 +68,5 @@ int main()
         cout << endl;
     }
 }
-
-/*
-
-2020.5  
-2020.4  
-2020.3  
-2020.2  
-2020.1  
-
 
 */

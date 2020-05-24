@@ -10,11 +10,61 @@ MainMenu *pMenu = new MainMenu;
 
 void MainMenu::Menu()
 {
+    CLEAR;
+    using namespace NMainMenu;
+    cout << TITLE << endl;
+    cout << "1. " << ASSET << endl
+         << "2. " << BILL << endl
+         << "3. " << WALLET << endl
+         << "4. " << MFILE << endl
+         << "5. " << HELP << endl
+         << "6. " << EXIT << endl
+         << END << endl;
     delete pMenu;
-    pMenu = new AssetMenu;
-    pMenu->Menu();
+    InputCode();
 }
 
+void MainMenu::InputCode()
+{
+    int code = SetCode();
+    if (code == 1)
+    {
+        pMenu = new AssetMenu;
+        pMenu->Menu();
+    }
+    else if (code == 2)
+    {
+        pMenu = new BillMenu;
+        pMenu->Menu();
+    }
+    else if (code == 3)
+    {
+        pMenu = new WalletMenu;
+        pMenu->Menu();
+    }
+    else if (code == 4)
+    {
+        //pMenu = new FileMenu;
+        //pMenu->Menu();
+    }
+    else if (code == 5)
+    {
+        //pMenu = new HelpMenu;
+        //pMenu->Menu();
+    }
+    else if (code == 6)
+    {
+        return;
+    }
+    else
+    {
+        using namespace NError;
+        cerr << ERR_ILLEGAL_NUMBER << ", "
+             << PLEASE_INPUT_AGAIN << ". "
+             << endl;
+        InputCode();
+    }
+}
 /*
 
 财产
@@ -69,6 +119,7 @@ void MainMenu::Menu()
 
 void AssetMenu::Menu()
 {
+    CLEAR;
     delete pMenu;
     using namespace NAssetMenu;
     cout << TITLE << endl;
@@ -77,6 +128,12 @@ void AssetMenu::Menu()
          << "3. " << BUDGET << endl
          << "4. " << BACK << endl
          << END << endl;
+
+    InputCode();
+}
+
+void AssetMenu::InputCode()
+{
     int code = SetCode();
     if (code == 1)
     {
@@ -100,8 +157,11 @@ void AssetMenu::Menu()
     }
     else
     {
-        pMenu = new AssetMenu;
-        Menu();
+        using namespace NError;
+        cerr << ERR_ILLEGAL_NUMBER << ", "
+             << PLEASE_INPUT_AGAIN << ". "
+             << endl;
+        InputCode();
     }
 }
 
@@ -132,6 +192,7 @@ void AssetMenu::PrintAll()
 
 void TransactionMenu::Menu()
 {
+    CLEAR;
     using namespace NTransactionMenu;
     cout << TITLE << endl
          << "1. " << ADD_SINGLE_EXPENSE << endl
@@ -141,53 +202,72 @@ void TransactionMenu::Menu()
          << "5. " << EDIT << endl
          << "6. " << BACK << endl
          << END << endl;
+
+    InputCode();
+}
+
+void TransactionMenu::InputCode()
+{
     int code = SetCode();
     if (code == 1)
     {
         Transaction *p = new Transaction;
         p->InputSingleTransaction(EXPENSE);
+        Menu();
     }
     else if (code == 2)
     {
         Transaction *p = new Transaction;
         p->InputSingleTransaction(INCOME);
+        Menu();
     }
     else if (code == 3)
     {
         Transaction *p = new Transaction;
         p->InputRegularTransaction(EXPENSE);
+        Menu();
     }
     else if (code == 4)
     {
         Transaction *p = new Transaction;
         p->InputRegularTransaction(INCOME);
+        Menu();
     }
     else if (code == 5)
     {
         EditTransaction();
+        Menu();
     }
     else if (code == 6)
     {
-        AssetMenu::Menu();
+        pMenu = new AssetMenu;
+        pMenu->Menu();
     }
     else
     {
-        Menu();
+        using namespace NError;
+        cerr << ERR_ILLEGAL_NUMBER << ", "
+             << PLEASE_INPUT_AGAIN << ". "
+             << endl;
+        InputCode();
     }
 }
 
 void TransactionMenu::PrintAll()
 {
+    CLEAR;
     extern vector<Transaction *> pTransaction;
     using namespace NTransaction;
     cout << AMOUNT << "\t\t"
          << CATEGORY << "\t\t"
-         << DATE << "\t\t"
-         << endl;
+         << DATE << "(" << START_DATE << ")\t\t"
+         << PERIOD << endl;
+
     for (auto it : pTransaction)
     {
         it->Print();
     }
+    getchar();
 }
 
 void TransactionMenu::EditTransaction()
@@ -197,6 +277,7 @@ void TransactionMenu::EditTransaction()
 
 void BudgetMenu::Menu()
 {
+    CLEAR;
     using namespace NBudgetMenu;
     cout << TITLE << endl
          << "1. " << ADD << endl
@@ -204,11 +285,17 @@ void BudgetMenu::Menu()
          << "3. " << STATISTICS << endl
          << "4. " << BACK << endl
          << END << endl;
+    InputCode();
+    //Menu();
+}
+
+void BudgetMenu::InputCode()
+{
     int code = SetCode();
     if (code == 1)
     {
         Budget *p = new Budget;
-        //TODO:
+        p->InputBudget();
     }
     else if (code == 2)
     {
@@ -220,22 +307,27 @@ void BudgetMenu::Menu()
     }
     else if (code == 4)
     {
-        AssetMenu::Menu();
+        pMenu = new AssetMenu;
+        pMenu->Menu();
     }
     else
     {
-        Menu();
+        using namespace NError;
+        cerr << ERR_ILLEGAL_NUMBER << ", "
+             << PLEASE_INPUT_AGAIN << ". "
+             << endl;
+        InputCode();
     }
 }
 
 void BudgetMenu::PrintAll()
 {
+    CLEAR;
     extern vector<Budget *> pBudget;
     using namespace NBudget;
     cout << BUDGET << "\t\t"
          << CATEGORY << "\t\t"
-         << START_DATE << "\t\t"
-         << endl;
+         << START_DATE << endl;
     for (auto it : pBudget)
     {
         it->Print();
@@ -253,6 +345,7 @@ void BudgetMenu::GetStats()
 
 void DepositAndLoanMenu::Menu()
 {
+    CLEAR;
     using namespace NDepositAndLoanMenu;
     cout << TITLE << endl
          << "1. " << ADD_DEPOSIT << endl
@@ -261,16 +354,22 @@ void DepositAndLoanMenu::Menu()
          << "4. " << STATISTICS << endl
          << "5. " << BACK << endl
          << END << endl;
+    InputCode();
+    //Menu();
+}
+
+void DepositAndLoanMenu::InputCode()
+{
     int code = SetCode();
     if (code == 1)
     {
         DepositAndLoan *p = new DepositAndLoan;
-        //TODO:
+        p->InputDepositAndLoan(Deposit);
     }
     else if (code == 2)
     {
         DepositAndLoan *p = new DepositAndLoan;
-        //TODO:
+        p->InputDepositAndLoan(Loan);
     }
     else if (code == 3)
     {
@@ -282,16 +381,22 @@ void DepositAndLoanMenu::Menu()
     }
     else if (code == 5)
     {
-        AssetMenu::Menu();
+        pMenu = new AssetMenu;
+        pMenu->Menu();
     }
     else
     {
-        Menu();
+        using namespace NError;
+        cerr << ERR_ILLEGAL_NUMBER << ", "
+             << PLEASE_INPUT_AGAIN << ". "
+             << endl;
+        InputCode();
     }
 }
 
 void DepositAndLoanMenu::PrintAll()
 {
+    CLEAR;
     extern vector<DepositAndLoan *> pDepoAndLoan;
     using namespace NDepositAndLoan;
     cout << PRINCIPLE << "\t\t"
@@ -299,8 +404,7 @@ void DepositAndLoanMenu::PrintAll()
          << START_DATE << "\t\t"
          << END_DATE << "\t\t"
          << PERIOD << "\t\t"
-         << INFO << "\t\t"
-         << endl;
+         << INFO << endl;
     for (auto it : pDepoAndLoan)
     {
         it->Print();
@@ -320,8 +424,98 @@ void DepositAndLoanMenu::GetStats()
 
 #pragma region "Bill"
 
+void BillMenu::Menu()
+{
+    CLEAR;
+    delete pMenu;
+    using namespace NBillMenu;
+    cout << TITLE << endl;
+    cout << "1. " << OVERVIEW << endl
+         << "2. " << FILTER << endl
+         << "3. " << STATISTICS << endl
+         << "4. " << BACK << endl
+         << END << endl;
+    InputCode();
+}
+void BillMenu::InputCode()
+{
+    int code = SetCode();
+    if (code == 1)
+    {
+        //TODO:
+        //OVERVIEW
+    }
+    else if (code == 2)
+    {
+        //TODO:
+        //FILTER
+    }
+    else if (code == 3)
+    {
+        //TODO:
+        //STATISTICS
+    }
+    else if (code == 4)
+    {
+        pMenu = new MainMenu;
+        pMenu->Menu();
+    }
+    else
+    {
+        using namespace NError;
+        cerr << ERR_ILLEGAL_NUMBER << ", "
+             << PLEASE_INPUT_AGAIN << ". "
+             << endl;
+        InputCode();
+    }
+}
+
+void BillMenu::PrintAll()
+{
+}
+
 #pragma endregion
 
 #pragma region "Else"
+
+void WalletMenu::Menu()
+{
+    CLEAR;
+    delete pMenu;
+    using namespace NWalletMenu;
+    extern Wallet *pWallet;
+    cout << TITLE << endl;
+    cout << BALANCE << ": " << pWallet->GetBalance() << endl;
+    if (pWallet->GetBalance() < 0)
+    {
+        cout << "[" << NEGATIVE_BALANCE_WARNING << "]" << endl;
+    }
+    cout << "1. " << EDIT << endl
+         << "2. " << BACK << endl
+         << END << endl;
+    InputCode();
+}
+void WalletMenu::InputCode()
+{
+    int code = SetCode();
+    if (code == 1)
+    {
+        //TODO:
+        //OVERVIEW
+    }
+    else if (code == 2)
+    {
+        pMenu = new MainMenu;
+        pMenu->Menu();
+    }
+    else
+    {
+        using namespace NError;
+        cerr << ERR_ILLEGAL_NUMBER << ", "
+             << PLEASE_INPUT_AGAIN << ". "
+             << endl;
+        InputCode();
+    }
+}
 
 #pragma endregion
