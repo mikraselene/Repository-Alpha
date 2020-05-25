@@ -17,22 +17,21 @@ public:
     friend std::ostream &operator<<(std::ostream &, Period);
     Period();
     Period(int);
-    int CalculateWeekly();
-    int CalculateDaily();
-    int CalculateMonthly();
-
-private:
+    int GetPeriodCode();
+    int CalculateWeekly(Date);
+    int CalculateDaily(Date);
+    int CalculateMonthly(Date);
     enum
     {
-        monthly = 1,
-        weekly = 2,
-        daily = 3,
+        NO_PERIOD = 0,
+        MONTHLY = 1,
+        WEEKLY = 2,
+        DAILY = 3,
     };
+
+private:
     int code;
     string period;
-    int day;
-    int amount;
-    Date start;
 };
 
 #endif

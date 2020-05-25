@@ -67,26 +67,16 @@ Date::Date(const Year &year, const Month &month, const Day &day)
 
 bool Date::IsLegal()
 {
-    int maxday[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     int year = GetYear();
     int month = GetMonth();
     int day = GetDay();
-    if ((year % 4 == 0 && year % 400 == 0) || (year % 4 == 0 && year % 100 != 0))
-    {
-        maxday[2]++;
-    }
-    return month > 0 && month <= 12 && day > 0 && day <= maxday[month];
+    return month > 0 && month <= 12 && day > 0 && day <= MaxDay(year, month);
 }
 Date::operator int()
 {
-    int maxday[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     int year = GetYear();
     int month = GetMonth();
     int day = GetDay();
-    if ((year % 4 == 0 && year % 400 == 0) || (year % 4 == 0 && year % 100 != 0))
-    {
-        maxday[2]++;
-    }
     int result = 0;
     for (int i = 1; i < year; i++)
     {
@@ -98,7 +88,7 @@ Date::operator int()
     }
     for (int i = 1; i < month; i++)
     {
-        result += maxday[i];
+        result += MaxDay(year, month);
     }
     result += day;
     return result;
@@ -131,6 +121,45 @@ int operator-(Date A, Date B)
 {
     return int(A) - int(B);
 }
+Date operator+(Date A, int n)
+{
+    int count = 0;
+
+    int year = A.GetYear();
+    int month = A.GetMonth();
+    int day = A.GetDay();
+    for (int i = 1; i < month; ++i)
+    {
+        count += MaxDay(year, i);
+    }
+    count += day;
+
+    for (; n > 0; n--)
+    {
+        if (day == MaxDay(year, month))
+        {
+            day = 1;
+            if (month == 12)
+            {
+                year++;
+                month = 1;
+            }
+            else
+            {
+                month++;
+            }
+        }
+        else
+        {
+            day++;
+        }
+    }
+    Year Y(year);
+    Month M(month);
+    Day D(day);
+    Date date(Y, M, D);
+    return date;
+}
 int Date::GetYear()
 {
     return year.year;
@@ -151,6 +180,16 @@ ostream &operator<<(ostream &out, Date A)
          << A.GetMonth() << MONTH
          << A.GetDay() << DAY;
     return out;
+}
+
+int MaxDay(int year, int month)
+{
+    int maxday[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    if ((year % 4 == 0 && year % 400 == 0) || (year % 4 == 0 && year % 100 != 0))
+    {
+        maxday[2]++;
+    }
+    return maxday[month];
 }
 
 #pragma endregion

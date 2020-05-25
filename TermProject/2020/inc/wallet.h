@@ -2,17 +2,25 @@
 #define WALLET_H
 
 #include <iostream>
+#include "text.h"
+#include "input.h"
 
 class Wallet
 {
 public:
-    void TopUp(double);
-    void Withdraw(double);
-    void Edit(double);
+    Wallet(double);
+
+    double SetAmount();
+
+    void TopUp();
+    void Withdraw();
+    void Edit();
+
+    void Change(double);
     double GetBalance();
 
 private:
-    double amount;
+    double balance;
 };
 
 #endif

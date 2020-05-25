@@ -54,8 +54,8 @@ private:
     void EditDepositAndLoan();
     enum
     {
-        Deposit = -1,
-        Loan = 1,
+        DEPOSIT = -1,
+        LOAN = 1,
     };
 };
 class BudgetMenu : public AssetMenu

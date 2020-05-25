@@ -17,6 +17,8 @@ Bill::Bill(int type, double amount, Date date, string info)
 void Bill::Add()
 {
     pBill.push_back(this);
+    extern Wallet *pWallet;
+    pWallet->Change(type * amount);
 }
 
 void Bill::Hide()

@@ -6,6 +6,18 @@
 
 using namespace std;
 
+int main()
+{
+    int n;
+    Date today;
+    while (cin >> n)
+    {
+        cout << today + n << endl;
+    }
+    return 0;
+}
+
+#if 0
 #include <iostream>
 #include <numeric>
 #include <iomanip>
@@ -40,8 +52,6 @@ private:
 int main()
 {
 }
-
-#if 0
 const string MONTHLY = "";
 const string WEEKLY = "";
 const string DAILY = "";

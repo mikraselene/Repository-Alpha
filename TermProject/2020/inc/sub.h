@@ -34,7 +34,7 @@ public:
     void SubMenu();
     void InputSingleTransaction(int);
     void InputRegularTransaction(int);
-
+    int GetPeriod();
     void Print();
     void PrintAll();
 

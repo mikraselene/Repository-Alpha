@@ -24,8 +24,10 @@ CMakeFiles/build.dir/src/asset.cpp.o: src/asset.cpp
 
 CMakeFiles/build.dir/src/bill.cpp.o: inc/bill.h
 CMakeFiles/build.dir/src/bill.cpp.o: inc/date.h
+CMakeFiles/build.dir/src/bill.cpp.o: inc/input.h
 CMakeFiles/build.dir/src/bill.cpp.o: inc/period.h
 CMakeFiles/build.dir/src/bill.cpp.o: inc/text.h
+CMakeFiles/build.dir/src/bill.cpp.o: inc/wallet.h
 CMakeFiles/build.dir/src/bill.cpp.o: src/bill.cpp
 
 CMakeFiles/build.dir/src/category.cpp.o: inc/category.h
@@ -78,6 +80,9 @@ CMakeFiles/build.dir/src/sub.cpp.o: src/sub.cpp
 CMakeFiles/build.dir/src/test.cpp.o: inc/test.h
 CMakeFiles/build.dir/src/test.cpp.o: src/test.cpp
 
+CMakeFiles/build.dir/src/wallet.cpp.o: inc/date.h
+CMakeFiles/build.dir/src/wallet.cpp.o: inc/input.h
+CMakeFiles/build.dir/src/wallet.cpp.o: inc/text.h
 CMakeFiles/build.dir/src/wallet.cpp.o: inc/wallet.h
 CMakeFiles/build.dir/src/wallet.cpp.o: src/wallet.cpp
 

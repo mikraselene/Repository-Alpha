@@ -193,6 +193,7 @@ void AssetMenu::PrintAll()
 void TransactionMenu::Menu()
 {
     CLEAR;
+    delete pMenu;
     using namespace NTransactionMenu;
     cout << TITLE << endl
          << "1. " << ADD_SINGLE_EXPENSE << endl
@@ -213,30 +214,35 @@ void TransactionMenu::InputCode()
     {
         Transaction *p = new Transaction;
         p->InputSingleTransaction(EXPENSE);
-        Menu();
+        pMenu = new TransactionMenu;
+        pMenu->Menu();
     }
     else if (code == 2)
     {
         Transaction *p = new Transaction;
         p->InputSingleTransaction(INCOME);
-        Menu();
+        pMenu = new TransactionMenu;
+        pMenu->Menu();
     }
     else if (code == 3)
     {
         Transaction *p = new Transaction;
         p->InputRegularTransaction(EXPENSE);
-        Menu();
+        pMenu = new TransactionMenu;
+        pMenu->Menu();
     }
     else if (code == 4)
     {
         Transaction *p = new Transaction;
         p->InputRegularTransaction(INCOME);
-        Menu();
+        pMenu = new TransactionMenu;
+        pMenu->Menu();
     }
     else if (code == 5)
     {
         EditTransaction();
-        Menu();
+        pMenu = new TransactionMenu;
+        pMenu->Menu();
     }
     else if (code == 6)
     {
@@ -267,17 +273,19 @@ void TransactionMenu::PrintAll()
     {
         it->Print();
     }
-    getchar();
 }
 
 void TransactionMenu::EditTransaction()
 {
-    //TODO:
+    CLEAR;
+    PrintAll();
+    int code = SetCode();
 }
 
 void BudgetMenu::Menu()
 {
     CLEAR;
+    delete pMenu;
     using namespace NBudgetMenu;
     cout << TITLE << endl
          << "1. " << ADD << endl
@@ -296,14 +304,20 @@ void BudgetMenu::InputCode()
     {
         Budget *p = new Budget;
         p->InputBudget();
+        pMenu = new BudgetMenu;
+        pMenu->Menu();
     }
     else if (code == 2)
     {
         EditBudget();
+        pMenu = new BudgetMenu;
+        pMenu->Menu();
     }
     else if (code == 3)
     {
         GetStats();
+        pMenu = new BudgetMenu;
+        pMenu->Menu();
     }
     else if (code == 4)
     {
@@ -346,6 +360,7 @@ void BudgetMenu::GetStats()
 void DepositAndLoanMenu::Menu()
 {
     CLEAR;
+    delete pMenu;
     using namespace NDepositAndLoanMenu;
     cout << TITLE << endl
          << "1. " << ADD_DEPOSIT << endl
@@ -364,20 +379,28 @@ void DepositAndLoanMenu::InputCode()
     if (code == 1)
     {
         DepositAndLoan *p = new DepositAndLoan;
-        p->InputDepositAndLoan(Deposit);
+        p->InputDepositAndLoan(DEPOSIT);
+        pMenu = new DepositAndLoanMenu;
+        pMenu->Menu();
     }
     else if (code == 2)
     {
         DepositAndLoan *p = new DepositAndLoan;
-        p->InputDepositAndLoan(Loan);
+        p->InputDepositAndLoan(LOAN);
+        pMenu = new DepositAndLoanMenu;
+        pMenu->Menu();
     }
     else if (code == 3)
     {
         EditDepositAndLoan();
+        pMenu = new DepositAndLoanMenu;
+        pMenu->Menu();
     }
     else if (code == 4)
     {
         GetStats();
+        pMenu = new DepositAndLoanMenu;
+        pMenu->Menu();
     }
     else if (code == 5)
     {
@@ -444,16 +467,22 @@ void BillMenu::InputCode()
     {
         //TODO:
         //OVERVIEW
+        pMenu = new BillMenu;
+        pMenu->Menu();
     }
     else if (code == 2)
     {
         //TODO:
         //FILTER
+        pMenu = new BillMenu;
+        pMenu->Menu();
     }
     else if (code == 3)
     {
         //TODO:
         //STATISTICS
+        pMenu = new BillMenu;
+        pMenu->Menu();
     }
     else if (code == 4)
     {
@@ -477,21 +506,22 @@ void BillMenu::PrintAll()
 #pragma endregion
 
 #pragma region "Else"
-
+extern Wallet *pWallet;
 void WalletMenu::Menu()
 {
     CLEAR;
     delete pMenu;
     using namespace NWalletMenu;
-    extern Wallet *pWallet;
     cout << TITLE << endl;
     cout << BALANCE << ": " << pWallet->GetBalance() << endl;
     if (pWallet->GetBalance() < 0)
     {
         cout << "[" << NEGATIVE_BALANCE_WARNING << "]" << endl;
     }
-    cout << "1. " << EDIT << endl
-         << "2. " << BACK << endl
+    cout << "1. " << TOP_UP << endl
+         << "2. " << WITHDRAW << endl
+         << "3. " << EDIT << endl
+         << "4. " << BACK << endl
          << END << endl;
     InputCode();
 }
@@ -500,10 +530,23 @@ void WalletMenu::InputCode()
     int code = SetCode();
     if (code == 1)
     {
-        //TODO:
-        //OVERVIEW
+        pWallet->TopUp();
+        pMenu = new WalletMenu();
+        pMenu->Menu();
     }
     else if (code == 2)
+    {
+        pWallet->Withdraw();
+        pMenu = new WalletMenu();
+        pMenu->Menu();
+    }
+    else if (code == 3)
+    {
+        pWallet->Edit();
+        pMenu = new WalletMenu();
+        pMenu->Menu();
+    }
+    else if (code == 4)
     {
         pMenu = new MainMenu;
         pMenu->Menu();

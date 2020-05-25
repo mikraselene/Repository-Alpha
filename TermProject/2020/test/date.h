@@ -71,6 +71,7 @@ public:
     friend bool operator<=(Date, Date);
     friend bool operator!=(Date, Date);
     friend int operator-(Date, Date);
+    Date operator+(int);
     operator int();
     bool IsLegal();
     int GetYear();
@@ -79,6 +80,7 @@ public:
     friend std::ostream &operator<<(std::ostream &, Date);
 
 private:
+    int MaxDay(int, int);
     Year year;
     Month month;
     Day day;

@@ -172,10 +172,17 @@ namespace NWalletMenu
     T(TITLE, "////////// 我的钱包 //////////");
     T(BALANCE, "余额");
     T(NEGATIVE_BALANCE_WARNING, "余额小于零, 请合理消费");
-    T(FILTER, "过滤器");
+    T(TOP_UP, "充值");
+    T(WITHDRAW, "转出");
     T(EDIT, "编辑");
     T(BACK, "返回");
     T(END, "////////// ＝＝＝＝ //////////");
 } // namespace NWalletMenu
 
+namespace NWallet
+{
+    T(TOP_UP, "充值");
+    T(WITHDRAW, "转出");
+    T(EDIT, "编辑");
+} // namespace NWallet
 #endif

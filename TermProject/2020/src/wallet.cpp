@@ -1,21 +1,63 @@
 #include "../inc/wallet.h"
 
-Wallet *pWallet = new Wallet;
+Wallet *pWallet = new Wallet(0);
+#define CLEAR system("clear")
 
-void Wallet::TopUp(double am)
+using std::cerr;
+using std::cout;
+using std::endl;
+
+Wallet::Wallet(double balance)
 {
-    amount += am;
+    this->balance = balance;
 }
-void Wallet::Withdraw(double am)
+
+double Wallet::SetAmount()
 {
-    amount -= am;
+    try
+    {
+        In amount;
+        cin >> amount;
+        return amount;
+    }
+    catch (const string msg)
+    {
+        using namespace NError;
+        cerr << msg << ", "
+             << PLEASE_INPUT_AGAIN << ". "
+             << endl;
+        return SetAmount();
+    }
 }
-void Wallet::Edit(double am)
+
+void Wallet::TopUp()
 {
-    amount = am;
+    using namespace NWallet;
+    cout << TOP_UP << ": ";
+    double amount = SetAmount();
+    Change(amount);
+}
+void Wallet::Withdraw()
+{
+    using namespace NWallet;
+    cout << WITHDRAW << ": ";
+    double amount = SetAmount();
+    Change(-amount);
+}
+void Wallet::Edit()
+{
+    using namespace NWallet;
+    cout << EDIT << ": " << balance << " -> ";
+    double amount = SetAmount();
+    balance = amount;
+}
+
+void Wallet::Change(double increment)
+{
+    balance += increment;
 }
 
 double Wallet::GetBalance()
 {
-    return amount;
+    return balance;
 }

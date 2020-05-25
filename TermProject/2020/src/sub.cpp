@@ -133,7 +133,6 @@ Period Asset::SetPeriod()
              << endl;
         return SetPeriod();
     }
-
     return period;
 }
 
@@ -174,7 +173,8 @@ void Transaction::InputSingleTransaction(int type)
 {
     this->type = type;
 
-    Period period(4);
+    Period period(Period::NO_PERIOD);
+
     this->period = period;
 
     CLEAR;
@@ -207,7 +207,7 @@ void Transaction::InputSingleCode()
         pTransaction.push_back(this);
         extern vector<Bill *> pBill;
         Bill *b = new Bill(type, amount, date, category.GetCategory());
-        pBill.push_back(b);
+        b->Add();
     }
     else if (code == 2)
     {
@@ -321,6 +321,11 @@ void Transaction::PrintRegularBody(T1 x, T2 y, T3 z, T4 u)
          << START_DATE << ": " << z << endl
          << PERIOD << ": " << u << endl
          << DIVISION << endl;
+}
+
+int Transaction::GetPeriod()
+{
+    return period.GetPeriodCode();
 }
 
 #pragma endregion

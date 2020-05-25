@@ -72,6 +72,7 @@ public:
     friend bool operator<=(Date, Date);
     friend bool operator!=(Date, Date);
     friend int operator-(Date, Date);
+    friend Date operator+(Date, int);
     operator int();
     bool IsLegal();
     int GetYear();
@@ -86,5 +87,7 @@ private:
 };
 
 #pragma endregion
+
+int MaxDay(int, int);
 
 #endif

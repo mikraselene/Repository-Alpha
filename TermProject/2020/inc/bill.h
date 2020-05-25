@@ -6,6 +6,7 @@
 
 #include "date.h"
 #include "period.h"
+#include "wallet.h"
 
 using std::string;
 

@@ -84,15 +84,10 @@ RETURN VALUE:
 ---------------------------------------------------------------------------*/
 bool Date::IsLegal()
 {
-    int maxday[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     int year = GetYear();
     int month = GetMonth();
     int day = GetDay();
-    if ((year % 4 == 0 && year % 400 == 0) || (year % 4 == 0 && year % 100 != 0))
-    {
-        maxday[2]++;
-    }
-    return month > 0 && month <= 12 && day > 0 && day <= maxday[month];
+    return month > 0 && month <= 12 && day > 0 && day <= MaxDay(year, month);
 }
 
 /*---------------------------------------------------------------------------
@@ -109,14 +104,9 @@ RETURN VALUE:
 ---------------------------------------------------------------------------*/
 Date::operator int()
 {
-    int maxday[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     int year = GetYear();
     int month = GetMonth();
     int day = GetDay();
-    if ((year % 4 == 0 && year % 400 == 0) || (year % 4 == 0 && year % 100 != 0))
-    {
-        maxday[2]++;
-    }
     int result = 0;
     for (int i = 1; i < year; i++)
     {
@@ -128,7 +118,7 @@ Date::operator int()
     }
     for (int i = 1; i < month; i++)
     {
-        result += maxday[i];
+        result += MaxDay(year, month);
     }
     result += day;
     return result;
@@ -183,6 +173,98 @@ ostream &operator<<(ostream &out, Date A)
          << A.GetMonth() << " "
          << A.GetDay();
     return out;
+}
+/*
+int Date::countLeapYear(int year) const
+{
+    if (m_year == year)
+    {
+        return LeapYear(year);
+    }
+    int begin = m_year;
+    int end = year - 1;
+    if (m_year > year)
+    {
+        begin = year;
+        end = m_year - 1;
+    }
+    while (!(LeapYear(begin)))
+    {
+        ++begin;
+    }
+    while (!(LeapYear(end)))
+    {
+        --end;
+    }
+    int tmp = begin;
+    int count = 0;
+    if (begin <= end)
+    {
+        while (tmp <= end && tmp % 100)
+        {
+            ++tmp;
+            ;
+        }
+        for (; tmp <= end; !LeapYear(tmp) ? ++count : count, tmp += 100)
+            ;
+        return (end - begin) / 4 + 1 - count;
+    }
+    return 0;
+}
+*/
+
+int Date::MaxDay(int year, int month)
+{
+    int maxday[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    if ((year % 4 == 0 && year % 400 == 0) || (year % 4 == 0 && year % 100 != 0))
+    {
+        maxday[2]++;
+    }
+    return maxday[month];
+}
+
+Date Date::operator+(int n)
+{
+    int count = 0;
+    int maxday[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    int year = GetYear();
+    int month = GetMonth();
+    int day = GetDay();
+    if ((year % 4 == 0 && year % 400 == 0) || (year % 4 == 0 && year % 100 != 0))
+    {
+        maxday[2]++;
+    }
+    for (int i = 1; i < month; ++i)
+    {
+        count += MaxDay(year, i);
+    }
+    count += day;
+
+    for (; n > 0; n--)
+    {
+        if (day == MaxDay(year, month))
+        {
+            day = 1;
+            if (month == 12)
+            {
+                year++;
+                month = 1;
+            }
+            else
+            {
+                month++;
+            }
+        }
+        else
+        {
+            day++;
+        }
+    }
+    Year Y(year);
+    Month M(month);
+    Day D(day);
+    Date date(Y, M, D);
+    return date;
 }
 
 #pragma endregion
