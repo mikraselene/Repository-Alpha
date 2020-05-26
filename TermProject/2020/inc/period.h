@@ -17,10 +17,9 @@ public:
     friend std::ostream &operator<<(std::ostream &, Period);
     Period();
     Period(int);
-    int GetPeriodCode();
-    int CalculateWeekly(Date);
-    int CalculateDaily(Date);
-    int CalculateMonthly(Date);
+    int Calculate(Date);
+    operator int();
+
     enum
     {
         NO_PERIOD = 0,

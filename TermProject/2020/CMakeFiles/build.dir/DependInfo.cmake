@@ -10,6 +10,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/src/category.cpp" "/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/CMakeFiles/build.dir/src/category.cpp.o"
   "/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/src/date.cpp" "/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/CMakeFiles/build.dir/src/date.cpp.o"
   "/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/src/file.cpp" "/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/CMakeFiles/build.dir/src/file.cpp.o"
+  "/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/src/fitting.cpp" "/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/CMakeFiles/build.dir/src/fitting.cpp.o"
   "/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/src/input.cpp" "/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/CMakeFiles/build.dir/src/input.cpp.o"
   "/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/src/menu.cpp" "/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/CMakeFiles/build.dir/src/menu.cpp.o"
   "/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/src/period.cpp" "/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/CMakeFiles/build.dir/src/period.cpp.o"

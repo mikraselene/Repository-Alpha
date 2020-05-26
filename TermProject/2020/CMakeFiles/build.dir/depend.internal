@@ -6,6 +6,8 @@ CMakeFiles/build.dir/main.cpp.o
  /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/bill.h
  /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/category.h
  /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/date.h
+ /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/file.h
+ /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/fitting.h
  /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/input.h
  /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/menu.h
  /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/period.h
@@ -39,8 +41,17 @@ CMakeFiles/build.dir/src/date.cpp.o
  /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/text.h
  /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/src/date.cpp
 CMakeFiles/build.dir/src/file.cpp.o
+ /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/bill.h
+ /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/date.h
  /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/file.h
+ /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/input.h
+ /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/period.h
+ /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/text.h
+ /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/wallet.h
  /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/src/file.cpp
+CMakeFiles/build.dir/src/fitting.cpp.o
+ /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/fitting.h
+ /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/src/fitting.cpp
 CMakeFiles/build.dir/src/input.cpp.o
  /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/date.h
  /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/input.h
@@ -51,6 +62,7 @@ CMakeFiles/build.dir/src/menu.cpp.o
  /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/bill.h
  /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/category.h
  /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/date.h
+ /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/fitting.h
  /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/input.h
  /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/menu.h
  /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/period.h
@@ -69,6 +81,7 @@ CMakeFiles/build.dir/src/sub.cpp.o
  /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/bill.h
  /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/category.h
  /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/date.h
+ /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/fitting.h
  /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/input.h
  /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/menu.h
  /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/period.h

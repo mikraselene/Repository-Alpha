@@ -20,10 +20,10 @@ namespace NCategory
 
 namespace NPeriod
 {
-    T(MONTHLY, "按月");
-    T(WEEKLY, "按周");
-    T(DAILY, "按日");
-    T(NO_PERIOD, "-");
+    T(STR_MONTHLY, "按月");
+    T(STR_WEEKLY, "按周");
+    T(STR_DAILY, "按日");
+    T(STR_NO_PERIOD, "-");
     T(END, "////////// ＝＝＝＝ //////////");
 
 } // namespace NPeriod
@@ -35,6 +35,13 @@ namespace NDate
     T(DAY, "日");
 
 } // namespace NDate
+
+namespace NBill
+{
+    T(YUAN, "元");
+    T(INTEREST, "利息");
+    T(REGULAR, "定期");
+} // namespace NBill
 
 namespace NAssetMenu
 {
@@ -126,7 +133,7 @@ namespace NDepositAndLoanMenu
 {
     T(TITLE, "////////// 存贷菜单 //////////");
     T(ADD_DEPOSIT, "添加存款");
-    T(ADD_LOAN, "添加存款");
+    T(ADD_LOAN, "添加贷款");
     T(EDIT, "编辑存贷");
     T(STATISTICS, "统计");
     T(BACK, "返回");
@@ -139,6 +146,9 @@ namespace NDepositAndLoan
     T(TITLE, "////////// 存款贷款 //////////");
     T(PRINCIPLE, "本金");
     T(INTEREST_RATE, "利率");
+    T(INTEREST_TYPE, "利率类型");
+    T(SIMPLE_INTEREST, "单利");
+    T(COMPOUND_INTEREST, "复利");
     T(START_DATE, "起始日期");
     T(END_DATE, "结束日期");
     T(PERIOD, "周期");

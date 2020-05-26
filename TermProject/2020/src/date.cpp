@@ -88,7 +88,7 @@ Date::operator int()
     }
     for (int i = 1; i < month; i++)
     {
-        result += MaxDay(year, month);
+        result += MaxDay(year, i);
     }
     result += day;
     return result;

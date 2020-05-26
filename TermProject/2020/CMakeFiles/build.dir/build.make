@@ -135,9 +135,22 @@ CMakeFiles/build.dir/src/file.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/build.dir/src/file.cpp.s"
 	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/src/file.cpp -o CMakeFiles/build.dir/src/file.cpp.s
 
+CMakeFiles/build.dir/src/fitting.cpp.o: CMakeFiles/build.dir/flags.make
+CMakeFiles/build.dir/src/fitting.cpp.o: src/fitting.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/build.dir/src/fitting.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/build.dir/src/fitting.cpp.o -c /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/src/fitting.cpp
+
+CMakeFiles/build.dir/src/fitting.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/build.dir/src/fitting.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/src/fitting.cpp > CMakeFiles/build.dir/src/fitting.cpp.i
+
+CMakeFiles/build.dir/src/fitting.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/build.dir/src/fitting.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/src/fitting.cpp -o CMakeFiles/build.dir/src/fitting.cpp.s
+
 CMakeFiles/build.dir/src/input.cpp.o: CMakeFiles/build.dir/flags.make
 CMakeFiles/build.dir/src/input.cpp.o: src/input.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/build.dir/src/input.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/build.dir/src/input.cpp.o"
 	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/build.dir/src/input.cpp.o -c /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/src/input.cpp
 
 CMakeFiles/build.dir/src/input.cpp.i: cmake_force
@@ -150,7 +163,7 @@ CMakeFiles/build.dir/src/input.cpp.s: cmake_force
 
 CMakeFiles/build.dir/src/menu.cpp.o: CMakeFiles/build.dir/flags.make
 CMakeFiles/build.dir/src/menu.cpp.o: src/menu.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/build.dir/src/menu.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/build.dir/src/menu.cpp.o"
 	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/build.dir/src/menu.cpp.o -c /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/src/menu.cpp
 
 CMakeFiles/build.dir/src/menu.cpp.i: cmake_force
@@ -163,7 +176,7 @@ CMakeFiles/build.dir/src/menu.cpp.s: cmake_force
 
 CMakeFiles/build.dir/src/period.cpp.o: CMakeFiles/build.dir/flags.make
 CMakeFiles/build.dir/src/period.cpp.o: src/period.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/build.dir/src/period.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/build.dir/src/period.cpp.o"
 	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/build.dir/src/period.cpp.o -c /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/src/period.cpp
 
 CMakeFiles/build.dir/src/period.cpp.i: cmake_force
@@ -176,7 +189,7 @@ CMakeFiles/build.dir/src/period.cpp.s: cmake_force
 
 CMakeFiles/build.dir/src/sub.cpp.o: CMakeFiles/build.dir/flags.make
 CMakeFiles/build.dir/src/sub.cpp.o: src/sub.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/build.dir/src/sub.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/build.dir/src/sub.cpp.o"
 	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/build.dir/src/sub.cpp.o -c /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/src/sub.cpp
 
 CMakeFiles/build.dir/src/sub.cpp.i: cmake_force
@@ -189,7 +202,7 @@ CMakeFiles/build.dir/src/sub.cpp.s: cmake_force
 
 CMakeFiles/build.dir/src/test.cpp.o: CMakeFiles/build.dir/flags.make
 CMakeFiles/build.dir/src/test.cpp.o: src/test.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/build.dir/src/test.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/build.dir/src/test.cpp.o"
 	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/build.dir/src/test.cpp.o -c /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/src/test.cpp
 
 CMakeFiles/build.dir/src/test.cpp.i: cmake_force
@@ -202,7 +215,7 @@ CMakeFiles/build.dir/src/test.cpp.s: cmake_force
 
 CMakeFiles/build.dir/src/wallet.cpp.o: CMakeFiles/build.dir/flags.make
 CMakeFiles/build.dir/src/wallet.cpp.o: src/wallet.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/build.dir/src/wallet.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/build.dir/src/wallet.cpp.o"
 	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/build.dir/src/wallet.cpp.o -c /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/src/wallet.cpp
 
 CMakeFiles/build.dir/src/wallet.cpp.i: cmake_force
@@ -221,6 +234,7 @@ build_OBJECTS = \
 "CMakeFiles/build.dir/src/category.cpp.o" \
 "CMakeFiles/build.dir/src/date.cpp.o" \
 "CMakeFiles/build.dir/src/file.cpp.o" \
+"CMakeFiles/build.dir/src/fitting.cpp.o" \
 "CMakeFiles/build.dir/src/input.cpp.o" \
 "CMakeFiles/build.dir/src/menu.cpp.o" \
 "CMakeFiles/build.dir/src/period.cpp.o" \
@@ -237,6 +251,7 @@ build: CMakeFiles/build.dir/src/bill.cpp.o
 build: CMakeFiles/build.dir/src/category.cpp.o
 build: CMakeFiles/build.dir/src/date.cpp.o
 build: CMakeFiles/build.dir/src/file.cpp.o
+build: CMakeFiles/build.dir/src/fitting.cpp.o
 build: CMakeFiles/build.dir/src/input.cpp.o
 build: CMakeFiles/build.dir/src/menu.cpp.o
 build: CMakeFiles/build.dir/src/period.cpp.o
@@ -245,7 +260,7 @@ build: CMakeFiles/build.dir/src/test.cpp.o
 build: CMakeFiles/build.dir/src/wallet.cpp.o
 build: CMakeFiles/build.dir/build.make
 build: CMakeFiles/build.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking CXX executable build"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Linking CXX executable build"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/build.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

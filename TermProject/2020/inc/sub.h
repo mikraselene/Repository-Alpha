@@ -34,9 +34,14 @@ public:
     void SubMenu();
     void InputSingleTransaction(int);
     void InputRegularTransaction(int);
-    int GetPeriod();
+    int GetType();
+    double GetAmount();
+    Date GetDate();
+    Period GetPeriod();
+    string GetCategory();
     void Print();
     void PrintAll();
+    void ResetDate();
 
 private:
     template <typename T1, typename T2, typename T3>
@@ -59,11 +64,24 @@ public:
     void SubMenu();
 
     void InputDepositAndLoan(int);
+
+    int GetType();
+    double GetAmount();
+    double GetRate();
+    Date GetDate();
+    Period GetPeriod();
+    string GetInfo();
+
     void Print();
     void PrintAll();
 
+    void Check();
+
+    void ResetDate();
+
 private:
     double SetRate();
+    bool SetType();
     string SetInfo();
 
     template <typename T1, typename T2, typename T3,
@@ -71,10 +89,10 @@ private:
     void PrintDepoLoanBody(T1 x, T2 y, T3 z, T4 u, T5 v, T6 w);
     void InputCode();
 
+    bool isCompound;
     double principle;
     double interest;
     Date start;
-    Date end;
     Period period;
     string info;
     int type;

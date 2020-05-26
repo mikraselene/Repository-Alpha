@@ -285,6 +285,33 @@ src/file.cpp.s:
 	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/file.cpp.s
 .PHONY : src/file.cpp.s
 
+src/fitting.o: src/fitting.cpp.o
+
+.PHONY : src/fitting.o
+
+# target to build an object file
+src/fitting.cpp.o:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/fitting.cpp.o
+.PHONY : src/fitting.cpp.o
+
+src/fitting.i: src/fitting.cpp.i
+
+.PHONY : src/fitting.i
+
+# target to preprocess a source file
+src/fitting.cpp.i:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/fitting.cpp.i
+.PHONY : src/fitting.cpp.i
+
+src/fitting.s: src/fitting.cpp.s
+
+.PHONY : src/fitting.s
+
+# target to generate assembly for a file
+src/fitting.cpp.s:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/fitting.cpp.s
+.PHONY : src/fitting.cpp.s
+
 src/input.o: src/input.cpp.o
 
 .PHONY : src/input.o
@@ -474,6 +501,9 @@ help:
 	@echo "... src/file.o"
 	@echo "... src/file.i"
 	@echo "... src/file.s"
+	@echo "... src/fitting.o"
+	@echo "... src/fitting.i"
+	@echo "... src/fitting.s"
 	@echo "... src/input.o"
 	@echo "... src/input.i"
 	@echo "... src/input.s"

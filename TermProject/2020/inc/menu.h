@@ -2,6 +2,10 @@
 #define MENU_H
 
 #include <iostream>
+#include <algorithm>
+#include <numeric>
+#include <iomanip>
+
 #include "asset.h"
 #include "date.h"
 #include "input.h"
@@ -10,6 +14,7 @@
 #include "category.h"
 #include "sub.h"
 #include "wallet.h"
+#include "fitting.h"
 
 class MainMenu
 {
@@ -85,10 +90,18 @@ class FilterMenu : public BillMenu
 private:
     void Menu();
 };
-class Statistics : public BillMenu
+class StatisticsMenu : public BillMenu
 {
 private:
     void Menu();
+    void PrintStats();
+    void Fitting();
+    struct BILL_BY_MONTH
+    {
+        int year;
+        int month;
+        double amount;
+    };
 };
 
 class WalletMenu : public MainMenu

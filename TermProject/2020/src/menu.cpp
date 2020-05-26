@@ -69,11 +69,11 @@ void MainMenu::InputCode()
 
 财产
     - 收支
-        - 新建 (4)
-        - 编辑
-        - 返回
+        - 新建 (4) ok
+        - 编辑 ok
+        - 返回 ok
     - 借贷
-        - 新建 (2)
+        - 新建 (2) ok TODO:
         - 编辑
         - 统计
         - 返回
@@ -481,7 +481,7 @@ void BillMenu::InputCode()
     {
         //TODO:
         //STATISTICS
-        pMenu = new BillMenu;
+        pMenu = new StatisticsMenu;
         pMenu->Menu();
     }
     else if (code == 4)
@@ -501,6 +501,113 @@ void BillMenu::InputCode()
 
 void BillMenu::PrintAll()
 {
+}
+bool cmp(Bill *A, Bill *B)
+{
+    return A->GetDate() < B->GetDate();
+}
+void StatisticsMenu::Menu()
+{
+    CLEAR;
+    delete pMenu;
+    PrintStats();
+}
+void StatisticsMenu::PrintStats()
+{
+    extern vector<Bill *> pBill;
+    sort(pBill.begin(), pBill.end(), cmp);
+    Date today;
+    int toy = today.GetYear();
+    int tom = today.GetMonth();
+    int ty = pBill[0]->GetDate().GetYear();
+    int tm = pBill[0]->GetDate().GetMonth();
+    int a = (toy - ty) * 12 + (tom - tm);
+    vector<BILL_BY_MONTH> y = {{0, 0, 0}};
+    y.resize(a + 1);
+    int j = 0;
+    for (int i = 0; i < pBill.size() - 1; i++)
+    {
+        y[j].amount += pBill[i]->GetAmount();
+        if (pBill[i + 1]->GetDate().GetYear() != pBill[i]->GetDate().GetYear() ||
+            pBill[i + 1]->GetDate().GetMonth() != pBill[i]->GetDate().GetMonth())
+        {
+            y[j].year = pBill[i]->GetDate().GetYear();
+            y[j].month = pBill[i]->GetDate().GetMonth();
+            j++;
+        }
+    }
+
+    //LeastSquare ls(y);
+    //ls.Fitting();
+    //cout << ls.Y(a + 1) << endl;
+
+    vector<double> percent;
+    percent.resize(a);
+    for (int i = 0; i < a + 1; i++)
+    {
+        percent[i] = y[i].amount;
+    }
+    LeastSquare ls(percent);
+    ls.Fitting();
+    double fit = ls.Y(a + 1);
+
+    percent.resize(a + 1);
+    double sum = accumulate(percent.begin(), percent.end(), 0);
+    auto maxPosition = max_element(percent.begin(), percent.end());
+    double max = *maxPosition;
+
+    using namespace std;
+
+    percent[a] = fit / sum;
+
+    for (int i = 0; i < a; i++)
+    {
+        percent[i] = percent[i] / sum;
+        cout << y[i].year << NDate::YEAR
+             << y[i].month << NDate::MONTH
+             << endl;
+
+        cout << fixed << setprecision(2) << setw(5) << setiosflags(ios::right)
+             << y[i].amount << NBill::YUAN << " ";
+        //<< percent[i] * 100 << "% ";
+        cout << "[";
+        for (int j = 0; j < percent[i] * 30 / (max / sum); j++)
+        {
+            cout << "#";
+        }
+        cout << "]";
+        cout << endl;
+    }
+
+    cout << toy << NDate::YEAR
+         << tom << NDate::MONTH
+         << endl;
+
+    cout << fixed << setprecision(2) << setw(5) << setiosflags(ios::right)
+         << y[a].amount << NBill::YUAN << " ";
+    //<< percent[i] * 100 << "% ";
+    cout << "[";
+    for (int j = 0; j < percent[a] * 30 / (max / sum); j++)
+    {
+        if (j < (percent[a] * 30 / (max / sum)) * y[a].amount / fit)
+        {
+            cout << "#";
+        }
+        else
+        {
+            cout << " ";
+        }
+    }
+    cout << "] " << y[a].amount * 100 / fit << "%" << endl;
+    cout << "-----------------------------------------------" << endl;
+    cout << "本月预计消费"
+         << fit << NBill::YUAN
+         << ", 已用" << y[a].amount * 100 / fit << "%. " << endl;
+    cout << endl;
+
+    getchar();
+    pMenu = new BillMenu;
+    pMenu->Menu();
 }
 
 #pragma endregion

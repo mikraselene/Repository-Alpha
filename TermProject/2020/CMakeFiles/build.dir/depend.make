@@ -5,6 +5,8 @@ CMakeFiles/build.dir/main.cpp.o: inc/asset.h
 CMakeFiles/build.dir/main.cpp.o: inc/bill.h
 CMakeFiles/build.dir/main.cpp.o: inc/category.h
 CMakeFiles/build.dir/main.cpp.o: inc/date.h
+CMakeFiles/build.dir/main.cpp.o: inc/file.h
+CMakeFiles/build.dir/main.cpp.o: inc/fitting.h
 CMakeFiles/build.dir/main.cpp.o: inc/input.h
 CMakeFiles/build.dir/main.cpp.o: inc/menu.h
 CMakeFiles/build.dir/main.cpp.o: inc/period.h
@@ -38,8 +40,17 @@ CMakeFiles/build.dir/src/date.cpp.o: inc/date.h
 CMakeFiles/build.dir/src/date.cpp.o: inc/text.h
 CMakeFiles/build.dir/src/date.cpp.o: src/date.cpp
 
+CMakeFiles/build.dir/src/file.cpp.o: inc/bill.h
+CMakeFiles/build.dir/src/file.cpp.o: inc/date.h
 CMakeFiles/build.dir/src/file.cpp.o: inc/file.h
+CMakeFiles/build.dir/src/file.cpp.o: inc/input.h
+CMakeFiles/build.dir/src/file.cpp.o: inc/period.h
+CMakeFiles/build.dir/src/file.cpp.o: inc/text.h
+CMakeFiles/build.dir/src/file.cpp.o: inc/wallet.h
 CMakeFiles/build.dir/src/file.cpp.o: src/file.cpp
+
+CMakeFiles/build.dir/src/fitting.cpp.o: inc/fitting.h
+CMakeFiles/build.dir/src/fitting.cpp.o: src/fitting.cpp
 
 CMakeFiles/build.dir/src/input.cpp.o: inc/date.h
 CMakeFiles/build.dir/src/input.cpp.o: inc/input.h
@@ -50,6 +61,7 @@ CMakeFiles/build.dir/src/menu.cpp.o: inc/asset.h
 CMakeFiles/build.dir/src/menu.cpp.o: inc/bill.h
 CMakeFiles/build.dir/src/menu.cpp.o: inc/category.h
 CMakeFiles/build.dir/src/menu.cpp.o: inc/date.h
+CMakeFiles/build.dir/src/menu.cpp.o: inc/fitting.h
 CMakeFiles/build.dir/src/menu.cpp.o: inc/input.h
 CMakeFiles/build.dir/src/menu.cpp.o: inc/menu.h
 CMakeFiles/build.dir/src/menu.cpp.o: inc/period.h
@@ -68,6 +80,7 @@ CMakeFiles/build.dir/src/sub.cpp.o: inc/asset.h
 CMakeFiles/build.dir/src/sub.cpp.o: inc/bill.h
 CMakeFiles/build.dir/src/sub.cpp.o: inc/category.h
 CMakeFiles/build.dir/src/sub.cpp.o: inc/date.h
+CMakeFiles/build.dir/src/sub.cpp.o: inc/fitting.h
 CMakeFiles/build.dir/src/sub.cpp.o: inc/input.h
 CMakeFiles/build.dir/src/sub.cpp.o: inc/menu.h
 CMakeFiles/build.dir/src/sub.cpp.o: inc/period.h

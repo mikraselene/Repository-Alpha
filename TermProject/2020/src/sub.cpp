@@ -115,9 +115,9 @@ Category Asset::SetCategory()
 Period Asset::SetPeriod()
 {
     using namespace NPeriod;
-    cout << "1. " << MONTHLY << "\t\t"
-         << "2. " << WEEKLY << "\t\t"
-         << "3. " << DAILY << endl
+    cout << "1. " << STR_MONTHLY << "\t\t"
+         << "2. " << STR_WEEKLY << "\t\t"
+         << "3. " << STR_DAILY << endl
          << END << endl;
     int code = SetCode();
     Period period;
@@ -323,9 +323,30 @@ void Transaction::PrintRegularBody(T1 x, T2 y, T3 z, T4 u)
          << DIVISION << endl;
 }
 
-int Transaction::GetPeriod()
+int Transaction::GetType()
 {
-    return period.GetPeriodCode();
+    return type;
+}
+double Transaction::GetAmount()
+{
+    return amount;
+}
+Date Transaction::GetDate()
+{
+    return date;
+}
+Period Transaction::GetPeriod()
+{
+    return period;
+}
+string Transaction::GetCategory()
+{
+    return category.GetCategory();
+}
+void Transaction::ResetDate()
+{
+    Date today;
+    date = today;
 }
 
 #pragma endregion
@@ -345,27 +366,45 @@ void DepositAndLoan::InputDepositAndLoan(int type)
 
     CLEAR;
     PrintDepoLoanBody(principle, interest, "?", "", "", "");
+    isCompound = SetType();
+    string interestType;
+    using namespace NDepositAndLoan;
+    if (isCompound)
+    {
+        interestType = COMPOUND_INTEREST;
+    }
+    else
+    {
+        interestType = SIMPLE_INTEREST;
+    }
+
+    CLEAR;
+    PrintDepoLoanBody(principle, interest, interestType, "?", "", "");
     start = SetDate();
 
     CLEAR;
-    PrintDepoLoanBody(principle, interest, start, "?", "", "");
-    end = SetDate();
-
-    CLEAR;
-    PrintDepoLoanBody(principle, interest, start, end, "?", "");
+    PrintDepoLoanBody(principle, interest, interestType, start, "?", "");
     period = SetPeriod();
 
     CLEAR;
-    PrintDepoLoanBody(principle, interest, start, end, period, "?");
+    PrintDepoLoanBody(principle, interest, interestType, start, period, "?");
     info = SetInfo();
 
     CLEAR;
-    PrintDepoLoanBody(principle, interest, start, end, period, info);
+    PrintDepoLoanBody(principle, interest, interestType, start, period, info);
     PrintInstruction();
 
     InputCode();
 
     CLEAR;
+}
+
+void DepositAndLoan::Check()
+{
+    if (isCompound)
+    {
+        principle += principle * interest;
+    }
 }
 
 void DepositAndLoan::InputCode()
@@ -403,7 +442,6 @@ void DepositAndLoan::Print()
     cout << principle << "\t\t"
          << interest << "\t\t"
          << start << "\t\t"
-         << end << "\t\t"
          << period << "\t\t"
          << info << endl;
 }
@@ -413,6 +451,43 @@ string DepositAndLoan::SetInfo()
     In info;
     cin >> info;
     return info;
+}
+
+bool DepositAndLoan::SetType()
+{
+    try
+    {
+        using namespace NDepositAndLoan;
+        cout << "1. " << SIMPLE_INTEREST << "\t\t"
+             << "2. " << COMPOUND_INTEREST << endl;
+        cout << ">> ";
+        In r;
+        cin >> r;
+        int type = int(r);
+        if (type == 1)
+        {
+            return 0;
+        }
+        if (type == 2)
+        {
+            return 1;
+        }
+        else
+        {
+            using namespace NError;
+            cerr << ERR_ILLEGAL_NUMBER << ", "
+                 << PLEASE_INPUT_AGAIN << ". " << endl;
+            return SetType();
+        }
+    }
+    catch (const string msg)
+    {
+        using namespace NError;
+        cerr << msg << ", "
+             << PLEASE_INPUT_AGAIN << ". "
+             << endl;
+        return SetRate();
+    }
 }
 
 double DepositAndLoan::SetRate()
@@ -425,7 +500,7 @@ double DepositAndLoan::SetRate()
         double rate = double(r);
         if (rate >= 0 || rate <= 10)
         {
-            return rate;
+            return rate / 100;
         }
         else
         {
@@ -453,11 +528,41 @@ void DepositAndLoan::PrintDepoLoanBody(T1 x, T2 y, T3 z, T4 u, T5 v, T6 w)
     cout << TITLE << endl
          << PRINCIPLE << ": " << x << endl
          << INTEREST_RATE << ": " << y << endl
-         << START_DATE << ": " << z << endl
-         << END_DATE << ": " << u << endl
+         << INTEREST_TYPE << ": " << z << endl
+         << START_DATE << ": " << u << endl
          << PERIOD << ":" << v << endl
          << INFO << ":" << w << endl
          << DIVISION << endl;
+}
+
+int DepositAndLoan::GetType()
+{
+    return type;
+}
+double DepositAndLoan::GetAmount()
+{
+    return principle;
+}
+double DepositAndLoan::GetRate()
+{
+    return interest;
+}
+Date DepositAndLoan::GetDate()
+{
+    return start;
+}
+Period DepositAndLoan::GetPeriod()
+{
+    return period;
+}
+string DepositAndLoan::GetInfo()
+{
+    return info;
+}
+void DepositAndLoan::ResetDate()
+{
+    Date today;
+    start = today;
 }
 
 #pragma endregion

@@ -32,7 +32,10 @@ void Bill::Unhide()
 
 void Bill::Print()
 {
-    std::cout << amount << endl;
+    cout << amount << "\t\t"
+         << date << "\t\t"
+         << info << "\t\t"
+         << endl;
 }
 double Bill::GetAmount()
 {
