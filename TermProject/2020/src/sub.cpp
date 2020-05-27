@@ -1,8 +1,5 @@
 #include "../inc/sub.h"
 
-#define CLEAR system("clear")
-//#define CLEAR system("cls")
-
 using std::cerr;
 using std::vector;
 
@@ -178,19 +175,35 @@ void Transaction::InputSingleTransaction(int type)
     this->period = period;
 
     CLEAR;
+
+    using namespace NTransaction;
+    string temp;
+    if (type == TransactionMenu::INCOME)
+    {
+        temp = SINGLE_INCOME_TITLE;
+    }
+    else if (type == TransactionMenu::EXPENSE)
+    {
+        temp = SINGLE_EXPENSE_TITLE;
+    }
+
+    cout << temp << endl;
     PrintSingleBody("?", "", "");
     amount = SetAmount();
 
     CLEAR;
+    cout << temp << endl;
     PrintSingleBody(amount, "?", "");
     ShowCategory();
     category = SetCategory();
 
     CLEAR;
+    cout << temp << endl;
     PrintSingleBody(amount, category, "?");
     date = SetDate();
 
     CLEAR;
+    cout << temp << endl;
     PrintSingleBody(amount, category, date);
     PrintInstruction();
 
@@ -236,24 +249,40 @@ void Transaction::InputRegularTransaction(int type)
 {
     this->type = type;
 
+    using namespace NTransaction;
+    string temp;
+    if (type == TransactionMenu::INCOME)
+    {
+        temp = REGULAR_INCOME_TITLE;
+    }
+    else if (type == TransactionMenu::EXPENSE)
+    {
+        temp = REGULAR_EXPENSE_TITLE;
+    }
+
     CLEAR;
+    cout << temp << endl;
     PrintRegularBody("?", "", "", "");
     amount = SetAmount();
 
     CLEAR;
+    cout << temp << endl;
     PrintRegularBody(amount, "?", "", "");
     ShowCategory();
     category = SetCategory();
 
     CLEAR;
+    cout << temp << endl;
     PrintRegularBody(amount, category, "?", "");
     date = SetDate();
 
     CLEAR;
+    cout << temp << endl;
     PrintRegularBody(amount, category, date, "?");
     period = SetPeriod();
 
     CLEAR;
+    cout << temp << endl;
     PrintRegularBody(amount, category, date, period);
     PrintInstruction();
 
@@ -268,6 +297,7 @@ void Transaction::InputRegularCode()
     if (code == 1)
     {
         pTransaction.push_back(this);
+        //TODO:
     }
     else if (code == 2)
     {
@@ -304,8 +334,7 @@ template <typename T1, typename T2, typename T3>
 void Transaction::PrintSingleBody(T1 x, T2 y, T3 z)
 {
     using namespace NTransaction;
-    cout << SINGLE_EXPENSE_TITLE << endl
-         << AMOUNT << ": " << x << endl
+    cout << AMOUNT << ": " << x << endl
          << CATEGORY << ": " << y << endl
          << DATE << ": " << z << endl
          << DIVISION << endl;
@@ -315,8 +344,7 @@ template <typename T1, typename T2, typename T3, typename T4>
 void Transaction::PrintRegularBody(T1 x, T2 y, T3 z, T4 u)
 {
     using namespace NTransaction;
-    cout << REGULAR_EXPENSE_TITLE << endl
-         << AMOUNT << ": " << x << endl
+    cout << AMOUNT << ": " << x << endl
          << CATEGORY << ": " << y << endl
          << START_DATE << ": " << z << endl
          << PERIOD << ": " << u << endl
@@ -356,6 +384,8 @@ void Transaction::ResetDate()
 void DepositAndLoan::InputDepositAndLoan(int type)
 {
     this->type = type;
+    totalInterest = 0;
+
     CLEAR;
     PrintDepoLoanBody("?", "", "", "", "", "");
     principle = SetAmount();
@@ -407,6 +437,10 @@ void DepositAndLoan::Check()
     }
 }
 
+void DepositAndLoan::ChangeTotalInterest(double sum)
+{
+    totalInterest += sum;
+}
 void DepositAndLoan::InputCode()
 {
     int code = SetCode();

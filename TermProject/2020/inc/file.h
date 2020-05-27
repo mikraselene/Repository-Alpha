@@ -2,6 +2,7 @@
 #define FILE_H
 
 #include <fstream>
+#include <cmath>
 #include <iostream>
 
 #include "date.h"

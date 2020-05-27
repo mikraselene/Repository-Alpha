@@ -12,9 +12,11 @@
 #include "text.h"
 #include "period.h"
 #include "category.h"
+#include "bill.h"
 #include "sub.h"
 #include "wallet.h"
 #include "fitting.h"
+#include "refresh.h"
 
 class MainMenu
 {
@@ -38,16 +40,16 @@ class TransactionMenu : public AssetMenu
 {
 public:
     void PrintAll();
-
-private:
-    void Menu();
-    void InputCode();
-    void EditTransaction();
     enum
     {
         EXPENSE = -1,
         INCOME = 1,
     };
+
+private:
+    void Menu();
+    void InputCode();
+    void EditTransaction();
 };
 class DepositAndLoanMenu : public AssetMenu
 {
@@ -59,8 +61,8 @@ private:
     void EditDepositAndLoan();
     enum
     {
-        DEPOSIT = -1,
-        LOAN = 1,
+        DEPOSIT = 1,
+        LOAN = -1,
     };
 };
 class BudgetMenu : public AssetMenu
@@ -77,13 +79,14 @@ class BillMenu : public MainMenu
 {
 private:
     void Menu();
-    void PrintAll();
     void InputCode();
 };
 class OverviewMenu : public BillMenu
 {
 private:
     void Menu();
+    void InputCode();
+    void PrintAll(int);
 };
 class FilterMenu : public BillMenu
 {
@@ -121,6 +124,7 @@ class HelpMenu : public MainMenu
 {
 private:
     void Menu();
+    void Refresh();
 };
 
 #endif

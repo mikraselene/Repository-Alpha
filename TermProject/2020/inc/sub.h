@@ -50,7 +50,6 @@ private:
     void PrintRegularBody(T1 x, T2 y, T3 z, T4 u);
     void InputSingleCode();
     void InputRegularCode();
-
     double amount;
     Category category;
     Date date;
@@ -76,7 +75,7 @@ public:
     void PrintAll();
 
     void Check();
-
+    void ChangeTotalInterest(double);
     void ResetDate();
 
 private:
@@ -92,6 +91,7 @@ private:
     bool isCompound;
     double principle;
     double interest;
+    double totalInterest;
     Date start;
     Period period;
     string info;

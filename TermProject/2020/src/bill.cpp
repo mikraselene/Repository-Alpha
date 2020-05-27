@@ -32,7 +32,9 @@ void Bill::Unhide()
 
 void Bill::Print()
 {
-    cout << amount << "\t\t"
+    cout << type << "\t";
+    cout << fixed << setprecision(2)
+         << amount << "\t\t"
          << date << "\t\t"
          << info << "\t\t"
          << endl;
@@ -44,6 +46,10 @@ double Bill::GetAmount()
 Date Bill::GetDate()
 {
     return date;
+}
+bool Bill::IsExpense()
+{
+    return type == -1;
 }
 
 #pragma endregion

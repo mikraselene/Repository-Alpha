@@ -25,7 +25,14 @@ void File::LoadFromFile()
         Month M(month);
         Day D(day);
         Date date(Y, M, D);
-        Bill *p = new Bill(1, amount, date, "info");
-        pBill.push_back(p);
+        if (amount == 0)
+        {
+            //TODO:
+        }
+        else
+        {
+            Bill *p = new Bill(abs(amount) / amount, abs(amount), date, "info");
+            p->Add();
+        }
     }
 }

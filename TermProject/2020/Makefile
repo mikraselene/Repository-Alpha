@@ -393,6 +393,33 @@ src/period.cpp.s:
 	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/period.cpp.s
 .PHONY : src/period.cpp.s
 
+src/refresh.o: src/refresh.cpp.o
+
+.PHONY : src/refresh.o
+
+# target to build an object file
+src/refresh.cpp.o:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/refresh.cpp.o
+.PHONY : src/refresh.cpp.o
+
+src/refresh.i: src/refresh.cpp.i
+
+.PHONY : src/refresh.i
+
+# target to preprocess a source file
+src/refresh.cpp.i:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/refresh.cpp.i
+.PHONY : src/refresh.cpp.i
+
+src/refresh.s: src/refresh.cpp.s
+
+.PHONY : src/refresh.s
+
+# target to generate assembly for a file
+src/refresh.cpp.s:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/refresh.cpp.s
+.PHONY : src/refresh.cpp.s
+
 src/sub.o: src/sub.cpp.o
 
 .PHONY : src/sub.o
@@ -513,6 +540,9 @@ help:
 	@echo "... src/period.o"
 	@echo "... src/period.i"
 	@echo "... src/period.s"
+	@echo "... src/refresh.o"
+	@echo "... src/refresh.i"
+	@echo "... src/refresh.s"
 	@echo "... src/sub.o"
 	@echo "... src/sub.i"
 	@echo "... src/sub.s"

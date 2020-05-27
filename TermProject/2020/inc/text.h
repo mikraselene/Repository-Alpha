@@ -3,6 +3,9 @@
 
 #include <iostream>
 
+#define CLEAR system("printf \"\033c\"")
+//#define CLEAR system("clear")
+//#define CLEAR system("cls")
 #define T(code, text) const std::string(code) = (text)
 
 namespace NCategory
@@ -87,6 +90,7 @@ namespace NMainMenu
     T(WALLET, "钱包");
     T(MFILE, "文件");
     T(HELP, "帮助");
+    T(REFRESH, "刷新");
     T(EXIT, "退出");
     T(END, "/////////// ＝＝＝ ///////////");
 } // namespace NMainMenu
@@ -94,7 +98,9 @@ namespace NMainMenu
 namespace NTransaction
 {
     T(SINGLE_EXPENSE_TITLE, "////////// 单笔支出 //////////");
+    T(SINGLE_INCOME_TITLE, "////////// 单笔收入 //////////");
     T(REGULAR_EXPENSE_TITLE, "////////// 定期支出 //////////");
+    T(REGULAR_INCOME_TITLE, "////////// 定期收入 //////////");
     T(AMOUNT, "金额");
     T(CATEGORY, "类别");
     T(DATE, "日期");
@@ -175,8 +181,16 @@ namespace NBillMenu
     T(STATISTICS, "统计");
     T(BACK, "返回");
     T(END, "////////// ＝＝＝＝ //////////");
-} // namespace NBillMenu
 
+    T(OVERVIEW_TITLE, "//////////// 总览 ////////////");
+    T(OVERVIEW_END, "//////////// ＝＝ ////////////");
+    T(BY_DATE, "按日期");
+    T(BY_AMOUNT, "按金额");
+    T(ASCEND, "升序");
+    T(DESCEND, "降序");
+
+} // namespace NBillMenu
+T(PRESS_ANY_KEY, "按任意键继续...");
 namespace NWalletMenu
 {
     T(TITLE, "////////// 我的钱包 //////////");

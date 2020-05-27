@@ -10,6 +10,7 @@ CMakeFiles/build.dir/main.cpp.o: inc/fitting.h
 CMakeFiles/build.dir/main.cpp.o: inc/input.h
 CMakeFiles/build.dir/main.cpp.o: inc/menu.h
 CMakeFiles/build.dir/main.cpp.o: inc/period.h
+CMakeFiles/build.dir/main.cpp.o: inc/refresh.h
 CMakeFiles/build.dir/main.cpp.o: inc/sub.h
 CMakeFiles/build.dir/main.cpp.o: inc/test.h
 CMakeFiles/build.dir/main.cpp.o: inc/text.h
@@ -65,6 +66,7 @@ CMakeFiles/build.dir/src/menu.cpp.o: inc/fitting.h
 CMakeFiles/build.dir/src/menu.cpp.o: inc/input.h
 CMakeFiles/build.dir/src/menu.cpp.o: inc/menu.h
 CMakeFiles/build.dir/src/menu.cpp.o: inc/period.h
+CMakeFiles/build.dir/src/menu.cpp.o: inc/refresh.h
 CMakeFiles/build.dir/src/menu.cpp.o: inc/sub.h
 CMakeFiles/build.dir/src/menu.cpp.o: inc/test.h
 CMakeFiles/build.dir/src/menu.cpp.o: inc/text.h
@@ -76,6 +78,21 @@ CMakeFiles/build.dir/src/period.cpp.o: inc/period.h
 CMakeFiles/build.dir/src/period.cpp.o: inc/text.h
 CMakeFiles/build.dir/src/period.cpp.o: src/period.cpp
 
+CMakeFiles/build.dir/src/refresh.cpp.o: inc/asset.h
+CMakeFiles/build.dir/src/refresh.cpp.o: inc/bill.h
+CMakeFiles/build.dir/src/refresh.cpp.o: inc/category.h
+CMakeFiles/build.dir/src/refresh.cpp.o: inc/date.h
+CMakeFiles/build.dir/src/refresh.cpp.o: inc/fitting.h
+CMakeFiles/build.dir/src/refresh.cpp.o: inc/input.h
+CMakeFiles/build.dir/src/refresh.cpp.o: inc/menu.h
+CMakeFiles/build.dir/src/refresh.cpp.o: inc/period.h
+CMakeFiles/build.dir/src/refresh.cpp.o: inc/refresh.h
+CMakeFiles/build.dir/src/refresh.cpp.o: inc/sub.h
+CMakeFiles/build.dir/src/refresh.cpp.o: inc/test.h
+CMakeFiles/build.dir/src/refresh.cpp.o: inc/text.h
+CMakeFiles/build.dir/src/refresh.cpp.o: inc/wallet.h
+CMakeFiles/build.dir/src/refresh.cpp.o: src/refresh.cpp
+
 CMakeFiles/build.dir/src/sub.cpp.o: inc/asset.h
 CMakeFiles/build.dir/src/sub.cpp.o: inc/bill.h
 CMakeFiles/build.dir/src/sub.cpp.o: inc/category.h
@@ -84,6 +101,7 @@ CMakeFiles/build.dir/src/sub.cpp.o: inc/fitting.h
 CMakeFiles/build.dir/src/sub.cpp.o: inc/input.h
 CMakeFiles/build.dir/src/sub.cpp.o: inc/menu.h
 CMakeFiles/build.dir/src/sub.cpp.o: inc/period.h
+CMakeFiles/build.dir/src/sub.cpp.o: inc/refresh.h
 CMakeFiles/build.dir/src/sub.cpp.o: inc/sub.h
 CMakeFiles/build.dir/src/sub.cpp.o: inc/test.h
 CMakeFiles/build.dir/src/sub.cpp.o: inc/text.h

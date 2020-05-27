@@ -27,6 +27,8 @@ iostream
 -
 vector
 -
+iomanip
+-
 date.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/date.h
 period.h
@@ -87,12 +89,16 @@ period.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/period.h
 category.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/category.h
+bill.h
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/bill.h
 sub.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/sub.h
 wallet.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/wallet.h
 fitting.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/fitting.h
+refresh.h
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/refresh.h
 
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/period.h
 iostream
@@ -103,6 +109,18 @@ date.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/date.h
 text.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/text.h
+
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/refresh.h
+iostream
+-
+vector
+-
+date.h
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/date.h
+text.h
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/text.h
+sub.h
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/sub.h
 
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/sub.h
 iostream

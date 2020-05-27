@@ -1,8 +1,5 @@
 #include "../inc/menu.h"
 
-#define CLEAR system("clear")
-//#define CLEAR system("cls")
-
 using std::cerr;
 using std::vector;
 
@@ -11,6 +8,7 @@ MainMenu *pMenu = new MainMenu;
 void MainMenu::Menu()
 {
     CLEAR;
+    Refresh();
     using namespace NMainMenu;
     cout << TITLE << endl;
     cout << "1. " << ASSET << endl
@@ -20,7 +18,6 @@ void MainMenu::Menu()
          << "5. " << HELP << endl
          << "6. " << EXIT << endl
          << END << endl;
-    delete pMenu;
     InputCode();
 }
 
@@ -29,26 +26,31 @@ void MainMenu::InputCode()
     int code = SetCode();
     if (code == 1)
     {
+        delete pMenu;
         pMenu = new AssetMenu;
         pMenu->Menu();
     }
     else if (code == 2)
     {
+        delete pMenu;
         pMenu = new BillMenu;
         pMenu->Menu();
     }
     else if (code == 3)
     {
+        delete pMenu;
         pMenu = new WalletMenu;
         pMenu->Menu();
     }
     else if (code == 4)
     {
+        //delete pMenu;
         //pMenu = new FileMenu;
         //pMenu->Menu();
     }
     else if (code == 5)
     {
+        //delete pMenu;
         //pMenu = new HelpMenu;
         //pMenu->Menu();
     }
@@ -70,13 +72,13 @@ void MainMenu::InputCode()
 财产
     - 收支
         - 新建 (4) ok
-        - 编辑 ok
+        - 编辑 TODO:
         - 返回 ok
     - 借贷
         - 新建 (2) ok TODO:
-        - 编辑
-        - 统计
-        - 返回
+        - 编辑 TODO:
+        - 统计 ?
+        - 返回 
     - 预算
         - 新建
         - 编辑
@@ -84,24 +86,23 @@ void MainMenu::InputCode()
     - 返回
 
 账单
-    - 总览
-        - 默认排序
-        - 按时间排序
-        - 按金额排序
-        - 返回
+    - 总览 ok
+        - 默认排序 ok
+        - 按时间排序 ok
+        - 按金额排序 ok
+        - 返回 ok
 
     - 过滤
         - 按时间
         - 按金额
-        - 按类别
         - 返回
 
-    - 统计
+    - 统计 ok
     - 返回
 
 钱包
-    - 总览
-    - 编辑
+    - 总览 ok
+    - 编辑 ok
     - 返回
 
 文件
@@ -120,7 +121,6 @@ void MainMenu::InputCode()
 void AssetMenu::Menu()
 {
     CLEAR;
-    delete pMenu;
     using namespace NAssetMenu;
     cout << TITLE << endl;
     cout << "1. " << TRANSACTION << endl
@@ -137,21 +137,25 @@ void AssetMenu::InputCode()
     int code = SetCode();
     if (code == 1)
     {
+        delete pMenu;
         pMenu = new TransactionMenu;
         pMenu->Menu();
     }
     else if (code == 2)
     {
+        delete pMenu;
         pMenu = new DepositAndLoanMenu;
         pMenu->Menu();
     }
     else if (code == 3)
     {
+        delete pMenu;
         pMenu = new BudgetMenu;
         pMenu->Menu();
     }
     else if (code == 4)
     {
+        delete pMenu;
         pMenu = new MainMenu;
         pMenu->Menu();
     }
@@ -193,7 +197,6 @@ void AssetMenu::PrintAll()
 void TransactionMenu::Menu()
 {
     CLEAR;
-    delete pMenu;
     using namespace NTransactionMenu;
     cout << TITLE << endl
          << "1. " << ADD_SINGLE_EXPENSE << endl
@@ -214,6 +217,7 @@ void TransactionMenu::InputCode()
     {
         Transaction *p = new Transaction;
         p->InputSingleTransaction(EXPENSE);
+        delete pMenu;
         pMenu = new TransactionMenu;
         pMenu->Menu();
     }
@@ -221,6 +225,7 @@ void TransactionMenu::InputCode()
     {
         Transaction *p = new Transaction;
         p->InputSingleTransaction(INCOME);
+        delete pMenu;
         pMenu = new TransactionMenu;
         pMenu->Menu();
     }
@@ -228,6 +233,7 @@ void TransactionMenu::InputCode()
     {
         Transaction *p = new Transaction;
         p->InputRegularTransaction(EXPENSE);
+        delete pMenu;
         pMenu = new TransactionMenu;
         pMenu->Menu();
     }
@@ -235,17 +241,20 @@ void TransactionMenu::InputCode()
     {
         Transaction *p = new Transaction;
         p->InputRegularTransaction(INCOME);
+        delete pMenu;
         pMenu = new TransactionMenu;
         pMenu->Menu();
     }
     else if (code == 5)
     {
         EditTransaction();
+        delete pMenu;
         pMenu = new TransactionMenu;
         pMenu->Menu();
     }
     else if (code == 6)
     {
+        delete pMenu;
         pMenu = new AssetMenu;
         pMenu->Menu();
     }
@@ -279,13 +288,14 @@ void TransactionMenu::EditTransaction()
 {
     CLEAR;
     PrintAll();
-    int code = SetCode();
+    getchar();
+    //TODO:
+    //int code = SetCode();
 }
 
 void BudgetMenu::Menu()
 {
     CLEAR;
-    delete pMenu;
     using namespace NBudgetMenu;
     cout << TITLE << endl
          << "1. " << ADD << endl
@@ -304,23 +314,27 @@ void BudgetMenu::InputCode()
     {
         Budget *p = new Budget;
         p->InputBudget();
+        delete pMenu;
         pMenu = new BudgetMenu;
         pMenu->Menu();
     }
     else if (code == 2)
     {
         EditBudget();
+        delete pMenu;
         pMenu = new BudgetMenu;
         pMenu->Menu();
     }
     else if (code == 3)
     {
         GetStats();
+        delete pMenu;
         pMenu = new BudgetMenu;
         pMenu->Menu();
     }
     else if (code == 4)
     {
+        delete pMenu;
         pMenu = new AssetMenu;
         pMenu->Menu();
     }
@@ -360,7 +374,6 @@ void BudgetMenu::GetStats()
 void DepositAndLoanMenu::Menu()
 {
     CLEAR;
-    delete pMenu;
     using namespace NDepositAndLoanMenu;
     cout << TITLE << endl
          << "1. " << ADD_DEPOSIT << endl
@@ -380,6 +393,7 @@ void DepositAndLoanMenu::InputCode()
     {
         DepositAndLoan *p = new DepositAndLoan;
         p->InputDepositAndLoan(DEPOSIT);
+        delete pMenu;
         pMenu = new DepositAndLoanMenu;
         pMenu->Menu();
     }
@@ -387,23 +401,27 @@ void DepositAndLoanMenu::InputCode()
     {
         DepositAndLoan *p = new DepositAndLoan;
         p->InputDepositAndLoan(LOAN);
+        delete pMenu;
         pMenu = new DepositAndLoanMenu;
         pMenu->Menu();
     }
     else if (code == 3)
     {
         EditDepositAndLoan();
+        delete pMenu;
         pMenu = new DepositAndLoanMenu;
         pMenu->Menu();
     }
     else if (code == 4)
     {
         GetStats();
+        delete pMenu;
         pMenu = new DepositAndLoanMenu;
         pMenu->Menu();
     }
     else if (code == 5)
     {
+        delete pMenu;
         pMenu = new AssetMenu;
         pMenu->Menu();
     }
@@ -425,7 +443,6 @@ void DepositAndLoanMenu::PrintAll()
     cout << PRINCIPLE << "\t\t"
          << INTEREST_RATE << "\t\t"
          << START_DATE << "\t\t"
-         << END_DATE << "\t\t"
          << PERIOD << "\t\t"
          << INFO << endl;
     for (auto it : pDepoAndLoan)
@@ -436,6 +453,9 @@ void DepositAndLoanMenu::PrintAll()
 
 void DepositAndLoanMenu::EditDepositAndLoan()
 {
+    CLEAR;
+    PrintAll();
+    getchar();
     //TODO:
 }
 void DepositAndLoanMenu::GetStats()
@@ -450,7 +470,6 @@ void DepositAndLoanMenu::GetStats()
 void BillMenu::Menu()
 {
     CLEAR;
-    delete pMenu;
     using namespace NBillMenu;
     cout << TITLE << endl;
     cout << "1. " << OVERVIEW << endl
@@ -467,13 +486,15 @@ void BillMenu::InputCode()
     {
         //TODO:
         //OVERVIEW
-        pMenu = new BillMenu;
+        delete pMenu;
+        pMenu = new OverviewMenu;
         pMenu->Menu();
     }
     else if (code == 2)
     {
         //TODO:
         //FILTER
+        delete pMenu;
         pMenu = new BillMenu;
         pMenu->Menu();
     }
@@ -481,11 +502,13 @@ void BillMenu::InputCode()
     {
         //TODO:
         //STATISTICS
+        delete pMenu;
         pMenu = new StatisticsMenu;
         pMenu->Menu();
     }
     else if (code == 4)
     {
+        delete pMenu;
         pMenu = new MainMenu;
         pMenu->Menu();
     }
@@ -499,41 +522,119 @@ void BillMenu::InputCode()
     }
 }
 
-void BillMenu::PrintAll()
+void OverviewMenu::Menu()
 {
+    CLEAR;
+    extern vector<Bill *> pBill;
+    vector<Bill *> temp(pBill);
+
+    using namespace NBillMenu;
+    cout << OVERVIEW_TITLE << endl;
+    cout << "1. " << BY_DATE << "(" << DESCEND << ")" << endl
+         << "2. " << BY_DATE << "(" << ASCEND << ")" << endl
+         << "3. " << BY_AMOUNT << "(" << DESCEND << ")" << endl
+         << "4. " << BY_AMOUNT << "(" << ASCEND << ")" << endl
+         << "5. " << BACK << endl
+         << OVERVIEW_END << endl;
+
+    InputCode();
 }
-bool cmp(Bill *A, Bill *B)
+
+void OverviewMenu::InputCode()
 {
-    return A->GetDate() < B->GetDate();
+    int code = SetCode();
+    if (code <= 4 && code >= 1)
+    {
+        delete pMenu;
+        pMenu = new OverviewMenu;
+        PrintAll(code);
+        pMenu->Menu();
+    }
+    else if (code == 5)
+    {
+        delete pMenu;
+        pMenu = new BillMenu;
+        pMenu->Menu();
+    }
+    else
+    {
+        using namespace NError;
+        cerr << ERR_ILLEGAL_NUMBER << ", "
+             << PLEASE_INPUT_AGAIN << ". "
+             << endl;
+        InputCode();
+    }
 }
+
+void OverviewMenu::PrintAll(int flag)
+{
+    CLEAR;
+    extern vector<Bill *> pBill;
+    vector<Bill *> temp(pBill);
+
+    if (flag == 1)
+    {
+        sort(temp.begin(), temp.end(),
+             [](Bill *A, Bill *B) { return A->GetDate() > B->GetDate(); });
+    }
+    else if (flag == 2)
+    {
+        sort(temp.begin(), temp.end(),
+             [](Bill *A, Bill *B) { return A->GetDate() < B->GetDate(); });
+    }
+    else if (flag == 3)
+    {
+        sort(temp.begin(), temp.end(),
+             [](Bill *A, Bill *B) { return A->GetAmount() > B->GetAmount(); });
+    }
+    else if (flag == 4)
+    {
+        sort(temp.begin(), temp.end(),
+             [](Bill *A, Bill *B) { return A->GetAmount() < B->GetAmount(); });
+    }
+    for (auto it : temp)
+    {
+        it->Print();
+    }
+    cout << PRESS_ANY_KEY;
+    getchar();
+}
+
 void StatisticsMenu::Menu()
 {
     CLEAR;
-    delete pMenu;
     PrintStats();
 }
 void StatisticsMenu::PrintStats()
 {
     extern vector<Bill *> pBill;
-    sort(pBill.begin(), pBill.end(), cmp);
+    sort(pBill.begin(), pBill.end(),
+         [](Bill *A, Bill *B) { return A->GetDate() < B->GetDate(); });
     Date today;
-    int toy = today.GetYear();
-    int tom = today.GetMonth();
-    int ty = pBill[0]->GetDate().GetYear();
-    int tm = pBill[0]->GetDate().GetMonth();
-    int a = (toy - ty) * 12 + (tom - tm);
-    vector<BILL_BY_MONTH> y = {{0, 0, 0}};
-    y.resize(a + 1);
-    int j = 0;
-    for (int i = 0; i < pBill.size() - 1; i++)
+    int currentYear = today.GetYear();
+    int currentMonth = today.GetMonth();
+    int firstYear = pBill[0]->GetDate().GetYear();
+    int firstMonth = pBill[0]->GetDate().GetMonth();
+    int totalMonth = (currentYear - firstYear) * 12 + (currentMonth - firstMonth);
+
+    vector<BILL_BY_MONTH> y(totalMonth + 1, {0, 0, 0});
+
+    int monthCount = 0;
+    for (int i = 0; i < pBill.size(); i++)
     {
-        y[j].amount += pBill[i]->GetAmount();
-        if (pBill[i + 1]->GetDate().GetYear() != pBill[i]->GetDate().GetYear() ||
-            pBill[i + 1]->GetDate().GetMonth() != pBill[i]->GetDate().GetMonth())
+        if (pBill[i]->IsExpense())
         {
-            y[j].year = pBill[i]->GetDate().GetYear();
-            y[j].month = pBill[i]->GetDate().GetMonth();
-            j++;
+            y[monthCount].amount += pBill[i]->GetAmount();
+        }
+        if (i != pBill.size() - 1)
+        {
+            if (pBill[i + 1]->GetDate().GetYear() != pBill[i]->GetDate().GetYear() ||
+                pBill[i + 1]->GetDate().GetMonth() != pBill[i]->GetDate().GetMonth())
+            {
+                y[monthCount].year = pBill[i]->GetDate().GetYear();
+                y[monthCount].month = pBill[i]->GetDate().GetMonth();
+                monthCount++;
+            }
         }
     }
 
@@ -541,37 +642,36 @@ void StatisticsMenu::PrintStats()
     //ls.Fitting();
     //cout << ls.Y(a + 1) << endl;
 
-    vector<double> percent;
-    percent.resize(a);
-    for (int i = 0; i < a + 1; i++)
-    {
-        percent[i] = y[i].amount;
-    }
-    LeastSquare ls(percent);
-    ls.Fitting();
-    double fit = ls.Y(a + 1);
+    vector<double> monthAmount(totalMonth);
 
-    percent.resize(a + 1);
-    double sum = accumulate(percent.begin(), percent.end(), 0);
-    auto maxPosition = max_element(percent.begin(), percent.end());
-    double max = *maxPosition;
+    for (int i = 0; i < totalMonth; i++)
+    {
+        monthAmount[i] = y[i].amount;
+    }
+    LeastSquare ls(monthAmount);
+    ls.Fitting();
+    double fit = ls.Y(totalMonth + 1);
+
+    monthAmount.push_back(y[totalMonth].amount);
+
+    double sum = accumulate(monthAmount.begin(), monthAmount.end(), 0);
+    double max = *max_element(monthAmount.begin(), monthAmount.end());
 
     using namespace std;
 
-    percent[a] = fit / sum;
+    monthAmount[totalMonth] = fit;
 
-    for (int i = 0; i < a; i++)
+    for (int i = 0; i < totalMonth; i++)
     {
-        percent[i] = percent[i] / sum;
         cout << y[i].year << NDate::YEAR
              << y[i].month << NDate::MONTH
-             << endl;
+             << "\t";
 
         cout << fixed << setprecision(2) << setw(5) << setiosflags(ios::right)
              << y[i].amount << NBill::YUAN << " ";
-        //<< percent[i] * 100 << "% ";
+        cout << endl;
         cout << "[";
-        for (int j = 0; j < percent[i] * 30 / (max / sum); j++)
+        for (int j = 0; j < monthAmount[i] * 30 / max; j++)
         {
             cout << "#";
         }
@@ -579,33 +679,57 @@ void StatisticsMenu::PrintStats()
         cout << endl;
     }
 
-    cout << toy << NDate::YEAR
-         << tom << NDate::MONTH
-         << endl;
+    cout << currentYear << NDate::YEAR
+         << currentMonth << NDate::MONTH
+         << "\t";
 
     cout << fixed << setprecision(2) << setw(5) << setiosflags(ios::right)
-         << y[a].amount << NBill::YUAN << " ";
+         << y[totalMonth].amount << NBill::YUAN << " ";
     //<< percent[i] * 100 << "% ";
-    cout << "[";
-    for (int j = 0; j < percent[a] * 30 / (max / sum); j++)
+    cout << endl;
+    if (y[totalMonth].amount / fit < 1)
     {
-        if (j < (percent[a] * 30 / (max / sum)) * y[a].amount / fit)
+        cout << "[";
+        for (int j = 0; j < monthAmount[totalMonth] * 30 / max; j++)
         {
-            cout << "#";
+            if (j < (monthAmount[totalMonth] * 30 / max) * y[totalMonth].amount / fit)
+            {
+                cout << "#";
+            }
+            else
+            {
+                cout << " ";
+            }
         }
-        else
+        cout << "] ";
+    }
+    else
+    {
+
+        cout << "[";
+        for (int j = 0;
+             j < (monthAmount[totalMonth] * 30 / max) * y[totalMonth].amount / fit;
+             j++)
         {
-            cout << " ";
+            if (j == int(monthAmount[totalMonth] * 30 / max))
+            {
+                cout << "]";
+            }
+            else
+            {
+                cout << "#";
+            }
         }
     }
-    cout << "] " << y[a].amount * 100 / fit << "%" << endl;
-    cout << "-----------------------------------------------" << endl;
+    cout << endl;
+    cout << "--------------------------------------------------------------"
+         << endl;
     cout << "本月预计消费"
          << fit << NBill::YUAN
-         << ", 已用" << y[a].amount * 100 / fit << "%. " << endl;
-    cout << endl;
-
+         << ", 已用" << y[totalMonth].amount * 100 / fit << "%. " << endl;
+    cout << PRESS_ANY_KEY;
     getchar();
+    delete pMenu;
     pMenu = new BillMenu;
     pMenu->Menu();
 }
@@ -617,7 +741,6 @@ extern Wallet *pWallet;
 void WalletMenu::Menu()
 {
     CLEAR;
-    delete pMenu;
     using namespace NWalletMenu;
     cout << TITLE << endl;
     cout << BALANCE << ": " << pWallet->GetBalance() << endl;
@@ -638,23 +761,27 @@ void WalletMenu::InputCode()
     if (code == 1)
     {
         pWallet->TopUp();
+        delete pMenu;
         pMenu = new WalletMenu();
         pMenu->Menu();
     }
     else if (code == 2)
     {
         pWallet->Withdraw();
+        delete pMenu;
         pMenu = new WalletMenu();
         pMenu->Menu();
     }
     else if (code == 3)
     {
         pWallet->Edit();
+        delete pMenu;
         pMenu = new WalletMenu();
         pMenu->Menu();
     }
     else if (code == 4)
     {
+        delete pMenu;
         pMenu = new MainMenu;
         pMenu->Menu();
     }
@@ -666,6 +793,10 @@ void WalletMenu::InputCode()
              << endl;
         InputCode();
     }
+}
+
+void HelpMenu::Menu()
+{
 }
 
 #pragma endregion

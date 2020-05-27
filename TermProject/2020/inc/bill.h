@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <iomanip>
 
 #include "date.h"
 #include "period.h"
@@ -24,6 +25,7 @@ public:
     void Hide();
     void Unhide();
     void Print();
+    bool IsExpense();
     double GetAmount();
     Date GetDate();
 

@@ -1,7 +1,6 @@
 #include "../inc/wallet.h"
 
 Wallet *pWallet = new Wallet(0);
-#define CLEAR system("clear")
 
 using std::cerr;
 using std::cout;
