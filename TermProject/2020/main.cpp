@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <iomanip>
 #include <algorithm>
 #include "inc/date.h"
 #include "inc/asset.h"
@@ -22,7 +23,7 @@ int main()
 {
     extern vector<Bill *> pBill;
     File file;
-    //file.LoadFromFile();
+    file.LoadFromFile();
     extern MainMenu *pMenu;
     pMenu->Menu();
 }

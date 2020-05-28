@@ -41,9 +41,20 @@ namespace NDate
 
 namespace NBill
 {
+    T(TYPE, "种类");
+    T(AMOUNT, "金额");
+    T(DATE, "日期");
+    T(INFO, "附加信息");
+
     T(YUAN, "元");
+    T(INCOME, "收入");
+    T(EXPENSE, "支出");
     T(INTEREST, "利息");
     T(REGULAR, "定期");
+
+    T(EXPECTED, "本月预计消费");
+    T(USED, "已用");
+
 } // namespace NBill
 
 namespace NAssetMenu
@@ -101,6 +112,8 @@ namespace NTransaction
     T(SINGLE_INCOME_TITLE, "////////// 单笔收入 //////////");
     T(REGULAR_EXPENSE_TITLE, "////////// 定期支出 //////////");
     T(REGULAR_INCOME_TITLE, "////////// 定期收入 //////////");
+    T(CHOOSE_A_TRANSACTION, "根据编号选择一个交易");
+    T(PRESS_ENTER_TO_EXIT, "按下回车或输入 0 返回");
     T(AMOUNT, "金额");
     T(CATEGORY, "类别");
     T(DATE, "日期");
@@ -111,11 +124,19 @@ namespace NTransaction
     T(OPTIONAL, "可选");
     T(DIVISION, "-----------------------------");
     T(END, "////////// ＝＝＝＝ //////////");
+    T(INCOME, "收入");
+    T(EXPENSE, "支出");
+    T(TYPE, "种类");
+    T(EDIT, "编辑");
+    T(DELETE, "删除");
+    T(BACK, "返回");
+    T(ID, "编号");
 
 } // namespace NTransaction
 
 namespace NInstruction
 {
+
     T(COMFIRM_AND_SAVE, "确认并保存");
     T(INPUT_AGAIN, "重新输入");
     T(HELP, "帮助");
@@ -149,6 +170,12 @@ namespace NDepositAndLoanMenu
 
 namespace NDepositAndLoan
 {
+    T(CHOOSE_A_DEPOSIT_OR_LOAN, "根据编号选择一个借贷");
+    T(PRESS_ENTER_TO_EXIT, "按下回车或输入 0 返回");
+    T(DEPOSIT, "存款");
+    T(LOAN, "贷款");
+    T(TYPE, "种类");
+    T(ID, "编号");
     T(TITLE, "////////// 存款贷款 //////////");
     T(PRINCIPLE, "本金");
     T(INTEREST_RATE, "利率");
@@ -160,6 +187,7 @@ namespace NDepositAndLoan
     T(PERIOD, "周期");
     T(INFO, "附加信息");
     T(DIVISION, "-----------------------------");
+    T(RATE_HELP, "利率前标记'S'的是单利, 标记'C'的是复利. ");
 
 } // namespace NDepositAndLoan
 

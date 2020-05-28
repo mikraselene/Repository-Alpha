@@ -18,6 +18,9 @@
 #include "fitting.h"
 #include "refresh.h"
 
+using std::setfill;
+using std::setw;
+
 class MainMenu
 {
 public:

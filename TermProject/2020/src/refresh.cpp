@@ -20,10 +20,7 @@ Refresh::Refresh()
             extern std::vector<Date *> dateList;
             for (auto itDate : dateList)
             {
-                using namespace NBill;
-                Bill *t = new Bill(it->GetType(), it->GetAmount(),
-                                   *itDate, it->GetCategory() + " (" + REGULAR + ")");
-                t->Add();
+                it->AddToBill(itDate);
             }
             it->ResetDate();
             dateList.clear();
@@ -32,7 +29,6 @@ Refresh::Refresh()
     for (auto it : pDepoAndLoan)
     {
         int code = it->GetPeriod();
-        int sum = 0;
         if (code == Period::MONTHLY ||
             code == Period::WEEKLY ||
             code == Period::DAILY)
@@ -41,16 +37,10 @@ Refresh::Refresh()
             extern std::vector<Date *> dateList;
             for (auto itDate : dateList)
             {
-                using namespace NBill;
-                it->Check();
-                Bill *t = new Bill(it->GetType(), it->GetRate() * it->GetAmount(),
-                                   *itDate, it->GetInfo() + " (" + INTEREST + ")");
-                t->Add();
-                sum += it->GetRate() * it->GetAmount();
+                it->AddToBill(itDate);
             }
             it->ResetDate();
             dateList.clear();
         }
-        it->ChangeTotalInterest(sum);
     }
 }

@@ -29,7 +29,7 @@ void Category::Add()
 {
     for (auto it : pCategory)
     {
-        if (it->GetCategory() == this->GetCategory())
+        if (string(*it) == category)
         {
             return;
         }
@@ -47,7 +47,8 @@ void Category::Del()
         }
     }
 }
-string Category::GetCategory()
+
+Category::operator string()
 {
     return category;
 }

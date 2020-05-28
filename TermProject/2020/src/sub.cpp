@@ -54,7 +54,7 @@ void Asset::ShowCategory()
     int i = 1;
     for (auto it = pCategory.begin(); it != pCategory.end(); it++)
     {
-        cout << i++ << ". " << (*it)->GetCategory() << "\t\t";
+        cout << i++ << ". " << string(**it) << "\t\t";
         if ((i - 1) % 4 == 0)
         {
             cout << endl;
@@ -217,10 +217,12 @@ void Transaction::InputSingleCode()
     int code = SetCode();
     if (code == 1)
     {
-        pTransaction.push_back(this);
+
         extern vector<Bill *> pBill;
-        Bill *b = new Bill(type, amount, date, category.GetCategory());
+        Bill *b = new Bill(type, amount, date, category);
         b->Add();
+        bill = b;
+        pTransaction.push_back(this);
     }
     else if (code == 2)
     {
@@ -324,10 +326,173 @@ void Transaction::InputRegularCode()
 
 void Transaction::Print()
 {
-    cout << amount << "\t\t"
+    using namespace NTransaction;
+    string typestr;
+    if (type == 1)
+    {
+        typestr = INCOME;
+    }
+    else if (type == -1)
+    {
+        typestr = EXPENSE;
+    }
+    cout << std::fixed << std::setprecision(2)
+         << setw(12) << amount << "\t\t"
+         << typestr << "\t\t"
          << category << "\t\t"
          << date << "\t\t"
-         << period << endl;
+         << period << endl
+         << std::resetiosflags(std::ios::showpos);
+}
+
+void Transaction::Submenu()
+{
+    CLEAR;
+    using namespace NTransaction;
+    extern string Division(int);
+    PrintEdit(amount, category, date, period);
+    cout << "1. " << EDIT << endl
+         << "2. " << DELETE << endl
+         << "3. " << BACK << endl
+         << Division(20) << endl;
+
+    int code = SetCode();
+    if (code == 1)
+    {
+        GetPeriod() == Period::NO_PERIOD ? SingleEdit() : RegularEdit();
+    }
+    else if (code == 2)
+    {
+        for (auto it = pTransaction.begin(); it != pTransaction.end();)
+        {
+            if (*it == this)
+            {
+                pTransaction.erase(it++);
+                break;
+            }
+        }
+        cout << PRESS_ANY_KEY;
+        getchar();
+    }
+    else if (code == 3)
+    {
+        return;
+    }
+    else
+    {
+        using namespace NError;
+        cerr << ERR_ILLEGAL_NUMBER << ", "
+             << PLEASE_INPUT_AGAIN << ". " << endl;
+        Submenu();
+    }
+}
+
+void Transaction::SingleEdit()
+{
+    using namespace NTransaction;
+    string temp;
+    if (type == TransactionMenu::INCOME)
+    {
+        temp = REGULAR_INCOME_TITLE;
+    }
+    else if (type == TransactionMenu::EXPENSE)
+    {
+        temp = REGULAR_EXPENSE_TITLE;
+    }
+    CLEAR;
+    PrintEdit("?", category, date, "-");
+    amount = SetAmount();
+
+    CLEAR;
+    PrintEdit(amount, "?", date, "-");
+    ShowCategory();
+    category = SetCategory();
+
+    CLEAR;
+    PrintEdit(amount, category, "?\t", "-");
+    date = SetDate();
+
+    CLEAR;
+    PrintEdit(amount, category, date, "-");
+
+    cout << PRESS_ANY_KEY;
+    getchar();
+
+    CLEAR;
+}
+
+void Transaction::RegularEdit()
+{
+    using namespace NTransaction;
+    string temp;
+    if (type == TransactionMenu::INCOME)
+    {
+        temp = REGULAR_INCOME_TITLE;
+    }
+    else if (type == TransactionMenu::EXPENSE)
+    {
+        temp = REGULAR_EXPENSE_TITLE;
+    }
+    CLEAR;
+
+    PrintEdit("?", category, date, period);
+    amount = SetAmount();
+
+    CLEAR;
+    PrintEdit(amount, "?", date, period);
+    ShowCategory();
+    category = SetCategory();
+
+    CLEAR;
+    PrintEdit(amount, category, "?\t", period);
+    date = SetDate();
+
+    CLEAR;
+    PrintEdit(amount, category, date, "?");
+    period = SetPeriod();
+
+    CLEAR;
+
+    PrintEdit(amount, category, date, period);
+    PrintInstruction();
+
+    cout << PRESS_ANY_KEY;
+    getchar();
+
+    CLEAR;
+}
+
+template <typename T1, typename T2, typename T3, typename T4>
+void Transaction::PrintEdit(T1 x, T2 y, T3 z, T4 u)
+{
+    extern string Division(int);
+    using namespace NTransaction;
+    cout << Division(95) << endl
+         << ID << "\t"
+         << setw(14) << AMOUNT << "\t\t"
+         << TYPE << "\t\t"
+         << CATEGORY << "\t\t"
+         << DATE << "(" << START_DATE << ")\t\t"
+         << PERIOD << endl
+         << Division(95) << endl;
+    string typestr;
+    if (type == 1)
+    {
+        typestr = INCOME;
+    }
+    else if (type == -1)
+    {
+        typestr = EXPENSE;
+    }
+    cout << std::fixed << std::setprecision(2)
+         << id << "\t"
+         << setw(12) << x << "\t\t"
+         << typestr << "\t\t"
+         << y << "\t\t"
+         << z << "\t\t"
+         << u << endl
+         << std::resetiosflags(std::ios::showpos);
+    cout << Division(95) << endl;
 }
 
 template <typename T1, typename T2, typename T3>
@@ -351,30 +516,45 @@ void Transaction::PrintRegularBody(T1 x, T2 y, T3 z, T4 u)
          << DIVISION << endl;
 }
 
+void Transaction::AddToBill(Date *itDate)
+{
+    using namespace NBill;
+    Bill *t =
+        new Bill(type, amount, *itDate, string(category) + " (" + REGULAR + ")");
+    t->Add();
+}
+#if 0
+
 int Transaction::GetType()
 {
     return type;
 }
+
 double Transaction::GetAmount()
 {
     return amount;
 }
+
+#endif
 Date Transaction::GetDate()
 {
     return date;
 }
+
 Period Transaction::GetPeriod()
 {
     return period;
 }
-string Transaction::GetCategory()
-{
-    return category.GetCategory();
-}
+
 void Transaction::ResetDate()
 {
     Date today;
     date = today;
+}
+
+void Transaction::SetId(int id)
+{
+    this->id = id;
 }
 
 #pragma endregion
@@ -437,10 +617,25 @@ void DepositAndLoan::Check()
     }
 }
 
-void DepositAndLoan::ChangeTotalInterest(double sum)
+void DepositAndLoan::PrintTotalInterest()
 {
-    totalInterest += sum;
+    using namespace NDepositAndLoan;
+    string typestr;
+    if (type == 1)
+    {
+        typestr = DEPOSIT;
+    }
+    else if (type == -1)
+    {
+        typestr = LOAN;
+    }
+    cout << typestr << "\t\t"
+         << totalInterest << "\t\t"
+         << start << "\t\t"
+         << period << "\t\t"
+         << info << endl;
 }
+
 void DepositAndLoan::InputCode()
 {
     int code = SetCode();
@@ -473,10 +668,27 @@ void DepositAndLoan::InputCode()
 
 void DepositAndLoan::Print()
 {
-    cout << principle << "\t\t"
-         << interest << "\t\t"
-         << start << "\t\t"
+    using namespace NDepositAndLoan;
+    string typestr;
+    string intereststr;
+    string interestFlag;
+    if (type == 1)
+    {
+        typestr = DEPOSIT;
+    }
+    else if (type == -1)
+    {
+        typestr = LOAN;
+    }
+    isCompound ? interestFlag = "C" : interestFlag = "S";
+    string tempstr = std::to_string(interest * 100);
+    intereststr = interestFlag + tempstr.substr(0, tempstr.size() - 4) + "%";
+    cout << std::fixed << std::setprecision(2)
+         << setw(12) << principle << "\t"
+         << setw(12) << intereststr << "\t\t"
          << period << "\t\t"
+         << typestr << "\t\t"
+         << start << "\t\t"
          << info << endl;
 }
 
@@ -524,6 +736,16 @@ bool DepositAndLoan::SetType()
     }
 }
 
+void DepositAndLoan::AddToBill(Date *itDate)
+{
+    using namespace NBill;
+    Check();
+    Bill *t =
+        new Bill(type, interest * principle, *itDate, info + " (" + INTEREST + ")");
+    t->Add();
+    totalInterest += interest * principle;
+}
+
 double DepositAndLoan::SetRate()
 {
     try
@@ -569,30 +791,40 @@ void DepositAndLoan::PrintDepoLoanBody(T1 x, T2 y, T3 z, T4 u, T5 v, T6 w)
          << DIVISION << endl;
 }
 
+#if 0
+
 int DepositAndLoan::GetType()
 {
     return type;
 }
+
 double DepositAndLoan::GetAmount()
 {
     return principle;
 }
+
 double DepositAndLoan::GetRate()
 {
     return interest;
 }
-Date DepositAndLoan::GetDate()
-{
-    return start;
-}
-Period DepositAndLoan::GetPeriod()
-{
-    return period;
-}
+
+
 string DepositAndLoan::GetInfo()
 {
     return info;
 }
+
+#endif
+Date DepositAndLoan::GetDate()
+{
+    return start;
+}
+
+Period DepositAndLoan::GetPeriod()
+{
+    return period;
+}
+
 void DepositAndLoan::ResetDate()
 {
     Date today;

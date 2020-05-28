@@ -4,7 +4,11 @@ using std::cerr;
 using std::vector;
 
 MainMenu *pMenu = new MainMenu;
-
+string Division(int n)
+{
+    string s(n, '-');
+    return s;
+}
 void MainMenu::Menu()
 {
     CLEAR;
@@ -273,24 +277,49 @@ void TransactionMenu::PrintAll()
     CLEAR;
     extern vector<Transaction *> pTransaction;
     using namespace NTransaction;
-    cout << AMOUNT << "\t\t"
+    cout << Division(95) << endl
+         << ID << "\t"
+         << setw(14) << AMOUNT << "\t\t"
+         << TYPE << "\t\t"
          << CATEGORY << "\t\t"
          << DATE << "(" << START_DATE << ")\t\t"
-         << PERIOD << endl;
+         << PERIOD << endl
+         << Division(95) << endl;
 
-    for (auto it : pTransaction)
+    for (int i = 0; i < pTransaction.size(); i++)
     {
-        it->Print();
+        cout << i + 1 << "\t";
+        pTransaction[i]->SetId(i + 1);
+        pTransaction[i]->Print();
     }
+    cout << Division(95) << endl;
 }
 
 void TransactionMenu::EditTransaction()
 {
     CLEAR;
     PrintAll();
-    getchar();
-    //TODO:
-    //int code = SetCode();
+    using namespace NTransaction;
+    cout << CHOOSE_A_TRANSACTION << ", " << PRESS_ENTER_TO_EXIT << ". " << endl;
+    int code = SetCode();
+    extern vector<Transaction *> pTransaction;
+    if (code >= 1 && code <= pTransaction.size())
+    {
+        pTransaction[code - 1]->Submenu();
+        EditTransaction();
+    }
+    else if (code == 0)
+    {
+        return;
+    }
+    else
+    {
+        using namespace NError;
+        cerr << ERR_ILLEGAL_NUMBER << ", "
+             << PLEASE_INPUT_AGAIN << ". "
+             << endl;
+        EditTransaction();
+    }
 }
 
 void BudgetMenu::Menu()
@@ -438,29 +467,70 @@ void DepositAndLoanMenu::InputCode()
 void DepositAndLoanMenu::PrintAll()
 {
     CLEAR;
+    /*
+    bool isCompound;
+    double principle;
+    double interest;
+    double totalInterest;
+    Date start;
+    Period period;
+    string info;
+    int type;
+    */
     extern vector<DepositAndLoan *> pDepoAndLoan;
     using namespace NDepositAndLoan;
-    cout << PRINCIPLE << "\t\t"
-         << INTEREST_RATE << "\t\t"
-         << START_DATE << "\t\t"
+    cout << Division(115) << endl
+         << ID << "\t"
+         << setw(14) << PRINCIPLE << "\t"
+         << setw(14) << INTEREST_RATE << "*\t\t"
          << PERIOD << "\t\t"
-         << INFO << endl;
-    for (auto it : pDepoAndLoan)
+         << TYPE << "\t\t"
+         << START_DATE << "\t\t"
+         << INFO << endl
+         << Division(115) << endl;
+    for (int i = 0; i < pDepoAndLoan.size(); i++)
     {
-        it->Print();
+        cout << i + 1 << "\t";
+        pDepoAndLoan[i]->Print();
     }
+    cout << Division(115) << endl;
+    cout << "* " << RATE_HELP << endl;
 }
 
 void DepositAndLoanMenu::EditDepositAndLoan()
 {
     CLEAR;
     PrintAll();
-    getchar();
-    //TODO:
+    using namespace NDepositAndLoan;
+    cout << CHOOSE_A_DEPOSIT_OR_LOAN << ", " << PRESS_ENTER_TO_EXIT << ". " << endl;
+    int code = SetCode();
+    extern vector<DepositAndLoan *> pDepoAndLoan;
+    if (code >= 1 && code <= pDepoAndLoan.size())
+    {
+        //pDepoAndLoan[code - 1]->Edit();
+        //TODO:
+    }
+    else if (code == 0)
+    {
+        return;
+    }
+    else
+    {
+        using namespace NError;
+        cerr << ERR_ILLEGAL_NUMBER << ", "
+             << PLEASE_INPUT_AGAIN << ". "
+             << endl;
+        EditDepositAndLoan();
+    }
 }
 void DepositAndLoanMenu::GetStats()
 {
-    //TODO:
+    extern vector<DepositAndLoan *> pDepoAndLoan;
+    for (auto it : pDepoAndLoan)
+    {
+        it->PrintTotalInterest();
+    }
+    getchar();
 }
 
 #pragma endregion
@@ -592,11 +662,20 @@ void OverviewMenu::PrintAll(int flag)
         sort(temp.begin(), temp.end(),
              [](Bill *A, Bill *B) { return A->GetAmount() < B->GetAmount(); });
     }
+    using namespace NBill;
+
+    cout << Division(90) << endl
+         << setw(12) << AMOUNT << "\t"
+         << TYPE << "\t\t\t"
+         << DATE << "\t\t\t"
+         << INFO << endl
+         << Division(90) << endl;
     for (auto it : temp)
     {
         it->Print();
     }
-    cout << PRESS_ANY_KEY;
+    cout << Division(90) << endl
+         << PRESS_ANY_KEY;
     getchar();
 }
 
@@ -663,11 +742,11 @@ void StatisticsMenu::PrintStats()
 
     for (int i = 0; i < totalMonth; i++)
     {
-        cout << y[i].year << NDate::YEAR
-             << y[i].month << NDate::MONTH
-             << "\t";
+        cout << y[i].year << "."
+             << setw(2) << setfill('0') << y[i].month << ", "
+             << setfill(' ');
 
-        cout << fixed << setprecision(2) << setw(5) << setiosflags(ios::right)
+        cout << fixed << setprecision(2)
              << y[i].amount << NBill::YUAN << " ";
         cout << endl;
         cout << "[";
@@ -679,11 +758,11 @@ void StatisticsMenu::PrintStats()
         cout << endl;
     }
 
-    cout << currentYear << NDate::YEAR
-         << currentMonth << NDate::MONTH
-         << "\t";
+    cout << currentYear << "."
+         << setw(2) << setfill('0') << currentMonth << ", "
+         << setfill(' ');
 
-    cout << fixed << setprecision(2) << setw(5) << setiosflags(ios::right)
+    cout << fixed << setprecision(2)
          << y[totalMonth].amount << NBill::YUAN << " ";
     //<< percent[i] * 100 << "% ";
     cout << endl;
@@ -722,11 +801,12 @@ void StatisticsMenu::PrintStats()
         }
     }
     cout << endl;
-    cout << "--------------------------------------------------------------"
+    cout << Division(50)
          << endl;
-    cout << "本月预计消费"
-         << fit << NBill::YUAN
-         << ", 已用" << y[totalMonth].amount * 100 / fit << "%. " << endl;
+    using namespace NBill;
+    cout << EXPECTED
+         << fit << YUAN
+         << ", " << USED << y[totalMonth].amount * 100 / fit << "%. " << endl;
     cout << PRESS_ANY_KEY;
     getchar();
     delete pMenu;

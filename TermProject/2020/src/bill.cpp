@@ -32,12 +32,26 @@ void Bill::Unhide()
 
 void Bill::Print()
 {
-    cout << type << "\t";
+    using namespace NBill;
+    string typestr;
+    double tempamount;
+    if (type == 1)
+    {
+        typestr = INCOME;
+        tempamount = amount;
+    }
+    else if (type == -1)
+    {
+        typestr = EXPENSE;
+        tempamount = -amount;
+    }
+
     cout << fixed << setprecision(2)
-         << amount << "\t\t"
+         << setw(10) << showpos << tempamount << "\t"
+         << typestr << "\t\t\t"
          << date << "\t\t"
-         << info << "\t\t"
-         << endl;
+         << info << endl
+         << resetiosflags(ios::showpos);
 }
 double Bill::GetAmount()
 {

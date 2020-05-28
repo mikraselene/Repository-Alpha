@@ -14,7 +14,7 @@ public:
     Category(std::string c);
     void Add();
     void Del();
-    std::string GetCategory();
+    operator std::string();
     friend std::ostream &operator<<(std::ostream &, Category);
 
 private:

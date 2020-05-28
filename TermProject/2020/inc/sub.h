@@ -31,19 +31,31 @@ protected:
 class Transaction : public Asset
 {
 public:
-    void SubMenu();
     void InputSingleTransaction(int);
     void InputRegularTransaction(int);
+
+    /*
     int GetType();
     double GetAmount();
+    */
     Date GetDate();
     Period GetPeriod();
-    string GetCategory();
+
+    void AddToBill(Date *);
+
     void Print();
-    void PrintAll();
+
+    void SetId(int);
+
     void ResetDate();
 
+    void Submenu();
+
 private:
+    void SingleEdit();
+    void RegularEdit();
+    template <typename T1, typename T2, typename T3, typename T4>
+    void PrintEdit(T1 x, T2 y, T3 z, T4 u);
     template <typename T1, typename T2, typename T3>
     void PrintSingleBody(T1, T2, T3);
     template <typename T1, typename T2, typename T3, typename T4>
@@ -55,28 +67,32 @@ private:
     Date date;
     Period period;
     int type;
+    int id;
+    Bill *bill;
 };
 
 class DepositAndLoan : public Asset
 {
 public:
-    void SubMenu();
-
     void InputDepositAndLoan(int);
 
+    /*
     int GetType();
     double GetAmount();
     double GetRate();
+
+    string GetInfo();
+    */
     Date GetDate();
     Period GetPeriod();
-    string GetInfo();
+    void AddToBill(Date *);
 
     void Print();
-    void PrintAll();
+    void PrintTotalInterest();
 
     void Check();
-    void ChangeTotalInterest(double);
     void ResetDate();
+    void Edit();
 
 private:
     double SetRate();
