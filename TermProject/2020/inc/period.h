@@ -7,18 +7,20 @@
 #include "date.h"
 #include "text.h"
 
-using std::cout;
-using std::endl;
-using std::string;
+/*---------------------------------------------------------------------------
+类名: Period
 
+描述:
+    自定义 Period 数据类型, 实现对周期基本的计数, 输出等功能. 
+---------------------------------------------------------------------------*/
 class Period
 {
 public:
-    friend std::ostream &operator<<(std::ostream &, Period);
+    friend std::ostream &operator<<(std::ostream &, const Period &);
     Period();
-    Period(int);
-    int Calculate(Date);
+    Period(const int &);
     operator int();
+    int Calculate(const Date &) const;
 
     enum
     {
@@ -30,7 +32,7 @@ public:
 
 private:
     int code;
-    string period;
+    std::string period;
 };
 
 #endif

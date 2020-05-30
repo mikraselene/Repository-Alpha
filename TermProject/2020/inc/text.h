@@ -8,6 +8,23 @@
 //#define CLEAR system("cls")
 #define T(code, text) const std::string(code) = (text)
 
+#define SAFE_DELETE(p)  \
+    {                   \
+        if (p)          \
+        {               \
+            delete (p); \
+            (p) = NULL; \
+        }               \
+    }
+#define DELETE_VECTOR(pL)   \
+    {                       \
+        for (auto it : pL)  \
+        {                   \
+            SAFE_DELETE(it) \
+        }                   \
+        pL.clear();         \
+    }
+
 namespace NCategory
 {
     T(ROUTINE, "日常");

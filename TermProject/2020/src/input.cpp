@@ -2,31 +2,24 @@
 
 #pragma region "Public"
 
-/*---------------------------------------------------------------------------
-FUNCTION: friend istream &operator>>(istream &, In &);
-
-PURPOSE:
-    Receive a string as a string member of class In.
----------------------------------------------------------------------------*/
-istream &operator>>(istream &in, In &A)
+std::istream &operator>>(std::istream &in, In &A)
 {
-    getline(cin, A.input);
+    getline(std::cin, A.input);
     return in;
 }
 
 /*---------------------------------------------------------------------------
-FUNCTION: operator int()
+重载: operator int()
 
-PURPOSE:
-    Receive a string member and check whether it is legal or not.
-    If it is legal, return the value of the equivalent integer.
+目的:
+    接收 string 成员变量并检查其是否合法. 如果其是合法的, 返回其等效整形值 x. 
 
-CALLS:
+调用:
     CheckInput()
     GetAnswer()
 
-RETURN VALUE:
-    The equivalent int value of the string.
+返回值:
+    整数 x.
 ---------------------------------------------------------------------------*/
 In::operator int()
 {
@@ -36,18 +29,17 @@ In::operator int()
 }
 
 /*---------------------------------------------------------------------------
-FUNCTION: operator double()
+重载: operator double()
 
-PURPOSE:
-    Receive a string member and check whether it is legal or not.
-    If it is legal, return the value of the equivalent real number.
+目的:
+    接收 string 成员变量并检查其是否合法. 如果其是合法的, 返回其等效实数值 x. 
 
-CALLS:
+调用:
     CheckInput()
     GetAnswer()
 
-RETURN VALUE:
-    The equivalent real value of the string.
+返回值:
+    实数 x.
 ---------------------------------------------------------------------------*/
 In::operator double()
 {
@@ -63,20 +55,19 @@ In::operator double()
 }
 
 /*---------------------------------------------------------------------------
-FUNCTION: operator Date()
+重载: operator int()
 
-PURPOSE:
-    Receive a string member and check whether it is legal or not.
-    If it is legal, return the equivalent date.
+目的:
+    接收 string 成员变量并检查其是否合法. 如果其是合法的, 返回其等效日期 x. 
 
-CALLS:
+调用:
     ToInt()
     IsLegal()
 
-RETURN VALUE:
-    The equivalent date of the string.
+返回值:
+    日期 x.
 ---------------------------------------------------------------------------*/
-In::operator Date()
+In::operator Date() const
 {
     auto first = input.find(" ");
     auto second = input.find_last_of(" ");
@@ -88,13 +79,12 @@ In::operator Date()
     }
     if (first == input.npos || second == input.npos || first == second)
     {
-        using namespace NError;
-        throw ERR_ILLEGAL_DATE;
+        throw NError::ERR_ILLEGAL_DATE;
     }
 
-    string yearstr = input.substr(0, first);
-    string monthstr = input.substr(first + 1, second - first - 1);
-    string daystr = input.substr(second + 1, third - second - 1);
+    std::string yearstr = input.substr(0, first);
+    std::string monthstr = input.substr(first + 1, second - first - 1);
+    std::string daystr = input.substr(second + 1, third - second - 1);
 
     int year = ToInt(yearstr);
     int month = ToInt(monthstr);
@@ -107,53 +97,36 @@ In::operator Date()
 
     if (date.IsLegal() == 0)
     {
-        using namespace NError;
-        throw ERR_ILLEGAL_DATE;
+        throw NError::ERR_ILLEGAL_DATE;
     }
 
     return date;
 }
 
-/*---------------------------------------------------------------------------
-FUNCTION: operator string()
-
-PURPOSE:
-    Receive a string and return it intactly.
-
-RETURN VALUE:
-    The string itself.
----------------------------------------------------------------------------*/
-In::operator string()
+In::operator std::string() const
 {
     return input;
 }
 
-/*---------------------------------------------------------------------------
-FUNCTION: friend istream &operator>>(istream &, CalcIn &);
-
-PURPOSE:
-    Receive a string as a string member of class CalcIn.
----------------------------------------------------------------------------*/
-istream &operator>>(istream &in, CalcIn &A)
+std::istream &operator>>(std::istream &in, CalcIn &A)
 {
-    getline(cin, A.input);
+    getline(std::cin, A.input);
     return in;
 }
 
 /*---------------------------------------------------------------------------
-FUNCTION: operator double()
+重载: operator double()
 
-PURPOSE:
-    To determine whether the return value of Calc() is negative or not.
-    If the return value of Calc() is negative, throw ERR_NEGATIVE_NUMBER.
+目的:
+    检查 Calc() 的返回值 x 是否是正数, 如果是则返回 x 本身, 否则抛出负数异常.
 
-CALLS:
-    Calc()
+调用:
+    Calc();
 
-RETURN VALUE:
-    The positive equivalent real value of the string.
+返回值:
+    实数 x.
 ---------------------------------------------------------------------------*/
-CalcIn::operator double()
+CalcIn::operator double() const
 {
     double ans = Calc(input);
     if (ans >= 0)
@@ -162,8 +135,7 @@ CalcIn::operator double()
     }
     else
     {
-        using namespace NError;
-        throw ERR_NEGATIVE_NUMBER;
+        throw NError::ERR_NEGATIVE_NUMBER;
     }
 }
 
@@ -172,12 +144,13 @@ CalcIn::operator double()
 #pragma region "Private"
 
 /*---------------------------------------------------------------------------
-FUNCTION: void CheckInput()
+函数: void CheckInput()
 
-PURPOSE:
-    Receive a string member and check whether it is legal or not.
-    If it is not a number, throw ERR_ILLEGAL_NUMBER;
-    If it is a negative number, throw ERR_NEGATIVE_NUMBER.
+目的:
+    接收接收 string 成员变量并检查其是否合法:
+    如果其不是一个数字, 则抛出不合法数字异常;
+    如果其是一个负数, 则抛出负数异常.
+
 ---------------------------------------------------------------------------*/
 void In::CheckInput()
 {
@@ -197,26 +170,24 @@ void In::CheckInput()
     }
     if (isIllegal)
     {
-        using namespace NError;
-        throw ERR_ILLEGAL_NUMBER;
+        throw NError::ERR_ILLEGAL_NUMBER;
     }
     if (isNegative)
     {
-        using namespace NError;
-        throw ERR_NEGATIVE_NUMBER;
+        throw NError::ERR_NEGATIVE_NUMBER;
     }
 }
 
 /*---------------------------------------------------------------------------
-FUNCTION: double GetAnswer()
+函数: double GetAnswer()
 
-PURPOSE:
-    Receive a number-legal string member and give it's number-equivalent value.
+目的:
+    接收一个合法的 string 并返回其等效整形值 x.
 
-RETURN VALUE:
-    The number-equivalent value of a number-legal string.
+返回值:
+    整数 x.
 ---------------------------------------------------------------------------*/
-double In::GetAnswer()
+double In::GetAnswer() const
 {
     double rawans = 0;
     int p = 0;
@@ -229,18 +200,16 @@ double In::GetAnswer()
 }
 
 /*---------------------------------------------------------------------------
-FUNCTION: double Calc()
+函数: double Calc()
 
-PURPOSE:
-    Receive a string member and check whether it is legal or not.
-    If it is legal, return the value of the equivalent real number.
-    The string could contain space and the operator +, -, *, /.
-    For example, the input string is "1 + 2/4", the function returns 1.5.
+目的:
+    接收 string 成员变量并检查其是否合法. 如果其是合法的, 返回其等效实数值 x. 
+    合法的 string 可以包括空格和四则运算符号, 例如接收 "1 + 2/4", 返回 1.5.
 
-RETURN VALUE:
-    The equivalent real value of the string.
+返回值:
+    实数 x.
 ---------------------------------------------------------------------------*/
-double CalcIn::Calc(string input)
+double CalcIn::Calc(std::string input) const
 {
     char op[5] = "+-*/";
     for (int i = 0; i < input.size(); i++)
@@ -259,12 +228,11 @@ double CalcIn::Calc(string input)
     {
         if (input.find_last_of(op[i]) != input.npos)
         {
-            string a = input.substr(0, input.find_last_of(op[i]));
-            string b = input.substr(input.find_last_of(op[i]) + 1, input.size());
+            std::string a = input.substr(0, input.find_last_of(op[i]));
+            std::string b = input.substr(input.find_last_of(op[i]) + 1, input.size());
             if (a.size() == 0 || b.size() == 0)
             {
-                using namespace NError;
-                throw ERR_ILLEGAL_OPERATION;
+                throw NError::ERR_ILLEGAL_OPERATION;
             }
             switch (op[i])
             {
@@ -291,8 +259,7 @@ double CalcIn::Calc(string input)
     {
         if (isdigit(input[i]) == 0)
         {
-            using namespace NError;
-            throw ERR_ILLEGAL_NUMBER;
+            throw NError::ERR_ILLEGAL_NUMBER;
         }
     }
     double rawans = 0;
@@ -308,23 +275,21 @@ double CalcIn::Calc(string input)
 }
 
 /*---------------------------------------------------------------------------
-FUNCTION: int ToInt()
+函数: int ToInt()
 
-PURPOSE:
-    Receive a string  and check whether it is legal or not.
-    If it is legal, return the value of the equivalent integer.
+目的:
+    接收 string 成员变量并检查其是否整形合法. 如果其是合法的, 返回其等效整形值 x.
 
-RETURN VALUE:
-    The equivalent int value of the string.
+返回值:
+    整数 x.
 ---------------------------------------------------------------------------*/
-int In::ToInt(string input)
+int In::ToInt(const std::string &input) const
 {
     for (int i = 0; i < input.size(); i++)
     {
         if (isdigit(input[i]) == 0)
         {
-            using namespace NError;
-            throw ERR_ILLEGAL_NUMBER;
+            throw NError::ERR_ILLEGAL_NUMBER;
         }
     }
     int ans = 0;
@@ -338,131 +303,3 @@ int In::ToInt(string input)
 }
 
 #pragma endregion
-
-// Previous
-#if 0
-/*---------------------------------------------------------------------------
-FUNCTION: double ToReal()
-
-PURPOSE:
-    To determine whether the return value of Calc() is negative or not.
-    If the return value of Calc() is negative, throw ERR_NEGATIVE_NUMBER.
-
-CALLS:
-    Calc()
-
-RETURN VALUE:
-    The positive equivalent real value of the string.
----------------------------------------------------------------------------*/
-double CalcIn::ToReal()
-{
-    double ans = Calc(input);
-    if (ans >= 0)
-    {
-        return ans;
-    }
-    else
-    {
-        throw ERR_NEGATIVE_NUMBER;
-    }
-}
-
-/*---------------------------------------------------------------------------
-FUNCTION: int ToInt()
-
-PURPOSE:
-    Receive a string member and check whether it is legal or not.
-    If it is legal, return the value of the equivalent integer.
-
-CALLS:
-    CheckInput()
-    GetAnswer()
-
-RETURN VALUE:
-    The equivalent int value of the string.
----------------------------------------------------------------------------*/
-int In::ToInt()
-{
-    CheckInput();
-    int ans = int(GetAnswer());
-    return ans;
-}
-
-/*---------------------------------------------------------------------------
-FUNCTION: double ToReal()
-
-PURPOSE:
-    Receive a string member and check whether it is legal or not.
-    If it is legal, return the value of the equivalent real number.
-
-CALLS:
-    CheckInput()
-    GetAnswer()
-
-RETURN VALUE:
-    The equivalent real value of the string.
----------------------------------------------------------------------------*/
-double In::ToReal()
-{
-    int decim = 0;
-    if (input.find('.') !=  input.npos)
-    {
-        decim = input.size() - input.find('.') - 1;
-        input.erase(input.find('.'), 1);
-    }
-    CheckInput();
-    double ans = GetAnswer() / pow(10, decim);
-    return ans;
-}
-
-/*---------------------------------------------------------------------------
-FUNCTION: Date ToDate()
-
-PURPOSE:
-    Receive a string member and check whether it is legal or not.
-    If it is legal, return the equivalent date.
-
-CALLS:
-    ToInt()
-    IsLegal()
-
-RETURN VALUE:
-    The equivalent date of the string.
----------------------------------------------------------------------------*/
-Date In::ToDate()
-{
-    auto first = input.find(" ");
-    auto second = input.find_last_of(" ");
-    auto third = input.size();
-    if (input == "")
-    {
-        Date today;
-        return today;
-    }
-    if (first == input.npos || second == input.npos || first == second)
-    {
-        throw ERR_ILLEGAL_DATE;
-    }
-
-    string yearstr = input.substr(0, first);
-    string monthstr = input.substr(first + 1, second - first - 1);
-    string daystr = input.substr(second + 1, third - second - 1);
-
-    int year = ToInt(yearstr);
-    int month = ToInt(monthstr);
-    int day = ToInt(daystr);
-
-    Year Y(year);
-    Month M(month);
-    Day D(day);
-    Date date(Y, M, D);
-
-    if (date.IsLegal() == 0)
-    {
-        throw ERR_ILLEGAL_DATE;
-    }
-
-    return date;
-}
-
-#endif

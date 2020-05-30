@@ -2,6 +2,7 @@
 
 using std::cerr;
 using std::vector;
+using namespace std;
 
 vector<Transaction *> pTransaction;
 vector<DepositAndLoan *> pDepoAndLoan;

@@ -1,47 +1,62 @@
 #include "../inc/period.h"
 
-Period::Period(int code)
+std::vector<Date *> dateList;
+
+Period::Period(const int &code)
 {
-    using namespace NPeriod;
     this->code = code;
     if (code == MONTHLY)
     {
-        period = STR_MONTHLY;
+        period = NPeriod::STR_MONTHLY;
     }
     else if (code == WEEKLY)
     {
-        period = STR_WEEKLY;
+        period = NPeriod::STR_WEEKLY;
     }
     else if (code == DAILY)
     {
-        period = STR_DAILY;
+        period = NPeriod::STR_DAILY;
     }
     else
     {
-        period = STR_NO_PERIOD;
+        period = NPeriod::STR_NO_PERIOD;
     }
 }
 
 Period::Period()
 {
-    using namespace NPeriod;
     this->code = 1;
-    period = MONTHLY;
+    period = NPeriod::STR_MONTHLY;
 }
-std::vector<Date *> dateList;
 
-std::ostream &operator<<(std::ostream &out, Period A)
+std::ostream &operator<<(std::ostream &out, const Period &A)
 {
-    cout << A.period;
+    std::cout << A.period;
     return out;
 }
 
-int Period::Calculate(Date start)
+Period::operator int()
+{
+    return code;
+}
+
+/*---------------------------------------------------------------------------
+函数: int Calculate()
+
+目的:
+    计算出给定起始日期到当前日期的间隔周期数 x.
+    
+调用:
+    GetYear();
+    GetMonth();
+    MaxDay();
+
+返回值:
+    整数 x.
+---------------------------------------------------------------------------*/
+int Period::Calculate(const Date &start) const
 {
     Date today;
-    int y = start.GetYear();
-    int m = start.GetMonth();
-    int d = start.GetDay();
     Date *temp = new Date;
     *temp = start;
     int cnt = 0;
@@ -51,7 +66,6 @@ int Period::Calculate(Date start)
         *pt = *temp;
         dateList.push_back(pt);
         cnt++;
-        //cout << *pt << endl;
         if (code == MONTHLY)
         {
             *temp = *temp + MaxDay(temp->GetYear(), temp->GetMonth());
@@ -66,9 +80,4 @@ int Period::Calculate(Date start)
         }
     }
     return cnt;
-}
-
-Period::operator int()
-{
-    return code;
 }

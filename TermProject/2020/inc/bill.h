@@ -46,7 +46,9 @@ private:
 
 class Filter
 {
-public:
+    friend class FilterMenu;
+
+private:
     Filter();
     void FilterByAmount(double, double);
     void FilterByDate(Date, Date);

@@ -3,13 +3,17 @@
 
 #include <iostream>
 #include <ctime>
-#include <iomanip>
 
 #include "text.h"
 
-#define uint unsigned int
-
 #pragma region "Today"
+
+/*---------------------------------------------------------------------------
+类名: Now
+
+描述:
+    用于获取现在的日期.
+---------------------------------------------------------------------------*/
 class Now
 {
 public:
@@ -19,67 +23,77 @@ public:
     friend class Day;
 
 protected:
-    uint currentYear;
-    uint currentMonth;
-    uint currentDay;
+    int currentYear;
+    int currentMonth;
+    int currentDay;
 };
 
 #pragma endregion
 
 #pragma region "Year, Month and Day"
+
 class Year
 {
 public:
     Year();
-    Year(const uint &);
+    Year(const int &);
     friend class Date;
 
 protected:
-    uint year;
+    int year;
 };
+
 class Month
 {
 public:
     Month();
-    Month(const uint &);
+    Month(const int &);
     friend class Date;
 
 protected:
-    uint month;
+    int month;
 };
+
 class Day
 {
 public:
     Day();
-    Day(const uint &);
+    Day(const int &);
     friend class Date;
 
 protected:
-    uint day;
+    int day;
 };
 
 #pragma endregion
 
 #pragma region "Date"
+
+/*---------------------------------------------------------------------------
+类名: Date
+
+描述:
+    自定义 Date 数据类型, 实现对 Date 基本的比较运算, 判断是否合法, 输出等功能. 
+---------------------------------------------------------------------------*/
 class Date
 {
 public:
     Date();
     Date(const Year &, const Month &, const Day &);
-    friend bool operator>(Date, Date);
-    friend bool operator>=(Date, Date);
-    friend bool operator==(Date, Date);
-    friend bool operator<(Date, Date);
-    friend bool operator<=(Date, Date);
-    friend bool operator!=(Date, Date);
-    friend int operator-(Date, Date);
-    friend Date operator+(Date, int);
-    operator int();
-    bool IsLegal();
-    int GetYear();
-    int GetMonth();
-    int GetDay();
-    friend std::ostream &operator<<(std::ostream &, Date);
+    bool IsLegal() const;
+    friend bool operator>(const Date &, const Date &);
+    friend bool operator>=(const Date &, const Date &);
+    friend bool operator==(const Date &, const Date &);
+    friend bool operator<(const Date &, const Date &);
+    friend bool operator<=(const Date &, const Date &);
+    friend bool operator!=(const Date &, const Date &);
+    friend int operator-(const Date &, const Date &);
+    friend Date operator+(const Date &, const int &);
+    operator int() const;
+    int GetYear() const;
+    int GetMonth() const;
+    int GetDay() const;
+    friend std::ostream &operator<<(std::ostream &, const Date &);
 
 private:
     Year year;
@@ -87,8 +101,8 @@ private:
     Day day;
 };
 
-#pragma endregion
+int MaxDay(const int &, const int &);
 
-int MaxDay(int, int);
+#pragma endregion
 
 #endif

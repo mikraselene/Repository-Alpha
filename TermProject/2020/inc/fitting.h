@@ -4,19 +4,23 @@
 #include <vector>
 #include <iostream>
 
-using std::vector;
+/*---------------------------------------------------------------------------
+类名: LeastSquare
 
+描述:
+    实现最小二乘法对给定数据的拟合.
+---------------------------------------------------------------------------*/
 class LeastSquare
 {
     double k, b;
-    vector<double> x;
-    vector<double> y;
+    std::vector<double> x;
+    std::vector<double> y;
 
 public:
-    LeastSquare(vector<double>);
+    LeastSquare(const std::vector<double> &);
     void Fitting();
 
-    double Y(const double);
+    double Y(const double &) const;
 };
 
 #endif

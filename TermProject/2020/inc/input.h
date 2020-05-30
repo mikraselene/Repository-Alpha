@@ -7,35 +7,37 @@
 #include "date.h"
 #include "text.h"
 
-using std::cin;
-using std::istream;
-using std::string;
+/*---------------------------------------------------------------------------
+类名: In
 
+描述:
+    自定义输入类, 实现对输入数据的合法性检验. 
+---------------------------------------------------------------------------*/
 class In
 {
 public:
-    friend istream &operator>>(istream &, In &);
+    friend std::istream &operator>>(std::istream &, In &);
     operator int();
     operator double();
-    operator Date();
-    operator string();
+    operator Date() const;
+    operator std::string() const;
 
 private:
     void CheckInput();
-    double GetAnswer();
-    int ToInt(string);
-    string input;
+    double GetAnswer() const;
+    int ToInt(const std::string &) const;
+    std::string input;
 };
 
 class CalcIn
 {
 public:
-    friend istream &operator>>(istream &, CalcIn &);
-    operator double();
+    friend std::istream &operator>>(std::istream &, CalcIn &);
+    operator double() const;
 
 private:
-    double Calc(string);
-    string input;
+    double Calc(std::string) const;
+    std::string input;
 };
 
 #endif

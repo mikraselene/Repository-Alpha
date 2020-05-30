@@ -3,7 +3,8 @@
 
 #include <iostream>
 
-void Test(std::string);
-void Test(std::string, int);
+void Test(const int &);
+void Test(const std::string &);
+void Test(const std::string &, const int &);
 
 #endif

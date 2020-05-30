@@ -2,6 +2,7 @@
 
 using std::cerr;
 using std::vector;
+using namespace std;
 
 MainMenu *pMenu = new MainMenu;
 string Division(int n)

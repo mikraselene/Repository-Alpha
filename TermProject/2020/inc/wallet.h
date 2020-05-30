@@ -2,22 +2,29 @@
 #define WALLET_H
 
 #include <iostream>
-#include "text.h"
-#include "input.h"
 
+#include "input.h"
+#include "text.h"
+
+/*---------------------------------------------------------------------------
+类名: Wallet
+
+描述:
+    钱包类, 实现对钱包的数据操作. 
+---------------------------------------------------------------------------*/
 class Wallet
 {
 public:
-    Wallet(double);
+    Wallet(const double &);
 
-    double SetAmount();
+    double SetAmount() const;
 
     void TopUp();
     void Withdraw();
     void Edit();
 
-    void Change(double);
-    double GetBalance();
+    void Change(const double &);
+    double GetBalance() const;
 
 private:
     double balance;

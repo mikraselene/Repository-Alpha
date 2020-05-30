@@ -4,15 +4,16 @@
 #include <iostream>
 #include <vector>
 
+#include "asset.h"
 #include "date.h"
 #include "text.h"
-#include "asset.h"
 
-using std::cout;
-using std::endl;
-using std::string;
-using std::vector;
+/*---------------------------------------------------------------------------
+类名: Refresh
 
+描述:
+    实现账单刷新. 
+---------------------------------------------------------------------------*/
 class Refresh
 {
 public:

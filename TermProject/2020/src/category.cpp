@@ -1,14 +1,25 @@
 #include "../inc/category.h"
 
-using namespace std;
+std::vector<Category *> pCategory;
 
-vector<Category *> pCategory;
+/*---------------------------------------------------------------------------
+函数: void AddDefault()
 
+目的:
+    把默认类别添加到 pCategory 中.
+
+调用: 
+    Add();
+---------------------------------------------------------------------------*/
 void AddDefault()
 {
-    using namespace NCategory;
-    string defaultCategory[7] =
-        {ROUTINE, FOOD, CLOTHING, EDUCATION, ENTERTAINMENT, INTERNET, MISCELLANEOUS};
+    std::string defaultCategory[7] = {NCategory::ROUTINE,
+                                      NCategory::FOOD,
+                                      NCategory::CLOTHING,
+                                      NCategory::EDUCATION,
+                                      NCategory::ENTERTAINMENT,
+                                      NCategory::INTERNET,
+                                      NCategory::MISCELLANEOUS};
     for (int i = 0; i < 7; i++)
     {
         Category *temp = new Category(defaultCategory[i]);
@@ -16,26 +27,40 @@ void AddDefault()
     }
 }
 
-Category::Category(string c)
-{
-    category = c;
-}
-
 Category::Category()
 {
-    category = "";
+    category = NCategory::ROUTINE;
 }
+
+Category::Category(const std::string &category)
+{
+    this->category = category;
+}
+
+/*---------------------------------------------------------------------------
+函数: void Add()
+
+目的:
+    判断给定的类别是否在 pCategory 中, 如果不在, 则将其添加到 pCategory.
+---------------------------------------------------------------------------*/
 void Category::Add()
 {
     for (auto it : pCategory)
     {
-        if (string(*it) == category)
+        if (std::string(*it) == category)
         {
             return;
         }
     }
     pCategory.push_back(this);
 }
+
+/*---------------------------------------------------------------------------
+函数: void Del()
+
+目的:
+    从 pCategory 中删除给定的类别.
+---------------------------------------------------------------------------*/
 void Category::Del()
 {
     for (auto it = pCategory.begin(); it != pCategory.end();)
@@ -45,15 +70,20 @@ void Category::Del()
             pCategory.erase(it++);
             break;
         }
+        else
+        {
+            it++;
+        }
     }
 }
 
-Category::operator string()
+Category::operator std::string() const
 {
     return category;
 }
-ostream &operator<<(ostream &out, Category A)
+
+std::ostream &operator<<(std::ostream &out, const Category &A)
 {
-    cout << A.category;
+    std::cout << A.category;
     return out;
 }
