@@ -4,7 +4,6 @@
 #include <iomanip>
 #include <algorithm>
 #include "inc/date.h"
-#include "inc/asset.h"
 #include "inc/bill.h"
 #include "inc/menu.h"
 #include "inc/file.h"
@@ -26,4 +25,5 @@ int main()
     file.LoadFromFile();
     extern MainMenu *pMenu;
     pMenu->Menu();
+    file.SaveToFile();
 }

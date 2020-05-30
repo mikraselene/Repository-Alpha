@@ -6,14 +6,13 @@
 #include <numeric>
 #include <iomanip>
 
-#include "asset.h"
 #include "date.h"
 #include "input.h"
 #include "text.h"
 #include "period.h"
 #include "category.h"
 #include "bill.h"
-#include "sub.h"
+#include "asset.h"
 #include "wallet.h"
 #include "fitting.h"
 #include "refresh.h"
@@ -68,15 +67,6 @@ private:
         LOAN = -1,
     };
 };
-class BudgetMenu : public AssetMenu
-{
-private:
-    void Menu();
-    void InputCode();
-    void PrintAll();
-    void GetStats();
-    void EditBudget();
-};
 
 class BillMenu : public MainMenu
 {
@@ -94,7 +84,19 @@ private:
 class FilterMenu : public BillMenu
 {
 private:
+    double SetAmount();
+    Date SetDate();
+    int SetType();
+
+    void FilterByAmount();
+    void FilterByDate();
+    void FilterByType();
     void Menu();
+    void InputCode();
+    void PrintFiltered();
+
+    template <typename T1, typename T2>
+    void PrintFilterBody(T1 x, T2 y);
 };
 class StatisticsMenu : public BillMenu
 {

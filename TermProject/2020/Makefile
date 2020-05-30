@@ -420,33 +420,6 @@ src/refresh.cpp.s:
 	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/refresh.cpp.s
 .PHONY : src/refresh.cpp.s
 
-src/sub.o: src/sub.cpp.o
-
-.PHONY : src/sub.o
-
-# target to build an object file
-src/sub.cpp.o:
-	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/sub.cpp.o
-.PHONY : src/sub.cpp.o
-
-src/sub.i: src/sub.cpp.i
-
-.PHONY : src/sub.i
-
-# target to preprocess a source file
-src/sub.cpp.i:
-	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/sub.cpp.i
-.PHONY : src/sub.cpp.i
-
-src/sub.s: src/sub.cpp.s
-
-.PHONY : src/sub.s
-
-# target to generate assembly for a file
-src/sub.cpp.s:
-	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/src/sub.cpp.s
-.PHONY : src/sub.cpp.s
-
 src/test.o: src/test.cpp.o
 
 .PHONY : src/test.o
@@ -543,9 +516,6 @@ help:
 	@echo "... src/refresh.o"
 	@echo "... src/refresh.i"
 	@echo "... src/refresh.s"
-	@echo "... src/sub.o"
-	@echo "... src/sub.i"
-	@echo "... src/sub.s"
 	@echo "... src/test.o"
 	@echo "... src/test.i"
 	@echo "... src/test.s"

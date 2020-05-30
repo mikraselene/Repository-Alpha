@@ -170,6 +170,9 @@ namespace NDepositAndLoanMenu
 
 namespace NDepositAndLoan
 {
+    T(YUAN, "元");
+    T(TOTAL_INCOME, "来自利息的总收入");
+    T(TOTAL_EXPENSE, "来自利息的总支出");
     T(CHOOSE_A_DEPOSIT_OR_LOAN, "根据编号选择一个借贷");
     T(PRESS_ENTER_TO_EXIT, "按下回车或输入 0 返回");
     T(DEPOSIT, "存款");
@@ -186,10 +189,26 @@ namespace NDepositAndLoan
     T(END_DATE, "结束日期");
     T(PERIOD, "周期");
     T(INFO, "附加信息");
+    T(TOTAL_INTEREST, "总计利息");
     T(DIVISION, "-----------------------------");
     T(RATE_HELP, "利率前标记'S'的是单利, 标记'C'的是复利. ");
+    T(DELETE, "删除");
+    T(EDIT, "编辑");
+    T(BACK, "返回");
 
 } // namespace NDepositAndLoan
+
+namespace NFilter
+{
+    T(TITLE, "/////////// 过滤器 ///////////");
+    T(FILTER_BY_DATE, "按日期过滤");
+    T(FILTER_BY_AMOUNT, "按金额过滤");
+    T(FILTER_BY_TYPE, "按类别过滤");
+    T(BACK, "返回");
+    T(END, "/////////// ＝＝＝ ///////////");
+    T(LOWER_LIMIT, "下限");
+    T(UPPER_LIMIT, "上限");
+} // namespace NFilter
 
 namespace NBudget
 {

@@ -11,63 +11,48 @@
 
 using std::string;
 
-class IBillManagement
+struct BILL_DATA
 {
-public:
-private:
+    int type;
+    double amount;
+    Date date;
+    std::string info;
 };
 
-class Bill : public IBillManagement
+class Bill
 {
 public:
     Bill(int, double, Date, string);
     void Add();
-    void Hide();
-    void Unhide();
     void Print();
+    BILL_DATA GetData();
     bool IsExpense();
     double GetAmount();
     Date GetDate();
+    int GetType();
+    string GetInfo();
+    enum
+    {
+        INCOME = 1,
+        EXPENSE = -1,
+    };
 
 private:
     int type;
     double amount;
     Date date;
     std::string info;
-    bool isHiden;
 };
 
-struct FLTR_DATE
-{
-    Date lowerLimit;
-    Date upperLimit;
-};
-struct FLTR_AMOUNT
-{
-    double lowerLimit;
-    double upperLimit;
-};
-
-class Filter : public IBillManagement
+class Filter
 {
 public:
-    Filter(FLTR_AMOUNT);
-    Filter(FLTR_DATE);
-    void FilterByAmount();
-    void FilterByDate();
+    Filter();
+    void FilterByAmount(double, double);
+    void FilterByDate(Date, Date);
+    void FilterByType(int);
 
 private:
-    FLTR_AMOUNT fAmount;
-    FLTR_DATE fDate;
-};
-
-class Search : public IBillManagement
-{
-public:
-    Search();
-
-private:
-    std::string sStr;
 };
 
 #endif

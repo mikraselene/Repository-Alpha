@@ -16,7 +16,7 @@ Refresh::Refresh()
             code == Period::WEEKLY ||
             code == Period::DAILY)
         {
-            it->GetPeriod().Calculate(it->GetDate());
+            it->GetPeriod().Calculate(it->GetTempDate());
             extern std::vector<Date *> dateList;
             for (auto itDate : dateList)
             {
@@ -33,7 +33,7 @@ Refresh::Refresh()
             code == Period::WEEKLY ||
             code == Period::DAILY)
         {
-            it->GetPeriod().Calculate(it->GetDate());
+            it->GetPeriod().Calculate(it->GetTempDate());
             extern std::vector<Date *> dateList;
             for (auto itDate : dateList)
             {

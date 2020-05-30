@@ -7,6 +7,7 @@
 
 #include "date.h"
 #include "bill.h"
+#include "asset.h"
 
 class File
 {

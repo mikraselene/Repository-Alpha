@@ -7,20 +7,22 @@
 #IncludeRegexTransform: 
 
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/asset.h
-category.h
-/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/category.h
-date.h
-/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/date.h
-period.h
-/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/period.h
-test.h
-/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/test.h
 iostream
 -
-vector
--
-string
--
+date.h
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/date.h
+input.h
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/input.h
+text.h
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/text.h
+period.h
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/period.h
+category.h
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/category.h
+menu.h
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/menu.h
+bill.h
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/bill.h
 
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/bill.h
 iostream
@@ -65,6 +67,8 @@ date.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/date.h
 bill.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/bill.h
+asset.h
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/asset.h
 
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/fitting.h
 vector
@@ -91,8 +95,6 @@ numeric
 -
 iomanip
 -
-asset.h
-/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/asset.h
 date.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/date.h
 input.h
@@ -105,8 +107,8 @@ category.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/category.h
 bill.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/bill.h
-sub.h
-/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/sub.h
+asset.h
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/asset.h
 wallet.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/wallet.h
 fitting.h
@@ -133,32 +135,8 @@ date.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/date.h
 text.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/text.h
-sub.h
-/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/sub.h
-
-/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/sub.h
-iostream
--
 asset.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/asset.h
-date.h
-/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/date.h
-input.h
-/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/input.h
-text.h
-/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/text.h
-period.h
-/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/period.h
-category.h
-/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/category.h
-menu.h
-/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/menu.h
-bill.h
-/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/bill.h
-
-/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/test.h
-iostream
--
 
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/text.h
 iostream
@@ -185,8 +163,6 @@ algorithm
 -
 inc/date.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/date.h
-inc/asset.h
-/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/asset.h
 inc/bill.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/bill.h
 inc/menu.h
@@ -198,6 +174,18 @@ inc/category.h
 inc/fitting.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/fitting.h
 
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/src/asset.cpp
+../inc/asset.h
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/asset.h
+
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/src/bill.cpp
+../inc/bill.h
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/bill.h
+
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/src/file.cpp
+../inc/file.h
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/file.h
+
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/src/menu.cpp
 ../inc/menu.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/menu.h
@@ -205,8 +193,4 @@ inc/fitting.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/src/refresh.cpp
 ../inc/refresh.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/refresh.h
-
-/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/src/sub.cpp
-../inc/sub.h
-/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/sub.h
 

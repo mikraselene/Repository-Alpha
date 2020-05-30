@@ -12,7 +12,6 @@ Bill::Bill(int type, double amount, Date date, string info)
     this->amount = amount;
     this->date = date;
     this->info = info;
-    this->isHiden = 0;
 }
 void Bill::Add()
 {
@@ -21,13 +20,12 @@ void Bill::Add()
     pWallet->Change(type * amount);
 }
 
-void Bill::Hide()
+BILL_DATA Bill::GetData()
 {
-    isHiden = 1;
-}
-void Bill::Unhide()
-{
-    isHiden = 0;
+    return {type,
+            amount,
+            date,
+            info};
 }
 
 void Bill::Print()
@@ -37,12 +35,12 @@ void Bill::Print()
     double tempamount;
     if (type == 1)
     {
-        typestr = INCOME;
+        typestr = NBill::INCOME;
         tempamount = amount;
     }
     else if (type == -1)
     {
-        typestr = EXPENSE;
+        typestr = NBill::EXPENSE;
         tempamount = -amount;
     }
 
@@ -53,6 +51,10 @@ void Bill::Print()
          << info << endl
          << resetiosflags(ios::showpos);
 }
+string Bill::GetInfo()
+{
+    return info;
+}
 double Bill::GetAmount()
 {
     return amount;
@@ -60,6 +62,10 @@ double Bill::GetAmount()
 Date Bill::GetDate()
 {
     return date;
+}
+int Bill::GetType()
+{
+    return type;
 }
 bool Bill::IsExpense()
 {
@@ -72,35 +78,43 @@ bool Bill::IsExpense()
 
 vector<Bill *> pFiltered;
 
-Filter::Filter(FLTR_AMOUNT fltr)
-{
-    fAmount = fltr;
-}
-Filter::Filter(FLTR_DATE fltr)
-{
-    fDate = fltr;
-}
-void Filter::FilterByAmount()
+void Filter::FilterByAmount(double lowerLimit, double upperLimit)
 {
     for (auto it : pBill)
     {
         double amount = it->GetAmount();
-        if (fAmount.lowerLimit <= amount && fAmount.upperLimit >= amount)
+        if (lowerLimit <= amount && upperLimit >= amount)
         {
             pFiltered.push_back(it);
         }
     }
 }
-void Filter::FilterByDate()
+void Filter::FilterByDate(Date lowerLimit, Date upperLimit)
 {
     for (auto it : pBill)
     {
         Date date = it->GetDate();
-        if (fDate.lowerLimit <= date && fDate.upperLimit >= date)
+        if (lowerLimit <= date && upperLimit >= date)
         {
             pFiltered.push_back(it);
         }
     }
+}
+void Filter::FilterByType(int type)
+{
+    for (auto it : pBill)
+    {
+        int itType = it->GetType();
+        if (type == itType)
+        {
+            pFiltered.push_back(it);
+        }
+    }
+}
+
+Filter::Filter()
+{
+    pFiltered.clear();
 }
 
 #pragma endregion
