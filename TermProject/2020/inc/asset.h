@@ -13,14 +13,29 @@
 
 class Asset
 {
+public:
+    enum
+    {
+        INCOME = 1,
+        EXPENSE = -1,
+    };
+    enum
+    {
+        DEPOSIT = 1,
+        LOAN = -1,
+    };
+
 protected:
-    double SetAmount();
-    Date SetDate();
-    Category SetCategory();
-    Period SetPeriod();
-    int SetCode();
-    void ShowCategory();
-    void PrintInstruction();
+    void
+    SetId(const int &);
+    double SetAmount() const;
+    Date SetDate() const;
+    Category SetCategory() const;
+    Period SetPeriod() const;
+    int SetCode() const;
+    void ShowCategory() const;
+    void PrintInstruction() const;
+    int id;
 };
 
 struct TRANSACTION_DATA
@@ -39,39 +54,52 @@ class Transaction : public Asset
     friend class TransactionMenu;
 
 private:
-    void InputSingleTransaction(int);
-    void InputRegularTransaction(int);
-    Period GetPeriod();
-    void SetId(int);
-    void SingleSubmenu();
-    void RegularSubmenu();
-    void SetData(TRANSACTION_DATA);
-    TRANSACTION_DATA GetData();
-    Date GetTempDate();
-    void AddToBill(Date *);
-    void ResetDate();
-    void Print();
-    void Edit();
-
-    template <typename T1, typename T2, typename T3>
-    void PrintEdit(T1 x, T2 y, T3 z);
-
-    template <typename T1, typename T2, typename T3>
-    void PrintSingleBody(T1, T2, T3);
-
-    template <typename T1, typename T2, typename T3, typename T4>
-    void PrintRegularBody(T1 x, T2 y, T3 z, T4 u);
-
+    void InputSingleTransaction(const int &);
     void InputSingleCode();
+    void InputRegularTransaction(const int &);
     void InputRegularCode();
 
+    void SingleSubmenu();
+    void InputSingleSubmenuCode();
+    void RegularSubmenu() const;
+    void InputRegularSubmenuCode() const;
+
+    void Edit();
+    void Delete() const;
+    void Print() const;
+
+    void SetData(const TRANSACTION_DATA &);
+    TRANSACTION_DATA GetData() const;
+
+    template <typename T1, typename T2, typename T3>
+    void PrintOneBody(const T1 &,
+                      const T2 &,
+                      const T3 &) const;
+
+    template <typename T1, typename T2, typename T3>
+    void PrintInputSingleBody(const string &,
+                              const T1 &,
+                              const T2 &,
+                              const T3 &) const;
+
+    template <typename T1, typename T2, typename T3, typename T4>
+    void PrintInputRegularBody(const string &,
+                               const T1 &,
+                               const T2 &,
+                               const T3 &,
+                               const T4 &) const;
+
+    Period GetPeriod() const;
+    Date GetTempDate() const;
+    void AddToBill(const Date *const &) const;
+    void ResetDate();
+
+    int type;
     double amount;
     Category category;
     Date tempDate;
     Date date;
     Period period;
-    int type;
-    int id;
 };
 
 struct DEPOSIT_AND_LOAN_DATA
@@ -94,39 +122,41 @@ class DepositAndLoan : public Asset
     friend class DepositAndLoanMenu;
 
 private:
-    void InputDepositAndLoan(int);
+    void InputDepositAndLoan(const int &);
+    void InputCode();
 
-    double GetTotalInterest();
-    void PrintTotalInterest();
+    void Submenu() const;
+    void InputSubmenuCode() const;
 
-    void SetId(int);
+    void Print() const;
 
-    void Submenu();
-
-    void SetData(DEPOSIT_AND_LOAN_DATA);
-    DEPOSIT_AND_LOAN_DATA GetData();
-
-    Date GetTempDate();
-    Period GetPeriod();
-
-    void AddToBill(Date *);
-    void CheckCompound();
-    void ResetDate();
-
-    void Print();
-    void Edit();
-
-    double SetRate();
-    bool SetType();
-    string SetInfo();
+    void SetData(const DEPOSIT_AND_LOAN_DATA &);
+    DEPOSIT_AND_LOAN_DATA GetData() const;
 
     template <typename T1, typename T2, typename T3,
               typename T4, typename T5, typename T6>
-    void PrintDepoLoanBody(T1 x, T2 y, T3 z, T4 u, T5 v, T6 w);
-    void InputCode();
+    void PrintInputBody(const T1 &,
+                        const T2 &,
+                        const T3 &,
+                        const T4 &,
+                        const T5 &,
+                        const T6 &) const;
 
-    bool isCompound;
+    Period GetPeriod() const;
+    Date GetTempDate() const;
+    void AddToBill(const Date *const &);
+    void CheckCompound();
+    void ResetDate();
+
+    double GetTotalInterest() const;
+    void PrintTotalInterest() const;
+
+    double SetRate() const;
+    bool SetType() const;
+    string SetInfo() const;
+
     int type;
+    bool isCompound;
     double principle;
     double tempPrinciple;
     double rate;
@@ -135,7 +165,6 @@ private:
     Date tempDate;
     Period period;
     string info;
-    int id;
 };
 
 #endif

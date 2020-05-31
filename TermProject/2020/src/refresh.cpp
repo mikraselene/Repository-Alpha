@@ -5,13 +5,6 @@
 
 目的:
     根据定期交易和存贷款刷新账单.
-    
-调用:
-    GetPeriod();
-    Calculate();
-    GetTempDate();
-    AddToBill();
-    ResetDate();
 ---------------------------------------------------------------------------*/
 Refresh::Refresh()
 {
@@ -30,7 +23,7 @@ Refresh::Refresh()
                 it->AddToBill(itDate);
             }
             it->ResetDate();
-            DELETE_VECTOR(dateList);
+            CLEAR_VECTOR(dateList);
         }
     }
     for (auto it : pDepoAndLoan)
@@ -45,7 +38,7 @@ Refresh::Refresh()
                 it->AddToBill(itDate);
             }
             it->ResetDate();
-            DELETE_VECTOR(dateList);
+            CLEAR_VECTOR(dateList);
         }
     }
 }

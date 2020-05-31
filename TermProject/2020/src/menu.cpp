@@ -20,8 +20,7 @@ void MainMenu::Menu()
          << "2. " << BILL << endl
          << "3. " << WALLET << endl
          << "4. " << MFILE << endl
-         << "5. " << HELP << endl
-         << "6. " << EXIT << endl
+         << "5. " << EXIT << endl
          << END << endl;
     InputCode();
 }
@@ -55,12 +54,6 @@ void MainMenu::InputCode()
     }
     else if (code == 5)
     {
-        //delete pMenu;
-        //pMenu = new HelpMenu;
-        //pMenu->Menu();
-    }
-    else if (code == 6)
-    {
         delete pMenu;
         return;
     }
@@ -73,52 +66,6 @@ void MainMenu::InputCode()
         InputCode();
     }
 }
-/*
-
-财产
-    - 收支
-        - 新建 (4) ok
-        - 编辑 ok
-        - 返回 ok
-    - 借贷
-        - 新建 (2) ok
-        - 编辑 ok
-        - 统计 ok
-        - 返回 ok
-    - 返回 ok
-
-账单
-    - 总览 ok
-        - 默认排序 ok
-        - 按时间排序 ok
-        - 按金额排序 ok
-        - 返回 ok
-
-    - 过滤
-        - 按时间 ok
-        - 按金额 ok
-        - 返回 ok
-
-    - 统计 ok
-    - 返回 ok
-
-钱包
-    - 总览 ok
-    - 编辑 ok
-    - 返回 ok
-
-文件
-    - 读入
-    - 保存
-    - 导出
-    - 返回
-
-帮助
-    -返回
-
-退出
-
-*/
 
 void AssetMenu::Menu()
 {

@@ -7,9 +7,6 @@ std::vector<Category *> pCategory;
 
 目的:
     把默认类别添加到 pCategory 中.
-
-调用: 
-    Add();
 ---------------------------------------------------------------------------*/
 void AddDefault()
 {

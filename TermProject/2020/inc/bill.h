@@ -9,8 +9,6 @@
 #include "period.h"
 #include "wallet.h"
 
-using std::string;
-
 struct BILL_DATA
 {
     int type;
@@ -22,15 +20,17 @@ struct BILL_DATA
 class Bill
 {
 public:
-    Bill(int, double, Date, string);
+    Bill(const int &, const double &, const Date &, const std::string &);
+
     void Add();
-    void Print();
-    BILL_DATA GetData();
-    bool IsExpense();
-    double GetAmount();
-    Date GetDate();
-    int GetType();
-    string GetInfo();
+    void Print() const;
+
+    BILL_DATA GetData() const;
+
+    double GetAmount() const;
+    Date GetDate() const;
+    int GetType() const;
+
     enum
     {
         INCOME = 1,
@@ -50,11 +50,9 @@ class Filter
 
 private:
     Filter();
-    void FilterByAmount(double, double);
-    void FilterByDate(Date, Date);
-    void FilterByType(int);
-
-private:
+    void FilterByAmount(const double &, const double &) const;
+    void FilterByDate(const Date &, const Date &) const;
+    void FilterByType(const int &) const;
 };
 
 #endif

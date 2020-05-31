@@ -57,6 +57,10 @@ public:
     {
         return k * x + b;
     }
+    double GetK()
+    {
+        return k;
+    }
 };
 
 int main()

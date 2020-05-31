@@ -75,12 +75,6 @@ Date::Date(const Year &year, const Month &month, const Day &day)
 
 目的:
     判断给定的日期是否合法.
-    
-调用:
-    GetYear();
-    GetMonth();
-    GetDay();
-    MaxDay();
 
 返回值:
     1, 如果日期格式是合法的;
@@ -99,12 +93,6 @@ bool Date::IsLegal() const
 
 目的:
     获取从 0001/01/01 到给定的日期的间隔天数 x.
-
-调用:
-    GetYear();
-    GetMonth();
-    GetDay();
-    MaxDay();
 
 返回值:
     整数 x.
@@ -180,12 +168,6 @@ int operator-(const Date &A, const Date &B)
 
 目的:
     获取给定日期 A 后 n 天的日期 X.
-    
-调用:
-    GetYear();
-    GetMonth();
-    GetDay();
-    MaxDay();
 
 返回值:
     日期 X.

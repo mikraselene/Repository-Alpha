@@ -1,12 +1,13 @@
 #include "../inc/bill.h"
 
-using namespace std;
-
 #pragma region "Bill"
 
-vector<Bill *> pBill;
+std::vector<Bill *> pBill;
 
-Bill::Bill(int type, double amount, Date date, string info)
+Bill::Bill(const int &type,
+           const double &amount,
+           const Date &date,
+           const std::string &info)
 {
     this->type = type;
     this->amount = amount;
@@ -20,7 +21,29 @@ void Bill::Add()
     pWallet->Change(type * amount);
 }
 
-BILL_DATA Bill::GetData()
+void Bill::Print() const
+{
+    std::string typestr;
+    double tempamount;
+    if (type == INCOME)
+    {
+        typestr = NBill::INCOME;
+        tempamount = amount;
+    }
+    else if (type == EXPENSE)
+    {
+        typestr = NBill::EXPENSE;
+        tempamount = -amount;
+    }
+    std::cout << std::fixed << std::setprecision(2)
+              << std::setw(10) << std::showpos << tempamount << "\t"
+              << typestr << "\t\t\t"
+              << date << "\t\t"
+              << info << std::endl
+              << std::resetiosflags(std::ios::showpos);
+}
+
+BILL_DATA Bill::GetData() const
 {
     return {type,
             amount,
@@ -28,57 +51,28 @@ BILL_DATA Bill::GetData()
             info};
 }
 
-void Bill::Print()
-{
-    using namespace NBill;
-    string typestr;
-    double tempamount;
-    if (type == 1)
-    {
-        typestr = NBill::INCOME;
-        tempamount = amount;
-    }
-    else if (type == -1)
-    {
-        typestr = NBill::EXPENSE;
-        tempamount = -amount;
-    }
-
-    cout << fixed << setprecision(2)
-         << setw(10) << showpos << tempamount << "\t"
-         << typestr << "\t\t\t"
-         << date << "\t\t"
-         << info << endl
-         << resetiosflags(ios::showpos);
-}
-string Bill::GetInfo()
-{
-    return info;
-}
-double Bill::GetAmount()
+double Bill::GetAmount() const
 {
     return amount;
 }
-Date Bill::GetDate()
+
+Date Bill::GetDate() const
 {
     return date;
 }
-int Bill::GetType()
+
+int Bill::GetType() const
 {
     return type;
-}
-bool Bill::IsExpense()
-{
-    return type == -1;
 }
 
 #pragma endregion
 
 #pragma region "Filter"
 
-vector<Bill *> pFiltered;
+std::vector<Bill *> pFiltered;
 
-void Filter::FilterByAmount(double lowerLimit, double upperLimit)
+void Filter::FilterByAmount(const double &lowerLimit, const double &upperLimit) const
 {
     for (auto it : pBill)
     {
@@ -89,7 +83,7 @@ void Filter::FilterByAmount(double lowerLimit, double upperLimit)
         }
     }
 }
-void Filter::FilterByDate(Date lowerLimit, Date upperLimit)
+void Filter::FilterByDate(const Date &lowerLimit, const Date &upperLimit) const
 {
     for (auto it : pBill)
     {
@@ -100,7 +94,7 @@ void Filter::FilterByDate(Date lowerLimit, Date upperLimit)
         }
     }
 }
-void Filter::FilterByType(int type)
+void Filter::FilterByType(const int &type) const
 {
     for (auto it : pBill)
     {
@@ -114,7 +108,7 @@ void Filter::FilterByType(int type)
 
 Filter::Filter()
 {
-    pFiltered.clear();
+    CLEAR_VECTOR(pFiltered);
 }
 
 #pragma endregion

@@ -14,10 +14,6 @@ std::istream &operator>>(std::istream &in, In &A)
 目的:
     接收 string 成员变量并检查其是否合法. 如果其是合法的, 返回其等效整形值 x. 
 
-调用:
-    CheckInput()
-    GetAnswer()
-
 返回值:
     整数 x.
 ---------------------------------------------------------------------------*/
@@ -33,10 +29,6 @@ In::operator int()
 
 目的:
     接收 string 成员变量并检查其是否合法. 如果其是合法的, 返回其等效实数值 x. 
-
-调用:
-    CheckInput()
-    GetAnswer()
 
 返回值:
     实数 x.
@@ -59,10 +51,6 @@ In::operator double()
 
 目的:
     接收 string 成员变量并检查其是否合法. 如果其是合法的, 返回其等效日期 x. 
-
-调用:
-    ToInt()
-    IsLegal()
 
 返回值:
     日期 x.
@@ -119,9 +107,6 @@ std::istream &operator>>(std::istream &in, CalcIn &A)
 
 目的:
     检查 Calc() 的返回值 x 是否是正数, 如果是则返回 x 本身, 否则抛出负数异常.
-
-调用:
-    Calc();
 
 返回值:
     实数 x.

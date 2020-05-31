@@ -45,11 +45,6 @@ Period::operator int()
 
 目的:
     计算出给定起始日期到当前日期的间隔周期数 x.
-    
-调用:
-    GetYear();
-    GetMonth();
-    MaxDay();
 
 返回值:
     整数 x.

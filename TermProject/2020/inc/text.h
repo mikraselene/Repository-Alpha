@@ -6,6 +6,7 @@
 #define CLEAR system("printf \"\033c\"")
 //#define CLEAR system("clear")
 //#define CLEAR system("cls")
+
 #define T(code, text) const std::string(code) = (text)
 
 #define SAFE_DELETE(p)  \
@@ -16,7 +17,8 @@
             (p) = NULL; \
         }               \
     }
-#define DELETE_VECTOR(pL)   \
+
+#define CLEAR_VECTOR(pL)    \
     {                       \
         for (auto it : pL)  \
         {                   \
@@ -117,7 +119,6 @@ namespace NMainMenu
     T(BILL, "账单");
     T(WALLET, "钱包");
     T(MFILE, "文件");
-    T(HELP, "帮助");
     T(REFRESH, "刷新");
     T(EXIT, "退出");
     T(END, "/////////// ＝＝＝ ///////////");
@@ -156,7 +157,6 @@ namespace NInstruction
 
     T(COMFIRM_AND_SAVE, "确认并保存");
     T(INPUT_AGAIN, "重新输入");
-    T(HELP, "帮助");
     T(BACK, "返回");
     T(END, "////////// ＝＝＝＝ //////////");
 
