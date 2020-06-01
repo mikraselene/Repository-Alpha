@@ -10,20 +10,12 @@
 #include "inc/category.h"
 #include "inc/fitting.h"
 
-using namespace std;
-
-void Exit()
-{
-    //SAVE
-    //DELETE
-}
-
 int main()
 {
-    extern vector<Bill *> pBill;
+    extern std::vector<std::shared_ptr<Bill>> pBill;
     File file;
     file.LoadFromFile();
-    extern MainMenu *pMenu;
+    extern std::shared_ptr<MainMenu> pMenu;
     pMenu->Menu();
     file.SaveToFile();
 }

@@ -2,7 +2,7 @@
 
 #pragma region "Bill"
 
-std::vector<Bill *> pBill;
+std::vector<std::shared_ptr<Bill>> pBill;
 
 Bill::Bill(const int &type,
            const double &amount,
@@ -16,8 +16,8 @@ Bill::Bill(const int &type,
 }
 void Bill::Add()
 {
-    pBill.push_back(this);
-    extern Wallet *pWallet;
+    pBill.push_back(shared_from_this());
+    extern std::shared_ptr<Wallet> pWallet;
     pWallet->Change(type * amount);
 }
 
@@ -43,7 +43,7 @@ void Bill::Print() const
               << std::resetiosflags(std::ios::showpos);
 }
 
-BILL_DATA Bill::GetData() const
+Bill::DATA Bill::GetData() const
 {
     return {type,
             amount,
@@ -70,7 +70,7 @@ int Bill::GetType() const
 
 #pragma region "Filter"
 
-std::vector<Bill *> pFiltered;
+std::vector<std::shared_ptr<Bill>> pFiltered;
 
 void Filter::FilterByAmount(const double &lowerLimit, const double &upperLimit) const
 {
@@ -108,7 +108,7 @@ void Filter::FilterByType(const int &type) const
 
 Filter::Filter()
 {
-    CLEAR_VECTOR(pFiltered);
+    pFiltered.clear();
 }
 
 #pragma endregion

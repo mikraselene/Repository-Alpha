@@ -1,6 +1,7 @@
+//OK
 #include "../inc/category.h"
 
-std::vector<Category *> pCategory;
+std::vector<std::shared_ptr<Category>> pCategory;
 
 /*---------------------------------------------------------------------------
 函数: void AddDefault()
@@ -19,7 +20,8 @@ void AddDefault()
                                       NCategory::MISCELLANEOUS};
     for (int i = 0; i < 7; i++)
     {
-        Category *temp = new Category(defaultCategory[i]);
+        std::shared_ptr<Category> temp =
+            std::make_shared<Category>(defaultCategory[i]);
         temp->Add();
     }
 }
@@ -49,7 +51,7 @@ void Category::Add()
             return;
         }
     }
-    pCategory.push_back(this);
+    pCategory.push_back(shared_from_this());
 }
 
 /*---------------------------------------------------------------------------
@@ -62,7 +64,7 @@ void Category::Del()
 {
     for (auto it = pCategory.begin(); it != pCategory.end();)
     {
-        if (*it == this)
+        if (*it == shared_from_this())
         {
             pCategory.erase(it++);
             break;

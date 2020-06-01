@@ -1,8 +1,10 @@
+//OK
 #ifndef PERIOD_H
 #define PERIOD_H
 
 #include <iostream>
 #include <vector>
+#include <memory>
 
 #include "date.h"
 #include "text.h"

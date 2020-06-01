@@ -1,3 +1,4 @@
+//OK
 #include "../inc/fitting.h"
 
 LeastSquare::LeastSquare(const std::vector<double> &y)

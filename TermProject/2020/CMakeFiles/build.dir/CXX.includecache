@@ -9,6 +9,8 @@
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/asset.h
 iostream
 -
+memory
+-
 date.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/date.h
 input.h
@@ -43,6 +45,8 @@ iostream
 -
 vector
 -
+memory
+-
 text.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/text.h
 
@@ -50,6 +54,8 @@ text.h
 iostream
 -
 ctime
+-
+memory
 -
 text.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/text.h
@@ -93,6 +99,8 @@ numeric
 -
 iomanip
 -
+memory
+-
 date.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/date.h
 input.h
@@ -119,6 +127,8 @@ iostream
 -
 vector
 -
+memory
+-
 date.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/date.h
 text.h
@@ -142,6 +152,8 @@ iostream
 
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/wallet.h
 iostream
+-
+memory
 -
 input.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/input.h
@@ -176,9 +188,9 @@ inc/fitting.h
 ../inc/asset.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/asset.h
 
-/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/src/category.cpp
-../inc/category.h
-/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/category.h
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/src/bill.cpp
+../inc/bill.h
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/bill.h
 
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/src/date.cpp
 ../inc/date.h
@@ -203,4 +215,8 @@ inc/fitting.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/src/refresh.cpp
 ../inc/refresh.h
 /Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/refresh.h
+
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/src/wallet.cpp
+../inc/wallet.h
+/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/inc/wallet.h
 

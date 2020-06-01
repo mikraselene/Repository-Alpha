@@ -1,3 +1,4 @@
+//OK
 #include "../inc/input.h"
 
 #pragma region "Public"
@@ -67,7 +68,7 @@ In::operator Date() const
     }
     if (first == input.npos || second == input.npos || first == second)
     {
-        throw NError::ERR_ILLEGAL_DATE;
+        throw NError::ILLEGAL_DATE;
     }
 
     std::string yearstr = input.substr(0, first);
@@ -85,7 +86,7 @@ In::operator Date() const
 
     if (date.IsLegal() == 0)
     {
-        throw NError::ERR_ILLEGAL_DATE;
+        throw NError::ILLEGAL_DATE;
     }
 
     return date;
@@ -120,7 +121,7 @@ CalcIn::operator double() const
     }
     else
     {
-        throw NError::ERR_NEGATIVE_NUMBER;
+        throw NError::NEGATIVE_NUMBER;
     }
 }
 
@@ -155,11 +156,11 @@ void In::CheckInput()
     }
     if (isIllegal)
     {
-        throw NError::ERR_ILLEGAL_NUMBER;
+        throw NError::ILLEGAL_NUMBER;
     }
     if (isNegative)
     {
-        throw NError::ERR_NEGATIVE_NUMBER;
+        throw NError::NEGATIVE_NUMBER;
     }
 }
 
@@ -217,7 +218,7 @@ double CalcIn::Calc(std::string input) const
             std::string b = input.substr(input.find_last_of(op[i]) + 1, input.size());
             if (a.size() == 0 || b.size() == 0)
             {
-                throw NError::ERR_ILLEGAL_OPERATION;
+                throw NError::ILLEGAL_OPERATION;
             }
             switch (op[i])
             {
@@ -244,7 +245,7 @@ double CalcIn::Calc(std::string input) const
     {
         if (isdigit(input[i]) == 0)
         {
-            throw NError::ERR_ILLEGAL_NUMBER;
+            throw NError::ILLEGAL_NUMBER;
         }
     }
     double rawans = 0;
@@ -274,7 +275,7 @@ int In::ToInt(const std::string &input) const
     {
         if (isdigit(input[i]) == 0)
         {
-            throw NError::ERR_ILLEGAL_NUMBER;
+            throw NError::ILLEGAL_NUMBER;
         }
     }
     int ans = 0;

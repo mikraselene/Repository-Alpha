@@ -1,7 +1,7 @@
+//OK
 #include "../inc/wallet.h"
 
-//TODO:
-Wallet *pWallet = new Wallet(0);
+std::shared_ptr<Wallet> pWallet = std::make_shared<Wallet>(0);
 
 Wallet::Wallet(const double &balance)
 {

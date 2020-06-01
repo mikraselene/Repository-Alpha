@@ -1,8 +1,8 @@
 #include "../inc/asset.h"
 
-std::vector<Transaction *> pTransaction;
-std::vector<DepositAndLoan *> pDepoAndLoan;
-extern std::vector<Category *> pCategory;
+std::vector<std::shared_ptr<Transaction>> pTransaction;
+std::vector<std::shared_ptr<DepositAndLoan>> pDepoAndLoan;
+extern std::vector<std::shared_ptr<Category>> pCategory;
 
 #pragma region "Asset"
 
@@ -20,7 +20,7 @@ double Asset::SetAmount() const
         std::cin >> amount;
         return amount;
     }
-    catch (const string msg)
+    catch (const std::string msg)
     {
         std::cerr << msg << ", "
                   << NError::PLEASE_INPUT_AGAIN << ". "
@@ -38,7 +38,7 @@ Date Asset::SetDate() const
         std::cin >> date;
         return date;
     }
-    catch (const string msg)
+    catch (const std::string msg)
     {
 
         std::cerr << msg << ", "
@@ -53,7 +53,7 @@ void Asset::ShowCategory() const
     int i = 1;
     for (auto it = pCategory.begin(); it != pCategory.end(); it++)
     {
-        std::cout << i++ << ". " << string(**it) << "\t\t";
+        std::cout << i++ << ". " << std::string(**it) << "\t\t";
         if ((i - 1) % 4 == 0)
         {
             std::cout << std::endl;
@@ -84,19 +84,19 @@ Category Asset::SetCategory() const
             std::cout << ">> ";
             In category;
             std::cin >> category;
-            Category *newCate = new Category(category);
+            std::shared_ptr<Category> newCate = std::make_shared<Category>(category);
             newCate->Add();
             return *newCate;
         }
         else
         {
-            std::cerr << NError::ERR_ILLEGAL_CATEGORY << ", "
+            std::cerr << NError::ILLEGAL_CATEGORY << ", "
                       << NError::PLEASE_INPUT_AGAIN << ". "
                       << std::endl;
             return SetCategory();
         }
     }
-    catch (const string msg)
+    catch (const std::string msg)
     {
         std::cerr << msg << ", "
                   << NError::PLEASE_INPUT_AGAIN << ". "
@@ -109,8 +109,7 @@ Period Asset::SetPeriod() const
 {
     std::cout << "1. " << NPeriod::STR_MONTHLY << "\t\t"
               << "2. " << NPeriod::STR_WEEKLY << "\t\t"
-              << "3. " << NPeriod::STR_DAILY << std::endl
-              << NPeriod::END << std::endl;
+              << "3. " << NPeriod::STR_DAILY << std::endl;
     int code = SetCode();
     Period period;
     if (code <= 3)
@@ -119,7 +118,7 @@ Period Asset::SetPeriod() const
     }
     else
     {
-        std::cerr << NError::ERR_ILLEGAL_NUMBER << ", "
+        std::cerr << NError::ILLEGAL_NUMBER << ", "
                   << NError::PLEASE_INPUT_AGAIN << ". "
                   << std::endl;
         return SetPeriod();
@@ -144,7 +143,7 @@ int Asset::SetCode() const
         std::cin >> code;
         return code;
     }
-    catch (const string msg)
+    catch (const std::string msg)
     {
         std::cerr << msg << ", "
                   << NError::PLEASE_INPUT_AGAIN << ". "
@@ -168,7 +167,7 @@ void Transaction::InputSingleTransaction(const int &type)
     this->type = type;
     Period period(Period::NO_PERIOD);
     this->period = period;
-    string tempTitle;
+    std::string tempTitle;
     if (type == INCOME)
     {
         tempTitle = NTransaction::SINGLE_INCOME_TITLE;
@@ -205,10 +204,11 @@ void Transaction::InputSingleCode()
     int code = SetCode();
     if (code == 1)
     {
-        extern std::vector<Bill *> pBill;
-        Bill *b = new Bill(type, amount, date, category);
+        extern std::vector<std::shared_ptr<Bill>> pBill;
+        std::shared_ptr<Bill> b =
+            std::make_shared<Bill>(type, amount, date, category);
         b->Add();
-        pTransaction.push_back(this);
+        pTransaction.push_back(shared_from_this());
     }
     else if (code == 2)
     {
@@ -216,12 +216,12 @@ void Transaction::InputSingleCode()
     }
     else if (code == 3)
     {
-        extern MainMenu *pMenu;
+        extern std::shared_ptr<MainMenu> pMenu;
         pMenu->Menu();
     }
     else
     {
-        std::cerr << NError::ERR_ILLEGAL_NUMBER << ", "
+        std::cerr << NError::ILLEGAL_NUMBER << ", "
                   << NError::PLEASE_INPUT_AGAIN << ". "
                   << std::endl;
         InputSingleCode();
@@ -237,7 +237,7 @@ void Transaction::InputSingleCode()
 void Transaction::InputRegularTransaction(const int &type)
 {
     this->type = type;
-    string tempTitle;
+    std::string tempTitle;
     if (type == INCOME)
     {
         tempTitle = NTransaction::REGULAR_INCOME_TITLE;
@@ -278,7 +278,7 @@ void Transaction::InputRegularCode()
     int code = SetCode();
     if (code == 1)
     {
-        pTransaction.push_back(this);
+        pTransaction.push_back(shared_from_this());
     }
     else if (code == 2)
     {
@@ -286,12 +286,12 @@ void Transaction::InputRegularCode()
     }
     else if (code == 3)
     {
-        extern MainMenu *pMenu;
+        extern std::shared_ptr<MainMenu> pMenu;
         pMenu->Menu();
     }
     else
     {
-        std::cerr << NError::ERR_ILLEGAL_NUMBER << ", "
+        std::cerr << NError::ILLEGAL_NUMBER << ", "
                   << NError::PLEASE_INPUT_AGAIN << ". "
                   << std::endl;
         InputRegularCode();
@@ -307,12 +307,12 @@ void Transaction::InputRegularCode()
 void Transaction::SingleSubmenu()
 {
     CLEAR;
-    extern string Division(int);
+    extern std::string Division(const int &);
     PrintOneBody(amount, category, date);
     std::cout << "1. " << NTransaction::EDIT << std::endl
               << "2. " << NTransaction::DELETE << std::endl
               << "3. " << NTransaction::BACK << std::endl
-              << Division(20) << std::endl;
+              << Division(50) << std::endl;
     InputSingleSubmenuCode();
 }
 
@@ -333,7 +333,7 @@ void Transaction::InputSingleSubmenuCode()
     }
     else
     {
-        std::cerr << NError::ERR_ILLEGAL_NUMBER << ", "
+        std::cerr << NError::ILLEGAL_NUMBER << ", "
                   << NError::PLEASE_INPUT_AGAIN << ". "
                   << std::endl;
         InputSingleSubmenuCode();
@@ -349,11 +349,11 @@ void Transaction::InputSingleSubmenuCode()
 void Transaction::RegularSubmenu() const
 {
     CLEAR;
-    extern string Division(int);
+    extern std::string Division(const int &);
     PrintOneBody(amount, category, date);
     std::cout << "1. " << NTransaction::DELETE << std::endl
               << "2. " << NTransaction::BACK << std::endl
-              << Division(20) << std::endl;
+              << Division(50) << std::endl;
     InputRegularSubmenuCode();
 }
 
@@ -370,7 +370,7 @@ void Transaction::InputRegularSubmenuCode() const
     }
     else
     {
-        std::cerr << NError::ERR_ILLEGAL_NUMBER << ", "
+        std::cerr << NError::ILLEGAL_NUMBER << ", "
                   << NError::PLEASE_INPUT_AGAIN << ". "
                   << std::endl;
         InputRegularSubmenuCode();
@@ -379,7 +379,7 @@ void Transaction::InputRegularSubmenuCode() const
 
 void Transaction::Edit()
 {
-    string temp;
+    std::string temp;
     if (type == INCOME)
     {
         temp = NTransaction::REGULAR_INCOME_TITLE;
@@ -416,7 +416,7 @@ void Transaction::Delete() const
     // 删除是修改的高级形式. --qyw
     for (auto it = pTransaction.begin(); it != pTransaction.end();)
     {
-        if (*it == this)
+        if (*it == shared_from_this())
         {
             pTransaction.erase(it++);
             break;
@@ -426,32 +426,36 @@ void Transaction::Delete() const
             it++;
         }
     }
-    std::cout << PRESS_ANY_KEY;
-    //TODO:
+    std::cout << DELETED << ". " << std::endl
+              << PRESS_ANY_KEY;
     getchar();
 }
 
 void Transaction::Print() const
 {
-    string typestr;
-    if (type == 1)
+    std::string typestr;
+    if (type == INCOME)
     {
-        typestr = INCOME;
+        typestr = NTransaction::INCOME;
     }
-    else if (type == -1)
+    else if (type == EXPENSE)
     {
-        typestr = EXPENSE;
+        typestr = NTransaction::EXPENSE;
     }
     std::cout << std::fixed << std::setprecision(2)
-              << setw(12) << amount << "\t\t"
-              << typestr << "\t\t"
-              << category << "\t\t"
-              << date << "\t\t"
-              << period << std::endl
+              << std::setw(12) << amount << "\t\t"
+              << typestr
+              << "\t\t"
+              << category
+              << "\t\t"
+              << date
+              << "\t\t"
+              << period
+              << std::endl
               << std::resetiosflags(std::ios::showpos);
 }
 
-void Transaction::SetData(const TRANSACTION_DATA &data)
+void Transaction::SetData(const Transaction::DATA &data)
 {
     this->type = data.type;
     this->amount = data.amount;
@@ -461,7 +465,7 @@ void Transaction::SetData(const TRANSACTION_DATA &data)
     this->period = data.period;
 }
 
-TRANSACTION_DATA Transaction::GetData() const
+Transaction::DATA Transaction::GetData() const
 {
     return {type,
             amount,
@@ -476,27 +480,27 @@ void Transaction::PrintOneBody(const T1 &x,
                                const T2 &y,
                                const T3 &z) const
 {
-    extern string Division(int);
+    extern std::string Division(const int &);
     std::cout << Division(95) << std::endl
               << NTransaction::ID << "\t"
-              << setw(14) << NTransaction::AMOUNT << "\t\t"
+              << std::setw(14) << NTransaction::AMOUNT << "\t\t"
               << NTransaction::TYPE << "\t\t"
               << NTransaction::CATEGORY << "\t\t"
               << NTransaction::DATE << "(" << NTransaction::START_DATE << ")\t\t"
               << NTransaction::PERIOD << std::endl
               << Division(95) << std::endl;
-    string typestr;
-    if (type == 1)
+    std::string typestr;
+    if (type == INCOME)
     {
-        typestr = INCOME;
+        typestr = NTransaction::INCOME;
     }
-    else if (type == -1)
+    else if (type == EXPENSE)
     {
-        typestr = EXPENSE;
+        typestr = NTransaction::EXPENSE;
     }
     std::cout << std::fixed << std::setprecision(2)
               << id << "\t"
-              << setw(12) << x << "\t\t"
+              << std::setw(12) << x << "\t\t"
               << typestr << "\t\t"
               << y << "\t\t"
               << z << "\t\t"
@@ -506,31 +510,33 @@ void Transaction::PrintOneBody(const T1 &x,
 }
 
 template <typename T1, typename T2, typename T3>
-void Transaction::PrintInputSingleBody(const string &title,
+void Transaction::PrintInputSingleBody(const std::string &title,
                                        const T1 &x,
                                        const T2 &y,
                                        const T3 &z) const
 {
+    extern std::string Division(const int &);
     std::cout << title << std::endl
-              << NTransaction::AMOUNT << ": " << x << std::endl
+              << NTransaction::AMOUNT << "(¥): " << x << std::endl
               << NTransaction::CATEGORY << ": " << y << std::endl
               << NTransaction::DATE << ": " << z << std::endl
-              << NTransaction::DIVISION << std::endl;
+              << Division(50) << std::endl;
 }
 
 template <typename T1, typename T2, typename T3, typename T4>
-void Transaction::PrintInputRegularBody(const string &title,
+void Transaction::PrintInputRegularBody(const std::string &title,
                                         const T1 &x,
                                         const T2 &y,
                                         const T3 &z,
                                         const T4 &u) const
 {
+    extern std::string Division(const int &);
     std::cout << title << std::endl
-              << NTransaction::AMOUNT << ": " << x << std::endl
+              << NTransaction::AMOUNT << "(¥): " << x << std::endl
               << NTransaction::CATEGORY << ": " << y << std::endl
               << NTransaction::START_DATE << ": " << z << std::endl
               << NTransaction::PERIOD << ": " << u << std::endl
-              << NTransaction::DIVISION << std::endl;
+              << Division(50) << std::endl;
 }
 
 /*---------------------------------------------------------------------------
@@ -539,12 +545,12 @@ void Transaction::PrintInputRegularBody(const string &title,
 目的:
     把一笔交易添加到账单. 
 ---------------------------------------------------------------------------*/
-void Transaction::AddToBill(Date const *const &itDate) const
+void Transaction::AddToBill(const std::shared_ptr<Date> &itDate) const
 {
-    Bill *temp = new Bill(type,
-                          amount,
-                          *itDate,
-                          string(category) + " (" + NBill::REGULAR + ")");
+    std::shared_ptr<Bill> temp = std::make_shared<Bill>(type,
+                                                        amount,
+                                                        *itDate,
+                                                        std::string(category) + " (" + NBill::REGULAR + ")");
     temp->Add();
 }
 
@@ -589,29 +595,29 @@ void DepositAndLoan::InputDepositAndLoan(const int &type)
     rate = SetRate();
 
     CLEAR;
-    PrintInputBody(principle, rate, "?", "", "", "");
+    PrintInputBody(principle, rate * 100, "?", "", "", "");
     isCompound = SetType();
 
-    string interestType;
+    std::string interestType;
     isCompound
         ? interestType = NDepositAndLoan::COMPOUND_INTEREST
         : interestType = NDepositAndLoan::SIMPLE_INTEREST;
 
     CLEAR;
-    PrintInputBody(principle, rate, interestType, "?", "", "");
+    PrintInputBody(principle, rate * 100, interestType, "?", "", "");
     date = SetDate();
     tempDate = date;
 
     CLEAR;
-    PrintInputBody(principle, rate, interestType, date, "?", "");
+    PrintInputBody(principle, rate * 100, interestType, date, "?", "");
     period = SetPeriod();
 
     CLEAR;
-    PrintInputBody(principle, rate, interestType, date, period, "?");
+    PrintInputBody(principle, rate * 100, interestType, date, period, "?");
     info = SetInfo();
 
     CLEAR;
-    PrintInputBody(principle, rate, interestType, date, period, info);
+    PrintInputBody(principle, rate * 100, interestType, date, period, info);
     PrintInstruction();
     InputCode();
 
@@ -623,7 +629,7 @@ void DepositAndLoan::InputCode()
     int code = SetCode();
     if (code == 1)
     {
-        pDepoAndLoan.push_back(this);
+        pDepoAndLoan.push_back(shared_from_this());
     }
     else if (code == 2)
     {
@@ -631,12 +637,12 @@ void DepositAndLoan::InputCode()
     }
     else if (code == 3)
     {
-        extern MainMenu *pMenu;
+        extern std::shared_ptr<MainMenu> pMenu;
         pMenu->Menu();
     }
     else
     {
-        std::cerr << NError::ERR_ILLEGAL_NUMBER << ", "
+        std::cerr << NError::ILLEGAL_NUMBER << ", "
                   << NError::PLEASE_INPUT_AGAIN << ". "
                   << std::endl;
         InputCode();
@@ -652,12 +658,12 @@ void DepositAndLoan::InputCode()
 void DepositAndLoan::Submenu() const
 {
     CLEAR;
-    extern string Division(int);
-    extern std::vector<DepositAndLoan *> pDepoAndLoan;
+    extern std::string Division(const int &);
+    extern std::vector<std::shared_ptr<DepositAndLoan>> pDepoAndLoan;
     std::cout << Division(115) << std::endl
               << NDepositAndLoan::ID << "\t"
-              << setw(14) << NDepositAndLoan::PRINCIPLE << "\t"
-              << setw(14) << NDepositAndLoan::INTEREST_RATE << "\t\t"
+              << std::setw(14) << NDepositAndLoan::PRINCIPLE << "\t"
+              << std::setw(14) << NDepositAndLoan::INTEREST_RATE << "\t\t"
               << NDepositAndLoan::PERIOD << "\t\t"
               << NDepositAndLoan::TYPE << "\t\t"
               << NDepositAndLoan::START_DATE << "\t\t"
@@ -668,7 +674,7 @@ void DepositAndLoan::Submenu() const
     std::cout << Division(115) << std::endl;
     std::cout << "1. " << NDepositAndLoan::DELETE << std::endl
               << "2. " << NDepositAndLoan::BACK << std::endl
-              << Division(20) << std::endl;
+              << Division(50) << std::endl;
     InputSubmenuCode();
 }
 
@@ -679,7 +685,7 @@ void DepositAndLoan::InputSubmenuCode() const
     {
         for (auto it = pDepoAndLoan.begin(); it != pDepoAndLoan.end();)
         {
-            if (*it == this)
+            if (*it == shared_from_this())
             {
                 pDepoAndLoan.erase(it++);
                 break;
@@ -689,8 +695,8 @@ void DepositAndLoan::InputSubmenuCode() const
                 it++;
             }
         }
-        //TODO:
-        std::cout << PRESS_ANY_KEY;
+        std::cout << DELETED << ". " << std::endl
+                  << PRESS_ANY_KEY;
         getchar();
     }
     else if (code == 2)
@@ -699,7 +705,7 @@ void DepositAndLoan::InputSubmenuCode() const
     }
     else
     {
-        std::cerr << NError::ERR_ILLEGAL_NUMBER << ", "
+        std::cerr << NError::ILLEGAL_NUMBER << ", "
                   << NError::PLEASE_INPUT_AGAIN << ". " << std::endl;
         InputSubmenuCode();
     }
@@ -707,30 +713,30 @@ void DepositAndLoan::InputSubmenuCode() const
 
 void DepositAndLoan::Print() const
 {
-    string typestr;
-    string intereststr;
-    string interestFlag;
-    if (type == 1)
+    std::string typestr;
+    std::string intereststr;
+    std::string interestFlag;
+    if (type == DEPOSIT)
     {
-        typestr = DEPOSIT;
+        typestr = NDepositAndLoan::DEPOSIT;
     }
-    else if (type == -1)
+    else if (type == LOAN)
     {
-        typestr = LOAN;
+        typestr = NDepositAndLoan::LOAN;
     }
     isCompound ? interestFlag = "C" : interestFlag = "S";
-    string tempstr = std::to_string(rate * 100);
+    std::string tempstr = std::to_string(rate * 100);
     intereststr = interestFlag + tempstr.substr(0, tempstr.size() - 4) + "%";
     std::cout << std::fixed << std::setprecision(2)
-              << setw(12) << principle << "\t"
-              << setw(12) << intereststr << "\t\t"
+              << std::setw(12) << principle << "\t"
+              << std::setw(12) << intereststr << "\t\t"
               << period << "\t\t"
               << typestr << "\t\t"
               << date << "\t\t"
               << info << std::endl;
 }
 
-void DepositAndLoan::SetData(const DEPOSIT_AND_LOAN_DATA &data)
+void DepositAndLoan::SetData(const DATA &data)
 {
     this->isCompound = data.isCompound;
     this->type = data.type;
@@ -743,7 +749,7 @@ void DepositAndLoan::SetData(const DEPOSIT_AND_LOAN_DATA &data)
     this->info = data.info;
 }
 
-DEPOSIT_AND_LOAN_DATA DepositAndLoan::GetData() const
+DepositAndLoan::DATA DepositAndLoan::GetData() const
 {
     return {isCompound,
             type,
@@ -766,14 +772,15 @@ void DepositAndLoan::PrintInputBody(const T1 &x,
                                     const T5 &v,
                                     const T6 &w) const
 {
+    extern std::string Division(const int &);
     std::cout << NDepositAndLoan::TITLE << std::endl
-              << NDepositAndLoan::PRINCIPLE << ": " << x << std::endl
-              << NDepositAndLoan::INTEREST_RATE << ": " << y << std::endl
+              << NDepositAndLoan::PRINCIPLE << "(¥): " << x << std::endl
+              << NDepositAndLoan::INTEREST_RATE << "(%): " << y << std::endl
               << NDepositAndLoan::INTEREST_TYPE << ": " << z << std::endl
               << NDepositAndLoan::START_DATE << ": " << u << std::endl
-              << NDepositAndLoan::PERIOD << ":" << v << std::endl
-              << NDepositAndLoan::INFO << ":" << w << std::endl
-              << NDepositAndLoan::DIVISION << std::endl;
+              << NDepositAndLoan::PERIOD << ": " << v << std::endl
+              << NDepositAndLoan::INFO << ": " << w << std::endl
+              << Division(50) << std::endl;
 }
 
 Period DepositAndLoan::GetPeriod() const
@@ -792,14 +799,14 @@ Date DepositAndLoan::GetTempDate() const
 目的:
     把一笔交易添加到账单. 
 ---------------------------------------------------------------------------*/
-void DepositAndLoan::AddToBill(const Date *const &itDate)
+void DepositAndLoan::AddToBill(const std::shared_ptr<Date> &itDate)
 {
     CheckCompound();
-    Bill *t = new Bill(type,
-                       rate * tempPrinciple,
-                       *itDate,
-                       info + " (" + NBill::INTEREST + ")");
-    t->Add();
+    std::shared_ptr<Bill> temp = std::make_shared<Bill>(type,
+                                                        rate * tempPrinciple,
+                                                        *itDate,
+                                                        info + " (" + NBill::INTEREST + ")");
+    temp->Add();
     totalInterest += rate * tempPrinciple;
 }
 
@@ -824,7 +831,7 @@ double DepositAndLoan::GetTotalInterest() const
 
 void DepositAndLoan::PrintTotalInterest() const
 {
-    string typestr;
+    std::string typestr;
     if (type == DEPOSIT)
     {
         typestr = NDepositAndLoan::DEPOSIT;
@@ -834,9 +841,9 @@ void DepositAndLoan::PrintTotalInterest() const
         typestr = NDepositAndLoan::LOAN;
     }
     std::cout << std::fixed << std::setprecision(2)
-              << setw(12) << principle << "\t"
-              << setw(12) << rate << "\t\t"
-              << setw(12) << std::showpos << type * totalInterest << "\t\t"
+              << std::setw(12) << principle << "\t"
+              << std::setw(12) << rate << "\t\t"
+              << std::setw(12) << std::showpos << type * totalInterest << "\t\t"
               << std::resetiosflags(std::ios::showpos)
               << typestr << "\t\t"
               << date << "\t\t"
@@ -857,13 +864,13 @@ double DepositAndLoan::SetRate() const
         }
         else
         {
-            std::cerr << NError::ERR_ILLEGAL_NUMBER << ", "
+            std::cerr << NError::ILLEGAL_NUMBER << ", "
                       << NError::PLEASE_INPUT_AGAIN << ". "
                       << std::endl;
             return SetRate();
         }
     }
-    catch (const string msg)
+    catch (const std::string msg)
     {
         std::cerr << msg << ", "
                   << NError::PLEASE_INPUT_AGAIN << ". "
@@ -892,13 +899,13 @@ bool DepositAndLoan::SetType() const
         }
         else
         {
-            std::cerr << NError::ERR_ILLEGAL_NUMBER << ", "
+            std::cerr << NError::ILLEGAL_NUMBER << ", "
                       << NError::PLEASE_INPUT_AGAIN << ". "
                       << std::endl;
             return SetType();
         }
     }
-    catch (const string msg)
+    catch (const std::string msg)
     {
         std::cerr << msg << ", "
                   << NError::PLEASE_INPUT_AGAIN << ". "
@@ -907,7 +914,7 @@ bool DepositAndLoan::SetType() const
     }
 }
 
-string DepositAndLoan::SetInfo() const
+std::string DepositAndLoan::SetInfo() const
 {
     In info;
     std::cin >> info;

@@ -1,6 +1,7 @@
+//OK
 #include "../inc/period.h"
 
-std::vector<Date *> dateList;
+std::vector<std::shared_ptr<Date>> dateList;
 
 Period::Period(const int &code)
 {
@@ -52,14 +53,14 @@ Period::operator int()
 int Period::Calculate(const Date &start) const
 {
     Date today;
-    Date *temp = new Date;
+    std::shared_ptr<Date> temp = std::make_shared<Date>();
     *temp = start;
     int cnt = 0;
     while (*temp < today)
     {
-        Date *pt = new Date;
-        *pt = *temp;
-        dateList.push_back(pt);
+        std::shared_ptr<Date> pDate = std::make_shared<Date>();
+        *pDate = *temp;
+        dateList.push_back(pDate);
         cnt++;
         if (code == MONTHLY)
         {

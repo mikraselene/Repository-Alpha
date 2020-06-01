@@ -1,247 +1,226 @@
 #include "../inc/menu.h"
 
-using std::cerr;
-using std::vector;
-using namespace std;
-
-MainMenu *pMenu = new MainMenu;
-string Division(int n)
+std::shared_ptr<MainMenu> pMenu = std::make_shared<MainMenu>();
+std::string Division(const int &n)
 {
-    string s(n, '-');
+    std::string s(n, '-');
     return s;
 }
-void MainMenu::Menu()
+void MainMenu::Menu() const
 {
     CLEAR;
     Refresh();
-    using namespace NMainMenu;
-    cout << TITLE << endl;
-    cout << "1. " << ASSET << endl
-         << "2. " << BILL << endl
-         << "3. " << WALLET << endl
-         << "4. " << MFILE << endl
-         << "5. " << EXIT << endl
-         << END << endl;
+    std::cout << NMenu::TITLE << std::endl;
+    std::cout << "1. " << NMenu::ASSET_MENU << std::endl
+              << "2. " << NMenu::BILL_MENU << std::endl
+              << "3. " << NMenu::WALLET_MENU << std::endl
+              << "4. " << NMenu::FILE_MENU << std::endl
+              << "5. " << NMenu::EXIT << std::endl
+              << NMenu::END << std::endl;
     InputCode();
 }
 
-void MainMenu::InputCode()
+void MainMenu::InputCode() const
 {
     int code = SetCode();
     if (code == 1)
     {
-        delete pMenu;
-        pMenu = new AssetMenu;
+        std::shared_ptr<MainMenu> pMenu = std::make_shared<AssetMenu>();
         pMenu->Menu();
     }
     else if (code == 2)
     {
-        delete pMenu;
-        pMenu = new BillMenu;
+        std::shared_ptr<MainMenu> pMenu = std::make_shared<BillMenu>();
         pMenu->Menu();
     }
     else if (code == 3)
     {
-        delete pMenu;
-        pMenu = new WalletMenu;
+        std::shared_ptr<MainMenu> pMenu = std::make_shared<WalletMenu>();
         pMenu->Menu();
     }
     else if (code == 4)
     {
-        //delete pMenu;
-        //pMenu = new FileMenu;
-        //pMenu->Menu();
+        std::shared_ptr<MainMenu> pMenu = std::make_shared<FileMenu>();
+        pMenu->Menu();
     }
     else if (code == 5)
     {
-        delete pMenu;
         return;
     }
     else
     {
-        using namespace NError;
-        cerr << ERR_ILLEGAL_NUMBER << ", "
-             << PLEASE_INPUT_AGAIN << ". "
-             << endl;
+        std::cerr << NError::ILLEGAL_NUMBER << ", "
+                  << NError::PLEASE_INPUT_AGAIN << ". "
+                  << std::endl;
         InputCode();
     }
 }
 
-void AssetMenu::Menu()
+void AssetMenu::Menu() const
 {
     CLEAR;
-    using namespace NAssetMenu;
-    cout << TITLE << endl;
-    cout << "1. " << TRANSACTION << endl
-         << "2. " << DEPO_AND_LOAN << endl
-         << "3. " << BACK << endl
-         << END << endl;
+    std::cout << NMenu::ASSET_TITLE << std::endl;
+    std::cout << "1. " << NMenu::TRANSACTION_MENU << std::endl
+              << "2. " << NMenu::DEPO_AND_LOAN_MENU << std::endl
+              << "3. " << NMenu::BACK << std::endl
+              << NMenu::END << std::endl;
 
     InputCode();
 }
 
-void AssetMenu::InputCode()
+void AssetMenu::InputCode() const
 {
     int code = SetCode();
     if (code == 1)
     {
-        delete pMenu;
-        pMenu = new TransactionMenu;
+        std::shared_ptr<MainMenu> pMenu = std::make_shared<TransactionMenu>();
         pMenu->Menu();
     }
     else if (code == 2)
     {
-        delete pMenu;
-        pMenu = new DepositAndLoanMenu;
+        std::shared_ptr<MainMenu> pMenu = std::make_shared<DepositAndLoanMenu>();
         pMenu->Menu();
     }
     else if (code == 3)
     {
-        delete pMenu;
-        pMenu = new MainMenu;
+        std::shared_ptr<MainMenu> pMenu = std::make_shared<MainMenu>();
         pMenu->Menu();
     }
     else
     {
-        using namespace NError;
-        cerr << ERR_ILLEGAL_NUMBER << ", "
-             << PLEASE_INPUT_AGAIN << ". "
-             << endl;
+        std::cerr << NError::ILLEGAL_NUMBER << ", "
+                  << NError::PLEASE_INPUT_AGAIN << ". "
+                  << std::endl;
         InputCode();
     }
 }
 
-int MainMenu::SetCode()
+int MainMenu::SetCode() const
 {
     try
     {
-        cout << ">> ";
+        std::cout << ">> ";
         In code;
-        cin >> code;
+        std::cin >> code;
         return code;
     }
-    catch (const string msg)
+    catch (const std::string msg)
     {
-        using namespace NError;
-        cerr << msg << ", "
-             << PLEASE_INPUT_AGAIN << ". "
-             << endl;
+        std::cerr << msg << ", "
+                  << NError::PLEASE_INPUT_AGAIN << ". "
+                  << std::endl;
         return SetCode();
     }
 }
 
 #pragma region "Asset"
 
-void AssetMenu::PrintAll()
+void AssetMenu::PrintAll() const
 {
 }
 
-void TransactionMenu::Menu()
+void TransactionMenu::Menu() const
 {
     CLEAR;
     Refresh();
-    using namespace NTransactionMenu;
-    cout << TITLE << endl
-         << "1. " << ADD_SINGLE_EXPENSE << endl
-         << "2. " << ADD_SINGLE_INCOME << endl
-         << "3. " << ADD_REGULAR_EXPENSE << endl
-         << "4. " << ADD_REGULAR_INCOME << endl
-         << "5. " << EDIT << endl
-         << "6. " << BACK << endl
-         << END << endl;
+    std::cout << NMenu::TRANSACTION_TITLE << std::endl
+              << "1. " << NMenu::ADD_SINGLE_EXPENSE << std::endl
+              << "2. " << NMenu::ADD_SINGLE_INCOME << std::endl
+              << "3. " << NMenu::ADD_REGULAR_EXPENSE << std::endl
+              << "4. " << NMenu::ADD_REGULAR_INCOME << std::endl
+              << "5. " << NMenu::EDIT_TRANSACTION << std::endl
+              << "6. " << NMenu::BACK << std::endl
+              << NMenu::END << std::endl;
 
     InputCode();
 }
 
-void TransactionMenu::InputCode()
+void TransactionMenu::InputCode() const
 {
     int code = SetCode();
     if (code == 1)
     {
-        Transaction *p = new Transaction;
+        std::shared_ptr<Transaction> p = std::make_shared<Transaction>();
         p->InputSingleTransaction(EXPENSE);
-        delete pMenu;
-        pMenu = new TransactionMenu;
+        std::shared_ptr<MainMenu> pMenu = std::make_shared<TransactionMenu>();
         pMenu->Menu();
     }
     else if (code == 2)
     {
-        Transaction *p = new Transaction;
+        std::shared_ptr<Transaction> p = std::make_shared<Transaction>();
         p->InputSingleTransaction(INCOME);
-        delete pMenu;
-        pMenu = new TransactionMenu;
+        std::shared_ptr<MainMenu> pMenu = std::make_shared<TransactionMenu>();
         pMenu->Menu();
     }
     else if (code == 3)
     {
-        Transaction *p = new Transaction;
+        std::shared_ptr<Transaction> p = std::make_shared<Transaction>();
         p->InputRegularTransaction(EXPENSE);
-        delete pMenu;
-        pMenu = new TransactionMenu;
+        std::shared_ptr<MainMenu> pMenu = std::make_shared<TransactionMenu>();
         pMenu->Menu();
     }
     else if (code == 4)
     {
-        Transaction *p = new Transaction;
+        std::shared_ptr<Transaction> p = std::make_shared<Transaction>();
         p->InputRegularTransaction(INCOME);
-        delete pMenu;
-        pMenu = new TransactionMenu;
+        std::shared_ptr<MainMenu> pMenu = std::make_shared<TransactionMenu>();
         pMenu->Menu();
     }
     else if (code == 5)
     {
         EditTransaction();
-        delete pMenu;
-        pMenu = new TransactionMenu;
+        std::shared_ptr<MainMenu> pMenu = std::make_shared<TransactionMenu>();
         pMenu->Menu();
     }
     else if (code == 6)
     {
-        delete pMenu;
-        pMenu = new AssetMenu;
+        std::shared_ptr<MainMenu> pMenu = std::make_shared<AssetMenu>();
         pMenu->Menu();
     }
     else
     {
-        using namespace NError;
-        cerr << ERR_ILLEGAL_NUMBER << ", "
-             << PLEASE_INPUT_AGAIN << ". "
-             << endl;
+        std::cerr << NError::ILLEGAL_NUMBER << ", "
+                  << NError::PLEASE_INPUT_AGAIN << ". "
+                  << std::endl;
         InputCode();
     }
 }
 
-void TransactionMenu::PrintAll()
+void TransactionMenu::PrintAll() const
 {
     CLEAR;
-    extern vector<Transaction *> pTransaction;
-    using namespace NTransaction;
-    cout << Division(95) << endl
-         << ID << "\t"
-         << setw(14) << AMOUNT << "\t\t"
-         << TYPE << "\t\t"
-         << CATEGORY << "\t\t"
-         << DATE << "(" << START_DATE << ")\t\t"
-         << PERIOD << endl
-         << Division(95) << endl;
+    extern std::vector<std::shared_ptr<Transaction>> pTransaction;
+    std::cout << Division(95) << std::endl
+              << NTransaction::ID << "\t"
+              << std::setw(14) << NTransaction::AMOUNT << "\t\t"
+              << NTransaction::TYPE << "\t\t"
+              << NTransaction::CATEGORY << "\t\t"
+              << NTransaction::DATE << "(" << NTransaction::START_DATE << ")\t\t"
+              << NTransaction::PERIOD << std::endl
+              << Division(95) << std::endl;
 
     for (int i = 0; i < pTransaction.size(); i++)
     {
-        cout << i + 1 << "\t";
+        std::cout << i + 1 << "\t";
         pTransaction[i]->SetId(i + 1);
         pTransaction[i]->Print();
     }
-    cout << Division(95) << endl;
+    std::cout << Division(95) << std::endl;
 }
 
-void TransactionMenu::EditTransaction()
+void TransactionMenu::EditTransaction() const
 {
     CLEAR;
     PrintAll();
-    using namespace NTransaction;
-    cout << CHOOSE_A_TRANSACTION << ", " << PRESS_ENTER_TO_EXIT << ". " << endl;
+    std::cout << NTransaction::CHOOSE_A_TRANSACTION << ", "
+              << NTransaction::PRESS_ENTER_TO_EXIT << ". " << std::endl;
+    InputEditCode();
+}
+
+void TransactionMenu::InputEditCode() const
+{
     int code = SetCode();
-    extern vector<Transaction *> pTransaction;
+    extern std::vector<std::shared_ptr<Transaction>> pTransaction;
     if (code >= 1 && code <= pTransaction.size())
     {
         pTransaction[code - 1]->GetPeriod() == Period::NO_PERIOD
@@ -255,112 +234,107 @@ void TransactionMenu::EditTransaction()
     }
     else
     {
-        using namespace NError;
-        cerr << ERR_ILLEGAL_NUMBER << ", "
-             << PLEASE_INPUT_AGAIN << ". "
-             << endl;
-        EditTransaction();
+        std::cerr << NError::ILLEGAL_NUMBER << ", "
+                  << NError::PLEASE_INPUT_AGAIN << ". "
+                  << std::endl;
+        InputEditCode();
     }
 }
 
-void DepositAndLoanMenu::Menu()
+void DepositAndLoanMenu::Menu() const
 {
     CLEAR;
     Refresh();
-    using namespace NDepositAndLoanMenu;
-    cout << TITLE << endl
-         << "1. " << ADD_DEPOSIT << endl
-         << "2. " << ADD_LOAN << endl
-         << "3. " << EDIT << endl
-         << "4. " << STATISTICS << endl
-         << "5. " << BACK << endl
-         << END << endl;
+    std::cout << NMenu::DEPO_AND_LOAN_TITLE << std::endl
+              << "1. " << NMenu::ADD_DEPOSIT << std::endl
+              << "2. " << NMenu::ADD_LOAN << std::endl
+              << "3. " << NMenu::EDIT << std::endl
+              << "4. " << NMenu::STATISTICS << std::endl
+              << "5. " << NMenu::BACK << std::endl
+              << NMenu::END << std::endl;
     InputCode();
-    //Menu();
 }
 
-void DepositAndLoanMenu::InputCode()
+void DepositAndLoanMenu::InputCode() const
 {
     int code = SetCode();
     if (code == 1)
     {
-        DepositAndLoan *p = new DepositAndLoan;
+        std::shared_ptr<DepositAndLoan> p = std::make_shared<DepositAndLoan>();
         p->InputDepositAndLoan(DEPOSIT);
-        delete pMenu;
-        pMenu = new DepositAndLoanMenu;
+        std::shared_ptr<MainMenu> pMenu = std::make_shared<DepositAndLoanMenu>();
         pMenu->Menu();
     }
     else if (code == 2)
     {
-        DepositAndLoan *p = new DepositAndLoan;
+        std::shared_ptr<DepositAndLoan> p = std::make_shared<DepositAndLoan>();
         p->InputDepositAndLoan(LOAN);
-        delete pMenu;
-        pMenu = new DepositAndLoanMenu;
+        std::shared_ptr<MainMenu> pMenu = std::make_shared<DepositAndLoanMenu>();
         pMenu->Menu();
     }
     else if (code == 3)
     {
         EditDepositAndLoan();
-        delete pMenu;
-        pMenu = new DepositAndLoanMenu;
+        std::shared_ptr<MainMenu> pMenu = std::make_shared<DepositAndLoanMenu>();
         pMenu->Menu();
     }
     else if (code == 4)
     {
         GetStats();
-        delete pMenu;
-        pMenu = new DepositAndLoanMenu;
+        std::shared_ptr<MainMenu> pMenu = std::make_shared<DepositAndLoanMenu>();
         pMenu->Menu();
     }
     else if (code == 5)
     {
-        delete pMenu;
-        pMenu = new AssetMenu;
+        std::shared_ptr<MainMenu> pMenu = std::make_shared<AssetMenu>();
         pMenu->Menu();
     }
     else
     {
-        using namespace NError;
-        cerr << ERR_ILLEGAL_NUMBER << ", "
-             << PLEASE_INPUT_AGAIN << ". "
-             << endl;
+        std::cerr << NError::ILLEGAL_NUMBER << ", "
+                  << NError::PLEASE_INPUT_AGAIN << ". "
+                  << std::endl;
         InputCode();
     }
 }
 
-void DepositAndLoanMenu::PrintAll()
+void DepositAndLoanMenu::PrintAll() const
 {
     CLEAR;
 
-    extern vector<DepositAndLoan *> pDepoAndLoan;
-    using namespace NDepositAndLoan;
-    cout << Division(115) << endl
-         << ID << "\t"
-         << setw(14) << PRINCIPLE << "\t"
-         << setw(14) << INTEREST_RATE << "*\t\t"
-         << PERIOD << "\t\t"
-         << TYPE << "\t\t"
-         << START_DATE << "\t\t"
-         << INFO << endl
-         << Division(115) << endl;
+    extern std::vector<std::shared_ptr<DepositAndLoan>> pDepoAndLoan;
+    std::cout << Division(115) << std::endl
+              << NDepositAndLoan::ID << "\t"
+              << std::setw(14) << NDepositAndLoan::PRINCIPLE << "\t"
+              << std::setw(14) << NDepositAndLoan::INTEREST_RATE << "*\t\t"
+              << NDepositAndLoan::PERIOD << "\t\t"
+              << NDepositAndLoan::TYPE << "\t\t"
+              << NDepositAndLoan::START_DATE << "\t\t"
+              << NDepositAndLoan::INFO << std::endl
+              << Division(115) << std::endl;
     for (int i = 0; i < pDepoAndLoan.size(); i++)
     {
-        cout << i + 1 << "\t";
+        std::cout << i + 1 << "\t";
         pDepoAndLoan[i]->SetId(i + 1);
         pDepoAndLoan[i]->Print();
     }
-    cout << Division(115) << endl;
-    cout << "* " << RATE_HELP << endl;
+    std::cout << Division(115) << std::endl;
+    std::cout << "* " << NDepositAndLoan::RATE_HELP << std::endl;
 }
 
-void DepositAndLoanMenu::EditDepositAndLoan()
+void DepositAndLoanMenu::EditDepositAndLoan() const
 {
     CLEAR;
     PrintAll();
-    using namespace NDepositAndLoan;
-    cout << CHOOSE_A_DEPOSIT_OR_LOAN << ", " << PRESS_ENTER_TO_EXIT << ". " << endl;
+    std::cout << NDepositAndLoan::CHOOSE_A_DEPOSIT_OR_LOAN << ", "
+              << NDepositAndLoan::PRESS_ENTER_TO_EXIT << ". " << std::endl;
+    InputEditCode();
+}
+
+void DepositAndLoanMenu::InputEditCode() const
+{
     int code = SetCode();
-    extern vector<DepositAndLoan *> pDepoAndLoan;
+    extern std::vector<std::shared_ptr<DepositAndLoan>> pDepoAndLoan;
     if (code >= 1 && code <= pDepoAndLoan.size())
     {
         pDepoAndLoan[code - 1]->Submenu();
@@ -372,41 +346,42 @@ void DepositAndLoanMenu::EditDepositAndLoan()
     }
     else
     {
-        using namespace NError;
-        cerr << ERR_ILLEGAL_NUMBER << ", "
-             << PLEASE_INPUT_AGAIN << ". "
-             << endl;
-        EditDepositAndLoan();
+        std::cerr << NError::ILLEGAL_NUMBER << ", "
+                  << NError::PLEASE_INPUT_AGAIN << ". "
+                  << std::endl;
+        InputEditCode();
     }
 }
-void DepositAndLoanMenu::GetStats()
+
+void DepositAndLoanMenu::GetStats() const
 {
     CLEAR;
-    extern vector<DepositAndLoan *> pDepoAndLoan;
-    using namespace NDepositAndLoan;
+    extern std::vector<std::shared_ptr<DepositAndLoan>> pDepoAndLoan;
     double totalIncome = 0;
     double totalExpense = 0;
-    cout << Division(125) << endl
-         << ID << "\t"
-         << setw(14) << PRINCIPLE << "\t"
-         << setw(14) << INTEREST_RATE << "\t\t"
-         << setw(16) << TOTAL_INTEREST << "\t\t"
-         << TYPE << "\t\t"
-         << START_DATE << "\t\t"
-         << INFO << endl
-         << Division(125) << endl;
+    std::cout << Division(125) << std::endl
+              << NDepositAndLoan::ID << "\t"
+              << std::setw(14) << NDepositAndLoan::PRINCIPLE << "\t"
+              << std::setw(14) << NDepositAndLoan::INTEREST_RATE << "\t\t"
+              << std::setw(16) << NDepositAndLoan::TOTAL_INTEREST << "\t\t"
+              << NDepositAndLoan::TYPE << "\t\t"
+              << NDepositAndLoan::START_DATE << "\t\t"
+              << NDepositAndLoan::INFO << std::endl
+              << Division(125) << std::endl;
     for (int i = 0; i < pDepoAndLoan.size(); i++)
     {
-        cout << i + 1 << "\t";
+        std::cout << i + 1 << "\t";
         pDepoAndLoan[i]->PrintTotalInterest();
         double temp = pDepoAndLoan[i]->GetTotalInterest();
         temp > 0 ? totalIncome += temp : totalExpense += temp;
     }
-    cout << Division(125) << endl
-         << std::fixed << std::setprecision(2)
-         << TOTAL_INCOME << ": " << abs(totalIncome) << YUAN << endl
-         << TOTAL_EXPENSE << ": " << abs(totalExpense) << YUAN << endl
-         << PRESS_ANY_KEY;
+    std::cout << Division(125) << std::endl
+              << std::fixed << std::setprecision(2)
+              << NDepositAndLoan::TOTAL_INCOME << ": "
+              << abs(totalIncome) << NDepositAndLoan::YUAN << std::endl
+              << NDepositAndLoan::TOTAL_EXPENSE << ": "
+              << abs(totalExpense) << NDepositAndLoan::YUAN << std::endl
+              << PRESS_ANY_KEY;
     getchar();
 }
 
@@ -414,148 +389,153 @@ void DepositAndLoanMenu::GetStats()
 
 #pragma region "Bill"
 
-void BillMenu::Menu()
+void BillMenu::Menu() const
 {
     CLEAR;
-    using namespace NBillMenu;
-    cout << TITLE << endl;
-    cout << "1. " << OVERVIEW << endl
-         << "2. " << FILTER << endl
-         << "3. " << STATISTICS << endl
-         << "4. " << BACK << endl
-         << END << endl;
+    std::cout << NMenu::BILL_TITLE << std::endl;
+    std::cout << "1. " << NMenu::OVERVIEW << std::endl
+              << "2. " << NMenu::FILTER << std::endl
+              << "3. " << NMenu::STATISTICS << std::endl
+              << "4. " << NMenu::BACK << std::endl
+              << NMenu::END << std::endl;
     InputCode();
 }
-void BillMenu::InputCode()
+void BillMenu::InputCode() const
 {
     int code = SetCode();
     if (code == 1)
     {
-        delete pMenu;
-        pMenu = new OverviewMenu;
+        std::shared_ptr<MainMenu> pMenu = std::make_shared<OverviewMenu>();
         pMenu->Menu();
     }
     else if (code == 2)
     {
-        delete pMenu;
-        pMenu = new FilterMenu;
+        std::shared_ptr<MainMenu> pMenu = std::make_shared<FilterMenu>();
         pMenu->Menu();
     }
     else if (code == 3)
     {
-        delete pMenu;
-        pMenu = new StatisticsMenu;
+        std::shared_ptr<MainMenu> pMenu = std::make_shared<StatisticsMenu>();
         pMenu->Menu();
     }
     else if (code == 4)
     {
-        delete pMenu;
-        pMenu = new MainMenu;
+        std::shared_ptr<MainMenu> pMenu = std::make_shared<MainMenu>();
         pMenu->Menu();
     }
     else
     {
-        using namespace NError;
-        cerr << ERR_ILLEGAL_NUMBER << ", "
-             << PLEASE_INPUT_AGAIN << ". "
-             << endl;
+        std::cerr << NError::ILLEGAL_NUMBER << ", "
+                  << NError::PLEASE_INPUT_AGAIN << ". "
+                  << std::endl;
         InputCode();
     }
 }
 
-void OverviewMenu::Menu()
+void OverviewMenu::Menu() const
 {
     CLEAR;
-    extern vector<Bill *> pBill;
-    vector<Bill *> temp(pBill);
+    extern std::vector<std::shared_ptr<Bill>> pBill;
+    std::vector<std::shared_ptr<Bill>> temp(pBill);
 
-    using namespace NBillMenu;
-    cout << OVERVIEW_TITLE << endl;
-    cout << "1. " << BY_DATE << "(" << DESCEND << ")" << endl
-         << "2. " << BY_DATE << "(" << ASCEND << ")" << endl
-         << "3. " << BY_AMOUNT << "(" << DESCEND << ")" << endl
-         << "4. " << BY_AMOUNT << "(" << ASCEND << ")" << endl
-         << "5. " << BACK << endl
-         << OVERVIEW_END << endl;
-
+    std::cout << NMenu::OVERVIEW_TITLE
+              << std::endl;
+    std::cout << "1. " << NMenu::BY_DATE << "(" << NMenu::DESCEND << ")"
+              << std::endl
+              << "2. " << NMenu::BY_DATE << "(" << NMenu::ASCEND << ")"
+              << std::endl
+              << "3. " << NMenu::BY_AMOUNT << "(" << NMenu::DESCEND << ")"
+              << std::endl
+              << "4. " << NMenu::BY_AMOUNT << "(" << NMenu::ASCEND << ")"
+              << std::endl
+              << "5. " << NMenu::BACK
+              << std::endl
+              << NMenu::OVERVIEW_END
+              << std::endl;
     InputCode();
 }
 
-void OverviewMenu::InputCode()
+void OverviewMenu::InputCode() const
 {
     int code = SetCode();
     if (code <= 4 && code >= 1)
     {
-        delete pMenu;
-        pMenu = new OverviewMenu;
+        std::shared_ptr<MainMenu> pMenu = std::make_shared<OverviewMenu>();
         PrintAll(code);
         pMenu->Menu();
     }
     else if (code == 5)
     {
-        delete pMenu;
-        pMenu = new BillMenu;
+        std::shared_ptr<MainMenu> pMenu = std::make_shared<BillMenu>();
         pMenu->Menu();
     }
     else
     {
-        using namespace NError;
-        cerr << ERR_ILLEGAL_NUMBER << ", "
-             << PLEASE_INPUT_AGAIN << ". "
-             << endl;
+        std::cerr << NError::ILLEGAL_NUMBER << ", "
+                  << NError::PLEASE_INPUT_AGAIN << ". "
+                  << std::endl;
         InputCode();
     }
 }
 
-void OverviewMenu::PrintAll(int flag)
+void OverviewMenu::PrintAll(const int &flag) const
 {
     CLEAR;
-    extern vector<Bill *> pBill;
-    vector<Bill *> temp(pBill);
+    extern std::vector<std::shared_ptr<Bill>> pBill;
+    std::vector<std::shared_ptr<Bill>> temp(pBill);
 
     if (flag == 1)
     {
         sort(temp.begin(), temp.end(),
-             [](Bill *A, Bill *B) { return A->GetDate() > B->GetDate(); });
+             [](std::shared_ptr<Bill> A, std::shared_ptr<Bill> B) {
+                 return A->GetDate() > B->GetDate();
+             });
     }
     else if (flag == 2)
     {
         sort(temp.begin(), temp.end(),
-             [](Bill *A, Bill *B) { return A->GetDate() < B->GetDate(); });
+             [](std::shared_ptr<Bill> A, std::shared_ptr<Bill> B) {
+                 return A->GetDate() < B->GetDate();
+             });
     }
     else if (flag == 3)
     {
         sort(temp.begin(), temp.end(),
-             [](Bill *A, Bill *B) { return A->GetAmount() > B->GetAmount(); });
+             [](std::shared_ptr<Bill> A, std::shared_ptr<Bill> B) {
+                 return A->GetAmount() > B->GetAmount();
+             });
     }
     else if (flag == 4)
     {
         sort(temp.begin(), temp.end(),
-             [](Bill *A, Bill *B) { return A->GetAmount() < B->GetAmount(); });
+             [](std::shared_ptr<Bill> A, std::shared_ptr<Bill> B) {
+                 return A->GetAmount() < B->GetAmount();
+             });
     }
-    using namespace NBill;
 
-    cout << Division(90) << endl
-         << setw(12) << AMOUNT << "\t"
-         << TYPE << "\t\t\t"
-         << DATE << "\t\t\t"
-         << INFO << endl
-         << Division(90) << endl;
+    std::cout << Division(90) << std::endl
+              << std::setw(12) << NBill::AMOUNT << "\t"
+              << NBill::TYPE << "\t\t\t"
+              << NBill::DATE << "\t\t\t"
+              << NBill::INFO << std::endl
+              << Division(90) << std::endl;
     for (auto it : temp)
     {
         it->Print();
     }
-    cout << Division(90) << endl
-         << PRESS_ANY_KEY;
+    std::cout << Division(90) << std::endl
+              << PRESS_ANY_KEY;
     getchar();
 }
 
-void StatisticsMenu::Menu()
+void StatisticsMenu::Menu() const
 {
     CLEAR;
-    extern vector<Bill *> pBill;
+    extern std::vector<std::shared_ptr<Bill>> pBill;
     sort(pBill.begin(), pBill.end(),
-         [](Bill *A, Bill *B) { return A->GetDate() < B->GetDate(); });
+         [](std::shared_ptr<Bill> A, std::shared_ptr<Bill> B) {
+             return A->GetDate() < B->GetDate();
+         });
     Date today;
     int currentYear = today.GetYear();
     int currentMonth = today.GetMonth();
@@ -563,7 +543,7 @@ void StatisticsMenu::Menu()
     int firstMonth = pBill[0]->GetDate().GetMonth();
     int totalMonth = (currentYear - firstYear) * 12 + (currentMonth - firstMonth);
 
-    vector<BILL_BY_MONTH> y(totalMonth + 1, {0, 0, 0});
+    std::vector<BILL_BY_MONTH> y(totalMonth + 1, {0, 0, 0});
 
     int monthCount = 0;
     for (int i = 0; i < pBill.size(); i++)
@@ -584,11 +564,7 @@ void StatisticsMenu::Menu()
         }
     }
 
-    //LeastSquare ls(y);
-    //ls.Fitting();
-    //cout << ls.Y(a + 1) << endl;
-
-    vector<double> monthAmount(totalMonth);
+    std::vector<double> monthAmount(totalMonth);
 
     for (int i = 0; i < totalMonth; i++)
     {
@@ -603,108 +579,101 @@ void StatisticsMenu::Menu()
     double sum = accumulate(monthAmount.begin(), monthAmount.end(), 0);
     double max = *max_element(monthAmount.begin(), monthAmount.end());
 
-    using namespace std;
-
     monthAmount[totalMonth] = fit;
 
     for (int i = 0; i < totalMonth; i++)
     {
-        cout << y[i].year << "."
-             << setw(2) << setfill('0') << y[i].month << ", "
-             << setfill(' ');
+        std::cout << y[i].year << "."
+                  << std::setw(2) << std::setfill('0') << y[i].month << ", "
+                  << std::setfill(' ');
 
-        cout << fixed << setprecision(2)
-             << y[i].amount << NBill::YUAN << " ";
-        cout << endl;
-        cout << "[";
+        std::cout << std::fixed << std::setprecision(2)
+                  << y[i].amount << NBill::YUAN << " ";
+        std::cout << std::endl;
+        std::cout << "[";
         for (int j = 0; j < monthAmount[i] * 30 / max; j++)
         {
-            cout << "#";
+            std::cout << "#";
         }
-        cout << "]";
-        cout << endl;
+        std::cout << "]";
+        std::cout << std::endl;
     }
 
-    cout << currentYear << "."
-         << setw(2) << setfill('0') << currentMonth << ", "
-         << setfill(' ');
+    std::cout << currentYear << "."
+              << std::setw(2) << std::setfill('0') << currentMonth << ", "
+              << std::setfill(' ');
 
-    cout << fixed << setprecision(2)
-         << y[totalMonth].amount << NBill::YUAN << " ";
-    //<< percent[i] * 100 << "% ";
-    cout << endl;
+    std::cout << std::fixed << std::setprecision(2)
+              << y[totalMonth].amount << NBill::YUAN << " ";
+    std::cout << std::endl;
     if (y[totalMonth].amount / fit < 1)
     {
-        cout << "[";
+        std::cout << "[";
         for (int j = 0; j < monthAmount[totalMonth] * 30 / max; j++)
         {
             if (j < (monthAmount[totalMonth] * 30 / max) * y[totalMonth].amount / fit)
             {
-                cout << "#";
+                std::cout << "#";
             }
             else
             {
-                cout << " ";
+                std::cout << " ";
             }
         }
-        cout << "] ";
+        std::cout << "] ";
     }
     else
     {
 
-        cout << "[";
+        std::cout << "[";
         for (int j = 0;
              j < (monthAmount[totalMonth] * 30 / max) * y[totalMonth].amount / fit;
              j++)
         {
             if (j == int(monthAmount[totalMonth] * 30 / max))
             {
-                cout << "]";
+                std::cout << "]";
             }
             else
             {
-                cout << "#";
+                std::cout << "#";
             }
         }
     }
-    cout << endl;
-    cout << Division(50)
-         << endl;
-    using namespace NBill;
-    cout << EXPECTED
-         << fit << YUAN
-         << ", " << USED << y[totalMonth].amount * 100 / fit << "%. " << endl;
-    cout << PRESS_ANY_KEY;
+    std::cout << std::endl;
+    std::cout << Division(50)
+              << std::endl;
+    std::cout << NBill::EXPECTED
+              << fit << NBill::YUAN
+              << ", " << NBill::USED << y[totalMonth].amount * 100 / fit << "%. " << std::endl;
+    std::cout << PRESS_ANY_KEY;
     getchar();
-    delete pMenu;
-    pMenu = new BillMenu;
+    std::shared_ptr<MainMenu> pMenu = std::make_shared<BillMenu>();
     pMenu->Menu();
 }
 
-void FilterMenu::Menu()
+void FilterMenu::Menu() const
 {
     CLEAR;
-    using namespace NFilter;
-    cout << TITLE << endl;
-    cout << "1. " << FILTER_BY_AMOUNT << endl
-         << "2. " << FILTER_BY_DATE << endl
-         << "3. " << FILTER_BY_TYPE << endl
-         << "4. " << BACK << endl
-         << END << endl;
+    std::cout << NMenu::FILTER_TITLE << std::endl;
+    std::cout << "1. " << NMenu::FILTER_BY_AMOUNT << std::endl
+              << "2. " << NMenu::FILTER_BY_DATE << std::endl
+              << "3. " << NMenu::FILTER_BY_TYPE << std::endl
+              << "4. " << NMenu::BACK << std::endl
+              << NMenu::END << std::endl;
     InputCode();
 }
 
-void FilterMenu::PrintFiltered()
+void FilterMenu::PrintFiltered() const
 {
     CLEAR;
-    extern vector<Bill *> pFiltered;
-    using namespace NBill;
-    cout << Division(90) << endl
-         << setw(12) << AMOUNT << "\t"
-         << TYPE << "\t\t\t"
-         << DATE << "\t\t\t"
-         << INFO << endl
-         << Division(90) << endl;
+    extern std::vector<std::shared_ptr<Bill>> pFiltered;
+    std::cout << Division(90) << std::endl
+              << std::setw(12) << NBill::AMOUNT << "\t"
+              << NBill::TYPE << "\t\t\t"
+              << NBill::DATE << "\t\t\t"
+              << NBill::INFO << std::endl
+              << Division(90) << std::endl;
     for (auto it : pFiltered)
     {
         it->Print();
@@ -713,12 +682,12 @@ void FilterMenu::PrintFiltered()
     {
         it->Print();
     }
-    cout << Division(90) << endl
-         << PRESS_ANY_KEY;
+    std::cout << Division(90) << std::endl
+              << PRESS_ANY_KEY;
     getchar();
 }
 
-void FilterMenu::InputCode()
+void FilterMenu::InputCode() const
 {
     int code = SetCode();
     if (code == 1)
@@ -741,29 +710,26 @@ void FilterMenu::InputCode()
     }
     else if (code == 4)
     {
-        delete pMenu;
-        pMenu = new BillMenu;
+        std::shared_ptr<MainMenu> pMenu = std::make_shared<BillMenu>();
         pMenu->Menu();
     }
     else
     {
-        using namespace NError;
-        cerr << ERR_ILLEGAL_NUMBER << ", "
-             << PLEASE_INPUT_AGAIN << ". "
-             << endl;
+        std::cerr << NError::ILLEGAL_NUMBER << ", "
+                  << NError::PLEASE_INPUT_AGAIN << ". "
+                  << std::endl;
         return InputCode();
     }
 }
 
 template <typename T1, typename T2>
-void FilterMenu::PrintFilterBody(T1 x, T2 y)
+void FilterMenu::PrintFilterBody(const T1 &x, const T2 &y) const
 {
-    using namespace NFilter;
-    cout << LOWER_LIMIT << ": " << x << endl;
-    cout << UPPER_LIMIT << ": " << y << endl;
+    std::cout << NMenu::LOWER_LIMIT << ": " << x << std::endl;
+    std::cout << NMenu::UPPER_LIMIT << ": " << y << std::endl;
 }
 
-void FilterMenu::FilterByAmount()
+void FilterMenu::FilterByAmount() const
 {
     CLEAR;
     PrintFilterBody("?", "");
@@ -777,30 +743,31 @@ void FilterMenu::FilterByAmount()
     PrintFilterBody(lowerLimit, upperLimit);
     Filter filter;
     filter.FilterByAmount(lowerLimit, upperLimit);
-    extern vector<Bill *> pFiltered;
+    extern std::vector<std::shared_ptr<Bill>> pFiltered;
     sort(pFiltered.begin(), pFiltered.end(),
-         [](Bill *A, Bill *B) { return A->GetAmount() > B->GetAmount(); });
+         [](std::shared_ptr<Bill> A, std::shared_ptr<Bill> B) {
+             return A->GetAmount() > B->GetAmount();
+         });
 }
-double FilterMenu::SetAmount()
+double FilterMenu::SetAmount() const
 {
     try
     {
-        cout << ">> ";
+        std::cout << ">> ";
         In amount;
-        cin >> amount;
+        std::cin >> amount;
         return amount;
     }
-    catch (const string msg)
+    catch (const std::string msg)
     {
-        using namespace NError;
-        cerr << msg << ", "
-             << PLEASE_INPUT_AGAIN << ". "
-             << endl;
+        std::cerr << msg << ", "
+                  << NError::PLEASE_INPUT_AGAIN << ". "
+                  << std::endl;
         return SetAmount();
     }
 }
 
-void FilterMenu::FilterByDate()
+void FilterMenu::FilterByDate() const
 {
     CLEAR;
     PrintFilterBody("?", "");
@@ -814,34 +781,34 @@ void FilterMenu::FilterByDate()
     PrintFilterBody(lowerLimit, upperLimit);
     Filter filter;
     filter.FilterByDate(lowerLimit, upperLimit);
-    extern vector<Bill *> pFiltered;
+    extern std::vector<std::shared_ptr<Bill>> pFiltered;
     sort(pFiltered.begin(), pFiltered.end(),
-         [](Bill *A, Bill *B) { return A->GetDate() > B->GetDate(); });
+         [](std::shared_ptr<Bill> A, std::shared_ptr<Bill> B) {
+             return A->GetDate() > B->GetDate();
+         });
 }
-Date FilterMenu::SetDate()
+Date FilterMenu::SetDate() const
 {
     try
     {
-        cout << ">> ";
+        std::cout << ">> ";
         In date;
-        cin >> date;
+        std::cin >> date;
         return date;
     }
-    catch (const string msg)
+    catch (const std::string msg)
     {
-        using namespace NError;
-        cerr << msg << ", "
-             << PLEASE_INPUT_AGAIN << ". "
-             << endl;
+        std::cerr << msg << ", "
+                  << NError::PLEASE_INPUT_AGAIN << ". "
+                  << std::endl;
         return SetDate();
     }
 }
 
-void FilterMenu::FilterByType()
+void FilterMenu::FilterByType() const
 {
-    using namespace NBill;
-    cout << "1. " << INCOME << endl
-         << "2." << EXPENSE << endl;
+    std::cout << "1. " << NBill::INCOME << std::endl
+              << "2." << NBill::EXPENSE << std::endl;
     int code = SetType();
     if (code == 1)
     {
@@ -854,32 +821,30 @@ void FilterMenu::FilterByType()
         filter.FilterByType(Bill::EXPENSE);
     }
 }
-int FilterMenu::SetType()
+int FilterMenu::SetType() const
 {
     try
     {
-        cout << ">> ";
+        std::cout << ">> ";
         In code;
-        cin >> code;
+        std::cin >> code;
         if (int(code) == 1 || int(code) == 2)
         {
             return code;
         }
         else
         {
-            using namespace NError;
-            cerr << ERR_ILLEGAL_NUMBER << ", "
-                 << PLEASE_INPUT_AGAIN << ". "
-                 << endl;
+            std::cerr << NError::ILLEGAL_NUMBER << ", "
+                      << NError::PLEASE_INPUT_AGAIN << ". "
+                      << std::endl;
             return SetType();
         }
     }
-    catch (const string msg)
+    catch (const std::string msg)
     {
-        using namespace NError;
-        cerr << msg << ", "
-             << PLEASE_INPUT_AGAIN << ". "
-             << endl;
+        std::cerr << msg << ", "
+                  << NError::PLEASE_INPUT_AGAIN << ". "
+                  << std::endl;
         return SetType();
     }
 }
@@ -887,65 +852,60 @@ int FilterMenu::SetType()
 #pragma endregion
 
 #pragma region "Else"
-extern Wallet *pWallet;
-void WalletMenu::Menu()
+extern std::shared_ptr<Wallet> pWallet;
+void WalletMenu::Menu() const
 {
     CLEAR;
-    using namespace NWalletMenu;
-    cout << TITLE << endl;
-    cout << BALANCE << ": " << pWallet->GetBalance() << endl;
+    std::cout << NWallet::TITLE << std::endl;
+    std::cout << NWallet::BALANCE << ": " << pWallet->GetBalance() << std::endl;
     if (pWallet->GetBalance() < 0)
     {
-        cout << "[" << NEGATIVE_BALANCE_WARNING << "]" << endl;
+        std::cout << "[" << NWallet::NEGATIVE_BALANCE_WARNING << "]"
+                  << std::endl;
     }
-    cout << "1. " << TOP_UP << endl
-         << "2. " << WITHDRAW << endl
-         << "3. " << EDIT << endl
-         << "4. " << BACK << endl
-         << END << endl;
+    std::cout << "1. " << NWallet::TOP_UP << std::endl
+              << "2. " << NWallet::WITHDRAW << std::endl
+              << "3. " << NWallet::EDIT << std::endl
+              << "4. " << NWallet::BACK << std::endl
+              << NWallet::END << std::endl;
     InputCode();
 }
-void WalletMenu::InputCode()
+void WalletMenu::InputCode() const
 {
     int code = SetCode();
     if (code == 1)
     {
         pWallet->TopUp();
-        delete pMenu;
-        pMenu = new WalletMenu();
+        std::shared_ptr<MainMenu> pMenu = std::make_shared<WalletMenu>();
         pMenu->Menu();
     }
     else if (code == 2)
     {
         pWallet->Withdraw();
-        delete pMenu;
-        pMenu = new WalletMenu();
+        std::shared_ptr<MainMenu> pMenu = std::make_shared<WalletMenu>();
         pMenu->Menu();
     }
     else if (code == 3)
     {
         pWallet->Edit();
-        delete pMenu;
-        pMenu = new WalletMenu();
+        std::shared_ptr<MainMenu> pMenu = std::make_shared<WalletMenu>();
         pMenu->Menu();
     }
     else if (code == 4)
     {
-        delete pMenu;
-        pMenu = new MainMenu;
+        std::shared_ptr<MainMenu> pMenu = std::make_shared<MainMenu>();
         pMenu->Menu();
     }
     else
     {
-        using namespace NError;
-        cerr << ERR_ILLEGAL_NUMBER << ", "
-             << PLEASE_INPUT_AGAIN << ". "
-             << endl;
+        std::cerr << NError::ILLEGAL_NUMBER << ", "
+                  << NError::PLEASE_INPUT_AGAIN << ". "
+                  << std::endl;
         InputCode();
     }
 }
 
-void HelpMenu::Menu()
+void FileMenu::Menu() const
 {
 }
 

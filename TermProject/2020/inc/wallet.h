@@ -1,7 +1,9 @@
+//OK
 #ifndef WALLET_H
 #define WALLET_H
 
 #include <iostream>
+#include <memory>
 
 #include "input.h"
 #include "text.h"

@@ -9,23 +9,23 @@
 #include "period.h"
 #include "wallet.h"
 
-struct BILL_DATA
-{
-    int type;
-    double amount;
-    Date date;
-    std::string info;
-};
-
-class Bill
+class Bill : public std::enable_shared_from_this<Bill>
 {
 public:
+    struct DATA
+    {
+        int type;
+        double amount;
+        Date date;
+        std::string info;
+    };
+
     Bill(const int &, const double &, const Date &, const std::string &);
 
     void Add();
     void Print() const;
 
-    BILL_DATA GetData() const;
+    DATA GetData() const;
 
     double GetAmount() const;
     Date GetDate() const;

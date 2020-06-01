@@ -1,3 +1,4 @@
+//OK
 #include "../inc/date.h"
 
 #pragma region "Today"
@@ -12,8 +13,7 @@ Now::Now()
     currentMonth = currentTime->tm_mon + 1;
     currentDay = currentTime->tm_mday;
 }
-const Now *const pNow = new Now;
-//TODO:
+const std::shared_ptr<Now> pNow = std::make_shared<Now>();
 
 #pragma endregion
 
@@ -212,7 +212,6 @@ Date operator+(const Date &A, const int &n)
 
 std::ostream &operator<<(std::ostream &out, const Date &A)
 {
-    using namespace NDate;
     std::string datestr = std::to_string(A.GetYear()) + "/" +
                           std::to_string(A.GetMonth()) + "/" +
                           std::to_string(A.GetDay());

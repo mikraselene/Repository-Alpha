@@ -1,10 +1,5 @@
 #include "../inc/file.h"
 
-using std::cerr;
-using std::cout;
-using std::ifstream;
-using std::vector;
-
 void File::LoadFromFile()
 {
 #if 0
@@ -28,7 +23,7 @@ void File::LoadFromFile()
         Date date(Y, M, D);
         if (amount == 0)
         {
-            //TODO:
+            
         }
         else
         {
@@ -39,33 +34,34 @@ void File::LoadFromFile()
 #endif
 
 #if 1
-    extern vector<Bill *> pBill;
-    extern vector<Transaction *> pTransaction;
-    extern vector<DepositAndLoan *> pDepoAndLoan;
+    extern std::vector<std::shared_ptr<Bill>> pBill;
+    extern std::vector<std::shared_ptr<Transaction>> pTransaction;
+    extern std::vector<std::shared_ptr<DepositAndLoan>> pDepoAndLoan;
     std::ifstream inFile("binary.dat", std::ios::binary);
     int size[3];
 
     inFile.read((char *)size, 3 * sizeof(int));
-    for (int i = 0; i < size[0]; i++)
+    for (int i = 0; i < size[BILL]; i++)
     {
-        BILL_DATA data;
-        inFile.read((char *)&data, sizeof(BILL_DATA));
-        Bill *p = new Bill(data.type, data.amount, data.date, data.info);
+        Bill::DATA data;
+        inFile.read((char *)&data, sizeof(Bill::DATA));
+        std::shared_ptr<Bill>
+            p = std::make_shared<Bill>(data.type, data.amount, data.date, data.info);
         p->Add();
     }
-    for (int i = 0; i < size[1]; i++)
+    for (int i = 0; i < size[TRANSACTION]; i++)
     {
-        TRANSACTION_DATA data;
-        inFile.read((char *)&data, sizeof(TRANSACTION_DATA));
-        Transaction *p = new Transaction;
+        Transaction::DATA data;
+        inFile.read((char *)&data, sizeof(Transaction::DATA));
+        std::shared_ptr<Transaction> p = std::make_shared<Transaction>();
         p->SetData(data);
         pTransaction.push_back(p);
     }
-    for (int i = 0; i < size[2]; i++)
+    for (int i = 0; i < size[DEPOSIT_AND_LOAN]; i++)
     {
-        DEPOSIT_AND_LOAN_DATA data;
-        inFile.read((char *)&data, sizeof(DEPOSIT_AND_LOAN_DATA));
-        DepositAndLoan *p = new DepositAndLoan;
+        DepositAndLoan::DATA data;
+        inFile.read((char *)&data, sizeof(DepositAndLoan::DATA));
+        std::shared_ptr<DepositAndLoan> p = std::make_shared<DepositAndLoan>();
         p->SetData(data);
         pDepoAndLoan.push_back(p);
     }
@@ -75,9 +71,9 @@ void File::LoadFromFile()
 
 void File::SaveToFile()
 {
-    extern vector<Bill *> pBill;
-    extern vector<Transaction *> pTransaction;
-    extern vector<DepositAndLoan *> pDepoAndLoan;
+    extern std::vector<std::shared_ptr<Bill>> pBill;
+    extern std::vector<std::shared_ptr<Transaction>> pTransaction;
+    extern std::vector<std::shared_ptr<DepositAndLoan>> pDepoAndLoan;
     std::ofstream outFile("binary.dat", std::ios::out | std::ios::binary);
     int size[3];
     size[0] = pBill.size();
@@ -86,18 +82,18 @@ void File::SaveToFile()
     outFile.write((char *)size, 3 * sizeof(int));
     for (int i = 0; i < size[0]; i++)
     {
-        BILL_DATA data = pBill[i]->GetData();
-        outFile.write((char *)&data, sizeof(BILL_DATA));
+        Bill::DATA data = pBill[i]->GetData();
+        outFile.write((char *)&data, sizeof(Bill::DATA));
     }
     for (int i = 0; i < size[1]; i++)
     {
-        TRANSACTION_DATA data = pTransaction[i]->GetData();
-        outFile.write((char *)&data, sizeof(TRANSACTION_DATA));
+        Transaction::DATA data = pTransaction[i]->GetData();
+        outFile.write((char *)&data, sizeof(Transaction::DATA));
     }
     for (int i = 0; i < size[2]; i++)
     {
-        DEPOSIT_AND_LOAN_DATA data = pDepoAndLoan[i]->GetData();
-        outFile.write((char *)&data, sizeof(DEPOSIT_AND_LOAN_DATA));
+        DepositAndLoan::DATA data = pDepoAndLoan[i]->GetData();
+        outFile.write((char *)&data, sizeof(DepositAndLoan::DATA));
     }
     outFile.close();
 }

@@ -2,6 +2,7 @@
 #define ASSET_H
 
 #include <iostream>
+#include <memory>
 
 #include "date.h"
 #include "input.h"
@@ -38,20 +39,23 @@ protected:
     int id;
 };
 
-struct TRANSACTION_DATA
-{
-    int type;
-    double amount;
-    Category category;
-    Date date;
-    Date tempDate;
-    Period period;
-};
-class Transaction : public Asset
+class Transaction : public Asset,
+                    public std::enable_shared_from_this<Transaction>
 {
     friend class File;
     friend class Refresh;
     friend class TransactionMenu;
+
+public:
+    struct DATA
+    {
+        int type;
+        double amount;
+        Category category;
+        Date date;
+        Date tempDate;
+        Period period;
+    };
 
 private:
     void InputSingleTransaction(const int &);
@@ -68,8 +72,8 @@ private:
     void Delete() const;
     void Print() const;
 
-    void SetData(const TRANSACTION_DATA &);
-    TRANSACTION_DATA GetData() const;
+    void SetData(const DATA &);
+    DATA GetData() const;
 
     template <typename T1, typename T2, typename T3>
     void PrintOneBody(const T1 &,
@@ -77,13 +81,13 @@ private:
                       const T3 &) const;
 
     template <typename T1, typename T2, typename T3>
-    void PrintInputSingleBody(const string &,
+    void PrintInputSingleBody(const std::string &,
                               const T1 &,
                               const T2 &,
                               const T3 &) const;
 
     template <typename T1, typename T2, typename T3, typename T4>
-    void PrintInputRegularBody(const string &,
+    void PrintInputRegularBody(const std::string &,
                                const T1 &,
                                const T2 &,
                                const T3 &,
@@ -91,7 +95,7 @@ private:
 
     Period GetPeriod() const;
     Date GetTempDate() const;
-    void AddToBill(const Date *const &) const;
+    void AddToBill(const std::shared_ptr<Date> &) const;
     void ResetDate();
 
     int type;
@@ -102,24 +106,27 @@ private:
     Period period;
 };
 
-struct DEPOSIT_AND_LOAN_DATA
-{
-    bool isCompound;
-    int type;
-    double principle;
-    double tempPrinciple;
-    double rate;
-    double totalInterest;
-    Date date;
-    Date tempDate;
-    Period period;
-    string info;
-};
-class DepositAndLoan : public Asset
+class DepositAndLoan : public Asset,
+                       public std::enable_shared_from_this<DepositAndLoan>
 {
     friend class File;
     friend class Refresh;
     friend class DepositAndLoanMenu;
+
+public:
+    struct DATA
+    {
+        bool isCompound;
+        int type;
+        double principle;
+        double tempPrinciple;
+        double rate;
+        double totalInterest;
+        Date date;
+        Date tempDate;
+        Period period;
+        std::string info;
+    };
 
 private:
     void InputDepositAndLoan(const int &);
@@ -130,8 +137,8 @@ private:
 
     void Print() const;
 
-    void SetData(const DEPOSIT_AND_LOAN_DATA &);
-    DEPOSIT_AND_LOAN_DATA GetData() const;
+    void SetData(const DATA &);
+    DATA GetData() const;
 
     template <typename T1, typename T2, typename T3,
               typename T4, typename T5, typename T6>
@@ -144,7 +151,7 @@ private:
 
     Period GetPeriod() const;
     Date GetTempDate() const;
-    void AddToBill(const Date *const &);
+    void AddToBill(const std::shared_ptr<Date> &);
     void CheckCompound();
     void ResetDate();
 
@@ -153,7 +160,7 @@ private:
 
     double SetRate() const;
     bool SetType() const;
-    string SetInfo() const;
+    std::string SetInfo() const;
 
     int type;
     bool isCompound;
@@ -164,7 +171,7 @@ private:
     Date date;
     Date tempDate;
     Period period;
-    string info;
+    std::string info;
 };
 
 #endif

@@ -1,3 +1,4 @@
+//OK
 #include "../inc/refresh.h"
 
 /*---------------------------------------------------------------------------
@@ -8,22 +9,22 @@
 ---------------------------------------------------------------------------*/
 Refresh::Refresh()
 {
-    extern std::vector<Transaction *> pTransaction;
-    extern std::vector<DepositAndLoan *> pDepoAndLoan;
-    extern std::vector<Bill *> pBill;
+    extern std::vector<std::shared_ptr<Bill>> pBill;
+    extern std::vector<std::shared_ptr<Transaction>> pTransaction;
+    extern std::vector<std::shared_ptr<DepositAndLoan>> pDepoAndLoan;
     for (auto it : pTransaction)
     {
         int code = it->GetPeriod();
         if (code != Period::NO_PERIOD)
         {
             it->GetPeriod().Calculate(it->GetTempDate());
-            extern std::vector<Date *> dateList;
+            extern std::vector<std::shared_ptr<Date>> dateList;
             for (auto itDate : dateList)
             {
                 it->AddToBill(itDate);
             }
             it->ResetDate();
-            CLEAR_VECTOR(dateList);
+            dateList.clear();
         }
     }
     for (auto it : pDepoAndLoan)
@@ -32,13 +33,13 @@ Refresh::Refresh()
         if (code != Period::NO_PERIOD)
         {
             it->GetPeriod().Calculate(it->GetTempDate());
-            extern std::vector<Date *> dateList;
+            extern std::vector<std::shared_ptr<Date>> dateList;
             for (auto itDate : dateList)
             {
                 it->AddToBill(itDate);
             }
             it->ResetDate();
-            CLEAR_VECTOR(dateList);
+            dateList.clear();
         }
     }
 }

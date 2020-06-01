@@ -1,8 +1,10 @@
+//OK
 #ifndef DATE_H
 #define DATE_H
 
 #include <iostream>
 #include <ctime>
+#include <memory>
 
 #include "text.h"
 

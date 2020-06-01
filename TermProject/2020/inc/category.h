@@ -1,8 +1,10 @@
+//OK
 #ifndef CATEGORY_H
 #define CATEGORY_H
 
 #include <iostream>
 #include <vector>
+#include <memory>
 
 #include "text.h"
 
@@ -14,7 +16,7 @@ void AddDefault();
 描述:
     自定义 Category 数据类型.
 ---------------------------------------------------------------------------*/
-class Category
+class Category : public std::enable_shared_from_this<Category>
 {
 public:
     Category();
