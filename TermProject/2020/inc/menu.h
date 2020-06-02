@@ -17,6 +17,7 @@
 #include "wallet.h"
 #include "fitting.h"
 #include "refresh.h"
+#include "file.h"
 
 class MainMenu
 {
@@ -38,34 +39,33 @@ protected:
 
 class TransactionMenu : public AssetMenu
 {
-public:
-    void PrintAll() const;
+private:
     enum
     {
         EXPENSE = -1,
         INCOME = 1,
     };
-
-private:
-    void Menu() const;
-    void InputCode() const;
-    void EditTransaction() const;
-    void InputEditCode() const;
-};
-class DepositAndLoanMenu : public AssetMenu
-{
-private:
     void Menu() const;
     void InputCode() const;
     void PrintAll() const;
-    void GetStats() const;
-    void EditDepositAndLoan() const;
+    void EditTransaction() const;
     void InputEditCode() const;
+};
+
+class DepositAndLoanMenu : public AssetMenu
+{
+private:
     enum
     {
         DEPOSIT = 1,
         LOAN = -1,
     };
+    void Menu() const;
+    void InputCode() const;
+    void PrintAll() const;
+    void EditDepositAndLoan() const;
+    void InputEditCode() const;
+    void GetStats() const;
 };
 
 class BillMenu : public MainMenu
@@ -74,6 +74,7 @@ private:
     void Menu() const;
     void InputCode() const;
 };
+
 class OverviewMenu : public BillMenu
 {
 private:
@@ -81,9 +82,14 @@ private:
     void InputCode() const;
     void PrintAll(const int &) const;
 };
+
 class FilterMenu : public BillMenu
 {
 private:
+    void Menu() const;
+    void InputCode() const;
+    void PrintFiltered() const;
+
     double SetAmount() const;
     Date SetDate() const;
     int SetType() const;
@@ -91,9 +97,6 @@ private:
     void FilterByAmount() const;
     void FilterByDate() const;
     void FilterByType() const;
-    void Menu() const;
-    void InputCode() const;
-    void PrintFiltered() const;
 
     template <typename T1, typename T2>
     void PrintFilterBody(const T1 &, const T2 &) const;
@@ -101,15 +104,15 @@ private:
 class StatisticsMenu : public BillMenu
 {
 private:
-    void Menu() const;
-    void PrintStats() const;
-    void Fitting() const;
     struct BILL_BY_MONTH
     {
         int year;
         int month;
         double amount;
     };
+    void Menu() const;
+    void PrintStats() const;
+    void Fitting() const;
 };
 
 class WalletMenu : public MainMenu

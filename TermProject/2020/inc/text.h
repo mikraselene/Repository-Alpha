@@ -49,7 +49,7 @@ namespace NMenu
     T(EXIT, "退出");
     T(ASSET_TITLE, "////////// 财产菜单 //////////");
     T(TRANSACTION_MENU, "收入和支出");
-    T(DEPO_AND_LOAN_MENU, "借款和贷款");
+    T(DEPO_AND_LOAN_MENU, "存款和贷款");
     T(BACK, "返回");
     T(END, "////////// ＝＝＝＝ //////////");
     T(TRANSACTION_TITLE, "////////// 收支菜单 //////////");
@@ -83,10 +83,10 @@ namespace NMenu
 
 namespace NTransaction
 {
-    T(SINGLE_EXPENSE_TITLE, "////////// 单笔支出 //////////");
-    T(SINGLE_INCOME_TITLE, "////////// 单笔收入 //////////");
-    T(REGULAR_EXPENSE_TITLE, "////////// 定期支出 //////////");
-    T(REGULAR_INCOME_TITLE, "////////// 定期收入 //////////");
+    T(SINGLE_EXPENSE_TITLE, " 单笔支出 ");
+    T(SINGLE_INCOME_TITLE, " 单笔收入 ");
+    T(REGULAR_EXPENSE_TITLE, " 定期支出 ");
+    T(REGULAR_INCOME_TITLE, " 定期收入 ");
     T(CHOOSE_A_TRANSACTION, "根据编号选择一个交易");
     T(PRESS_ENTER_TO_EXIT, "按下回车或输入 0 返回");
     T(AMOUNT, "金额");
@@ -112,7 +112,7 @@ namespace NDepositAndLoan
     T(YUAN, "元");
     T(TOTAL_INCOME, "来自利息的总收入");
     T(TOTAL_EXPENSE, "来自利息的总支出");
-    T(CHOOSE_A_DEPOSIT_OR_LOAN, "根据编号选择一个借贷");
+    T(CHOOSE_A_DEPOSIT_OR_LOAN, "根据编号选择一个存贷");
     T(PRESS_ENTER_TO_EXIT, "按下回车或输入 0 返回");
     T(DEPOSIT, "存款");
     T(LOAN, "贷款");
@@ -141,8 +141,6 @@ namespace NInstruction
     T(COMFIRM_AND_SAVE, "确认并保存");
     T(INPUT_AGAIN, "重新输入");
     T(BACK, "返回");
-    T(END, "////////// ＝＝＝＝ //////////");
-
 } // namespace NInstruction
 
 namespace NBill
@@ -163,6 +161,7 @@ namespace NBill
 
 namespace NError
 {
+    T(CANNOT_OPEN_FILE, "找不到文件, 已创建新的空文件");
     T(ILLEGAL_OPERATION, "不合法的运算");
     T(ILLEGAL_CATEGORY, "不合法的类别");
     T(ILLEGAL_NUMBER, "不合法的数字");
@@ -185,5 +184,19 @@ namespace NWallet
     T(BACK, "返回");
     T(END, "////////// ＝＝＝＝ //////////");
 } // namespace NWallet
+
+namespace NFile
+{
+    T(TITLE, "////////// 文件菜单 //////////");
+    T(SAVE, "保存");
+    T(SAVED, "文件已保存");
+    T(LOADED, "文件已读取");
+    T(NOT_LOADED, "文件未读取");
+    T(ARE_YOU_SURE, "确定读取吗? (y/n)");
+    T(LOAD, "读取");
+    T(BACK, "返回");
+    T(END, "////////// ＝＝＝＝ //////////");
+
+} // namespace NFile
 
 #endif

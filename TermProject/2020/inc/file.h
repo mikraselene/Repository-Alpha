@@ -1,3 +1,4 @@
+//OK
 #ifndef FILE_H
 #define FILE_H
 
@@ -9,20 +10,24 @@
 #include "bill.h"
 #include "asset.h"
 
+/*---------------------------------------------------------------------------
+类名: File
+
+描述:
+    实现文件读写操作.
+---------------------------------------------------------------------------*/
 class File
 {
 public:
-    void LoadFromFile();
-    void SaveToFile();
-    void Export();
-
-private:
     enum
     {
         BILL = 0,
         TRANSACTION = 1,
         DEPOSIT_AND_LOAN = 2,
     };
+
+    void LoadFromFile();
+    void SaveToFile();
 };
 
 #endif

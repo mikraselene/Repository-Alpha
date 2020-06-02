@@ -54,7 +54,7 @@ void Asset::ShowCategory() const
     for (auto it = pCategory.begin(); it != pCategory.end(); it++)
     {
         std::cout << i++ << ". " << std::string(**it) << "\t\t";
-        if ((i - 1) % 4 == 0)
+        if ((i - 1) % 3 == 0)
         {
             std::cout << std::endl;
         }
@@ -126,14 +126,6 @@ Period Asset::SetPeriod() const
     return period;
 }
 
-void Asset::PrintInstruction() const
-{
-    std::cout << "1. " << NInstruction::COMFIRM_AND_SAVE << std::endl
-              << "2. " << NInstruction::INPUT_AGAIN << std::endl
-              << "3. " << NInstruction::BACK << std::endl
-              << NInstruction::END << std::endl;
-}
-
 int Asset::SetCode() const
 {
     try
@@ -150,6 +142,15 @@ int Asset::SetCode() const
                   << std::endl;
         return SetCode();
     }
+}
+
+void Asset::PrintInstruction() const
+{
+    extern std::string Division(const int &);
+    std::cout << "1. " << NInstruction::COMFIRM_AND_SAVE << std::endl
+              << "2. " << NInstruction::INPUT_AGAIN << std::endl
+              << "3. " << NInstruction::BACK << std::endl
+              << Division(50) << std::endl;
 }
 
 #pragma endregion
@@ -505,8 +506,8 @@ void Transaction::PrintOneBody(const T1 &x,
               << y << "\t\t"
               << z << "\t\t"
               << period << std::endl
-              << std::resetiosflags(std::ios::showpos);
-    std::cout << Division(95) << std::endl;
+              << std::resetiosflags(std::ios::showpos)
+              << Division(95) << std::endl;
 }
 
 template <typename T1, typename T2, typename T3>
@@ -516,7 +517,7 @@ void Transaction::PrintInputSingleBody(const std::string &title,
                                        const T3 &z) const
 {
     extern std::string Division(const int &);
-    std::cout << title << std::endl
+    std::cout << Division(20) << title << Division(20) << std::endl
               << NTransaction::AMOUNT << "(¥): " << x << std::endl
               << NTransaction::CATEGORY << ": " << y << std::endl
               << NTransaction::DATE << ": " << z << std::endl
@@ -531,7 +532,7 @@ void Transaction::PrintInputRegularBody(const std::string &title,
                                         const T4 &u) const
 {
     extern std::string Division(const int &);
-    std::cout << title << std::endl
+    std::cout << Division(20) << title << Division(20) << std::endl
               << NTransaction::AMOUNT << "(¥): " << x << std::endl
               << NTransaction::CATEGORY << ": " << y << std::endl
               << NTransaction::START_DATE << ": " << z << std::endl
@@ -653,7 +654,7 @@ void DepositAndLoan::InputCode()
 函数: void Submenu()
 
 目的:
-    用户对一个借贷交易进行操作. 
+    用户对一个存贷交易进行操作. 
 ---------------------------------------------------------------------------*/
 void DepositAndLoan::Submenu() const
 {
@@ -669,10 +670,11 @@ void DepositAndLoan::Submenu() const
               << NDepositAndLoan::START_DATE << "\t\t"
               << NDepositAndLoan::INFO << std::endl
               << Division(115) << std::endl;
+
     std::cout << id << "\t";
     Print();
-    std::cout << Division(115) << std::endl;
-    std::cout << "1. " << NDepositAndLoan::DELETE << std::endl
+    std::cout << Division(115) << std::endl
+              << "1. " << NDepositAndLoan::DELETE << std::endl
               << "2. " << NDepositAndLoan::BACK << std::endl
               << Division(50) << std::endl;
     InputSubmenuCode();
@@ -773,7 +775,7 @@ void DepositAndLoan::PrintInputBody(const T1 &x,
                                     const T6 &w) const
 {
     extern std::string Division(const int &);
-    std::cout << NDepositAndLoan::TITLE << std::endl
+    std::cout << Division(20) << NDepositAndLoan::TITLE << Division(20) << std::endl
               << NDepositAndLoan::PRINCIPLE << "(¥): " << x << std::endl
               << NDepositAndLoan::INTEREST_RATE << "(%): " << y << std::endl
               << NDepositAndLoan::INTEREST_TYPE << ": " << z << std::endl

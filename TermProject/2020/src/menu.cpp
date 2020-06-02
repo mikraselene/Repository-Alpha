@@ -1,17 +1,19 @@
 #include "../inc/menu.h"
 
 std::shared_ptr<MainMenu> pMenu = std::make_shared<MainMenu>();
+
 std::string Division(const int &n)
 {
     std::string s(n, '-');
     return s;
 }
+
 void MainMenu::Menu() const
 {
     CLEAR;
     Refresh();
-    std::cout << NMenu::TITLE << std::endl;
-    std::cout << "1. " << NMenu::ASSET_MENU << std::endl
+    std::cout << NMenu::TITLE << std::endl
+              << "1. " << NMenu::ASSET_MENU << std::endl
               << "2. " << NMenu::BILL_MENU << std::endl
               << "3. " << NMenu::WALLET_MENU << std::endl
               << "4. " << NMenu::FILE_MENU << std::endl
@@ -56,11 +58,29 @@ void MainMenu::InputCode() const
     }
 }
 
+int MainMenu::SetCode() const
+{
+    try
+    {
+        std::cout << ">> ";
+        In code;
+        std::cin >> code;
+        return code;
+    }
+    catch (const std::string msg)
+    {
+        std::cerr << msg << ", "
+                  << NError::PLEASE_INPUT_AGAIN << ". "
+                  << std::endl;
+        return SetCode();
+    }
+}
+
 void AssetMenu::Menu() const
 {
     CLEAR;
-    std::cout << NMenu::ASSET_TITLE << std::endl;
-    std::cout << "1. " << NMenu::TRANSACTION_MENU << std::endl
+    std::cout << NMenu::ASSET_TITLE << std::endl
+              << "1. " << NMenu::TRANSACTION_MENU << std::endl
               << "2. " << NMenu::DEPO_AND_LOAN_MENU << std::endl
               << "3. " << NMenu::BACK << std::endl
               << NMenu::END << std::endl;
@@ -95,29 +115,11 @@ void AssetMenu::InputCode() const
     }
 }
 
-int MainMenu::SetCode() const
-{
-    try
-    {
-        std::cout << ">> ";
-        In code;
-        std::cin >> code;
-        return code;
-    }
-    catch (const std::string msg)
-    {
-        std::cerr << msg << ", "
-                  << NError::PLEASE_INPUT_AGAIN << ". "
-                  << std::endl;
-        return SetCode();
-    }
-}
-
-#pragma region "Asset"
-
 void AssetMenu::PrintAll() const
 {
 }
+
+#pragma region "Asset"
 
 void TransactionMenu::Menu() const
 {
@@ -392,14 +394,15 @@ void DepositAndLoanMenu::GetStats() const
 void BillMenu::Menu() const
 {
     CLEAR;
-    std::cout << NMenu::BILL_TITLE << std::endl;
-    std::cout << "1. " << NMenu::OVERVIEW << std::endl
+    std::cout << NMenu::BILL_TITLE << std::endl
+              << "1. " << NMenu::OVERVIEW << std::endl
               << "2. " << NMenu::FILTER << std::endl
               << "3. " << NMenu::STATISTICS << std::endl
               << "4. " << NMenu::BACK << std::endl
               << NMenu::END << std::endl;
     InputCode();
 }
+
 void BillMenu::InputCode() const
 {
     int code = SetCode();
@@ -438,18 +441,12 @@ void OverviewMenu::Menu() const
     extern std::vector<std::shared_ptr<Bill>> pBill;
     std::vector<std::shared_ptr<Bill>> temp(pBill);
 
-    std::cout << NMenu::OVERVIEW_TITLE
-              << std::endl;
-    std::cout << "1. " << NMenu::BY_DATE << "(" << NMenu::DESCEND << ")"
-              << std::endl
-              << "2. " << NMenu::BY_DATE << "(" << NMenu::ASCEND << ")"
-              << std::endl
-              << "3. " << NMenu::BY_AMOUNT << "(" << NMenu::DESCEND << ")"
-              << std::endl
-              << "4. " << NMenu::BY_AMOUNT << "(" << NMenu::ASCEND << ")"
-              << std::endl
-              << "5. " << NMenu::BACK
-              << std::endl
+    std::cout << NMenu::OVERVIEW_TITLE << std::endl
+              << "1. " << NMenu::BY_DATE << "(" << NMenu::DESCEND << ")" << std::endl
+              << "2. " << NMenu::BY_DATE << "(" << NMenu::ASCEND << ")" << std::endl
+              << "3. " << NMenu::BY_AMOUNT << "(" << NMenu::DESCEND << ")" << std::endl
+              << "4. " << NMenu::BY_AMOUNT << "(" << NMenu::ASCEND << ")" << std::endl
+              << "5. " << NMenu::BACK << std::endl
               << NMenu::OVERVIEW_END
               << std::endl;
     InputCode();
@@ -528,6 +525,204 @@ void OverviewMenu::PrintAll(const int &flag) const
     getchar();
 }
 
+void FilterMenu::Menu() const
+{
+    CLEAR;
+    std::cout << NMenu::FILTER_TITLE << std::endl
+              << "1. " << NMenu::FILTER_BY_AMOUNT << std::endl
+              << "2. " << NMenu::FILTER_BY_DATE << std::endl
+              << "3. " << NMenu::FILTER_BY_TYPE << std::endl
+              << "4. " << NMenu::BACK << std::endl
+              << NMenu::END << std::endl;
+    InputCode();
+}
+
+void FilterMenu::InputCode() const
+{
+    int code = SetCode();
+    if (code == 1)
+    {
+        FilterByAmount();
+        PrintFiltered();
+        Menu();
+    }
+    else if (code == 2)
+    {
+        FilterByDate();
+        PrintFiltered();
+        Menu();
+    }
+    else if (code == 3)
+    {
+        FilterByType();
+        PrintFiltered();
+        Menu();
+    }
+    else if (code == 4)
+    {
+        std::shared_ptr<MainMenu> pMenu = std::make_shared<BillMenu>();
+        pMenu->Menu();
+    }
+    else
+    {
+        std::cerr << NError::ILLEGAL_NUMBER << ", "
+                  << NError::PLEASE_INPUT_AGAIN << ". "
+                  << std::endl;
+        return InputCode();
+    }
+}
+
+void FilterMenu::PrintFiltered() const
+{
+    CLEAR;
+    extern std::vector<std::shared_ptr<Bill>> pFiltered;
+    std::cout << Division(90) << std::endl
+              << std::setw(12) << NBill::AMOUNT << "\t"
+              << NBill::TYPE << "\t\t\t"
+              << NBill::DATE << "\t\t\t"
+              << NBill::INFO << std::endl
+              << Division(90) << std::endl;
+    for (auto it : pFiltered)
+    {
+        it->Print();
+    }
+    std::cout << Division(90) << std::endl
+              << PRESS_ANY_KEY;
+    getchar();
+}
+
+double FilterMenu::SetAmount() const
+{
+    try
+    {
+        std::cout << ">> ";
+        In amount;
+        std::cin >> amount;
+        return amount;
+    }
+    catch (const std::string msg)
+    {
+        std::cerr << msg << ", "
+                  << NError::PLEASE_INPUT_AGAIN << ". "
+                  << std::endl;
+        return SetAmount();
+    }
+}
+
+Date FilterMenu::SetDate() const
+{
+    try
+    {
+        std::cout << ">> ";
+        In date;
+        std::cin >> date;
+        return date;
+    }
+    catch (const std::string msg)
+    {
+        std::cerr << msg << ", "
+                  << NError::PLEASE_INPUT_AGAIN << ". "
+                  << std::endl;
+        return SetDate();
+    }
+}
+
+int FilterMenu::SetType() const
+{
+    try
+    {
+        std::cout << ">> ";
+        In code;
+        std::cin >> code;
+        if (int(code) == 1 || int(code) == 2)
+        {
+            return code;
+        }
+        else
+        {
+            std::cerr << NError::ILLEGAL_NUMBER << ", "
+                      << NError::PLEASE_INPUT_AGAIN << ". "
+                      << std::endl;
+            return SetType();
+        }
+    }
+    catch (const std::string msg)
+    {
+        std::cerr << msg << ", "
+                  << NError::PLEASE_INPUT_AGAIN << ". "
+                  << std::endl;
+        return SetType();
+    }
+}
+
+void FilterMenu::FilterByAmount() const
+{
+    CLEAR;
+    PrintFilterBody("?", "");
+    double lowerLimit = SetAmount();
+
+    CLEAR;
+    PrintFilterBody(lowerLimit, "?");
+    double upperLimit = SetAmount();
+
+    CLEAR;
+    PrintFilterBody(lowerLimit, upperLimit);
+    Filter filter;
+    filter.FilterByAmount(lowerLimit, upperLimit);
+    extern std::vector<std::shared_ptr<Bill>> pFiltered;
+    sort(pFiltered.begin(), pFiltered.end(),
+         [](std::shared_ptr<Bill> A, std::shared_ptr<Bill> B) {
+             return A->GetAmount() > B->GetAmount();
+         });
+}
+
+void FilterMenu::FilterByDate() const
+{
+    CLEAR;
+    PrintFilterBody("?", "");
+    Date lowerLimit = SetDate();
+
+    CLEAR;
+    PrintFilterBody(lowerLimit, "?");
+    Date upperLimit = SetDate();
+
+    CLEAR;
+    PrintFilterBody(lowerLimit, upperLimit);
+    Filter filter;
+    filter.FilterByDate(lowerLimit, upperLimit);
+    extern std::vector<std::shared_ptr<Bill>> pFiltered;
+    sort(pFiltered.begin(), pFiltered.end(),
+         [](std::shared_ptr<Bill> A, std::shared_ptr<Bill> B) {
+             return A->GetDate() > B->GetDate();
+         });
+}
+
+void FilterMenu::FilterByType() const
+{
+    std::cout << "1. " << NBill::INCOME << std::endl
+              << "2." << NBill::EXPENSE << std::endl;
+    int code = SetType();
+    if (code == 1)
+    {
+        Filter filter;
+        filter.FilterByType(Bill::INCOME);
+    }
+    else if (code == 2)
+    {
+        Filter filter;
+        filter.FilterByType(Bill::EXPENSE);
+    }
+}
+
+template <typename T1, typename T2>
+void FilterMenu::PrintFilterBody(const T1 &x, const T2 &y) const
+{
+    std::cout << Division(50) << std::endl
+              << NMenu::LOWER_LIMIT << ": " << x << std::endl
+              << NMenu::UPPER_LIMIT << ": " << y << std::endl
+              << Division(50) << std::endl;
+}
+
 void StatisticsMenu::Menu() const
 {
     CLEAR;
@@ -585,17 +780,17 @@ void StatisticsMenu::Menu() const
     {
         std::cout << y[i].year << "."
                   << std::setw(2) << std::setfill('0') << y[i].month << ", "
-                  << std::setfill(' ');
+                  << std::setfill(' ')
+                  << std::fixed << std::setprecision(2)
+                  << y[i].amount << NBill::YUAN << " " << std::endl;
 
-        std::cout << std::fixed << std::setprecision(2)
-                  << y[i].amount << NBill::YUAN << " ";
-        std::cout << std::endl;
         std::cout << "[";
         for (int j = 0; j < monthAmount[i] * 30 / max; j++)
         {
             std::cout << "#";
         }
         std::cout << "]";
+
         std::cout << std::endl;
     }
 
@@ -604,8 +799,8 @@ void StatisticsMenu::Menu() const
               << std::setfill(' ');
 
     std::cout << std::fixed << std::setprecision(2)
-              << y[totalMonth].amount << NBill::YUAN << " ";
-    std::cout << std::endl;
+              << y[totalMonth].amount << NBill::YUAN << " " << std::endl;
+
     if (y[totalMonth].amount / fit < 1)
     {
         std::cout << "[";
@@ -641,223 +836,28 @@ void StatisticsMenu::Menu() const
         }
     }
     std::cout << std::endl;
-    std::cout << Division(50)
-              << std::endl;
-    std::cout << NBill::EXPECTED
-              << fit << NBill::YUAN
-              << ", " << NBill::USED << y[totalMonth].amount * 100 / fit << "%. " << std::endl;
+
+    std::cout << Division(50) << std::endl
+              << NBill::EXPECTED << fit << NBill::YUAN << ", "
+              << NBill::USED << y[totalMonth].amount * 100 / fit << "%. " << std::endl;
+
     std::cout << PRESS_ANY_KEY;
     getchar();
     std::shared_ptr<MainMenu> pMenu = std::make_shared<BillMenu>();
     pMenu->Menu();
 }
 
-void FilterMenu::Menu() const
-{
-    CLEAR;
-    std::cout << NMenu::FILTER_TITLE << std::endl;
-    std::cout << "1. " << NMenu::FILTER_BY_AMOUNT << std::endl
-              << "2. " << NMenu::FILTER_BY_DATE << std::endl
-              << "3. " << NMenu::FILTER_BY_TYPE << std::endl
-              << "4. " << NMenu::BACK << std::endl
-              << NMenu::END << std::endl;
-    InputCode();
-}
-
-void FilterMenu::PrintFiltered() const
-{
-    CLEAR;
-    extern std::vector<std::shared_ptr<Bill>> pFiltered;
-    std::cout << Division(90) << std::endl
-              << std::setw(12) << NBill::AMOUNT << "\t"
-              << NBill::TYPE << "\t\t\t"
-              << NBill::DATE << "\t\t\t"
-              << NBill::INFO << std::endl
-              << Division(90) << std::endl;
-    for (auto it : pFiltered)
-    {
-        it->Print();
-    }
-    for (auto it : pFiltered)
-    {
-        it->Print();
-    }
-    std::cout << Division(90) << std::endl
-              << PRESS_ANY_KEY;
-    getchar();
-}
-
-void FilterMenu::InputCode() const
-{
-    int code = SetCode();
-    if (code == 1)
-    {
-        FilterByAmount();
-        PrintFiltered();
-        Menu();
-    }
-    else if (code == 2)
-    {
-        FilterByDate();
-        PrintFiltered();
-        Menu();
-    }
-    else if (code == 3)
-    {
-        FilterByType();
-        PrintFiltered();
-        Menu();
-    }
-    else if (code == 4)
-    {
-        std::shared_ptr<MainMenu> pMenu = std::make_shared<BillMenu>();
-        pMenu->Menu();
-    }
-    else
-    {
-        std::cerr << NError::ILLEGAL_NUMBER << ", "
-                  << NError::PLEASE_INPUT_AGAIN << ". "
-                  << std::endl;
-        return InputCode();
-    }
-}
-
-template <typename T1, typename T2>
-void FilterMenu::PrintFilterBody(const T1 &x, const T2 &y) const
-{
-    std::cout << NMenu::LOWER_LIMIT << ": " << x << std::endl;
-    std::cout << NMenu::UPPER_LIMIT << ": " << y << std::endl;
-}
-
-void FilterMenu::FilterByAmount() const
-{
-    CLEAR;
-    PrintFilterBody("?", "");
-    double lowerLimit = SetAmount();
-
-    CLEAR;
-    PrintFilterBody(lowerLimit, "?");
-    double upperLimit = SetAmount();
-
-    CLEAR;
-    PrintFilterBody(lowerLimit, upperLimit);
-    Filter filter;
-    filter.FilterByAmount(lowerLimit, upperLimit);
-    extern std::vector<std::shared_ptr<Bill>> pFiltered;
-    sort(pFiltered.begin(), pFiltered.end(),
-         [](std::shared_ptr<Bill> A, std::shared_ptr<Bill> B) {
-             return A->GetAmount() > B->GetAmount();
-         });
-}
-double FilterMenu::SetAmount() const
-{
-    try
-    {
-        std::cout << ">> ";
-        In amount;
-        std::cin >> amount;
-        return amount;
-    }
-    catch (const std::string msg)
-    {
-        std::cerr << msg << ", "
-                  << NError::PLEASE_INPUT_AGAIN << ". "
-                  << std::endl;
-        return SetAmount();
-    }
-}
-
-void FilterMenu::FilterByDate() const
-{
-    CLEAR;
-    PrintFilterBody("?", "");
-    Date lowerLimit = SetDate();
-
-    CLEAR;
-    PrintFilterBody(lowerLimit, "?");
-    Date upperLimit = SetDate();
-
-    CLEAR;
-    PrintFilterBody(lowerLimit, upperLimit);
-    Filter filter;
-    filter.FilterByDate(lowerLimit, upperLimit);
-    extern std::vector<std::shared_ptr<Bill>> pFiltered;
-    sort(pFiltered.begin(), pFiltered.end(),
-         [](std::shared_ptr<Bill> A, std::shared_ptr<Bill> B) {
-             return A->GetDate() > B->GetDate();
-         });
-}
-Date FilterMenu::SetDate() const
-{
-    try
-    {
-        std::cout << ">> ";
-        In date;
-        std::cin >> date;
-        return date;
-    }
-    catch (const std::string msg)
-    {
-        std::cerr << msg << ", "
-                  << NError::PLEASE_INPUT_AGAIN << ". "
-                  << std::endl;
-        return SetDate();
-    }
-}
-
-void FilterMenu::FilterByType() const
-{
-    std::cout << "1. " << NBill::INCOME << std::endl
-              << "2." << NBill::EXPENSE << std::endl;
-    int code = SetType();
-    if (code == 1)
-    {
-        Filter filter;
-        filter.FilterByType(Bill::INCOME);
-    }
-    else if (code == 2)
-    {
-        Filter filter;
-        filter.FilterByType(Bill::EXPENSE);
-    }
-}
-int FilterMenu::SetType() const
-{
-    try
-    {
-        std::cout << ">> ";
-        In code;
-        std::cin >> code;
-        if (int(code) == 1 || int(code) == 2)
-        {
-            return code;
-        }
-        else
-        {
-            std::cerr << NError::ILLEGAL_NUMBER << ", "
-                      << NError::PLEASE_INPUT_AGAIN << ". "
-                      << std::endl;
-            return SetType();
-        }
-    }
-    catch (const std::string msg)
-    {
-        std::cerr << msg << ", "
-                  << NError::PLEASE_INPUT_AGAIN << ". "
-                  << std::endl;
-        return SetType();
-    }
-}
-
 #pragma endregion
 
 #pragma region "Else"
+
 extern std::shared_ptr<Wallet> pWallet;
+
 void WalletMenu::Menu() const
 {
     CLEAR;
-    std::cout << NWallet::TITLE << std::endl;
-    std::cout << NWallet::BALANCE << ": " << pWallet->GetBalance() << std::endl;
+    std::cout << NWallet::TITLE << std::endl
+              << NWallet::BALANCE << ": " << pWallet->GetBalance() << std::endl;
     if (pWallet->GetBalance() < 0)
     {
         std::cout << "[" << NWallet::NEGATIVE_BALANCE_WARNING << "]"
@@ -870,6 +870,7 @@ void WalletMenu::Menu() const
               << NWallet::END << std::endl;
     InputCode();
 }
+
 void WalletMenu::InputCode() const
 {
     int code = SetCode();
@@ -907,6 +908,54 @@ void WalletMenu::InputCode() const
 
 void FileMenu::Menu() const
 {
+    CLEAR;
+    std::cout << NFile::TITLE << std::endl
+              << "1. " << NFile::SAVE << std::endl
+              << "2. " << NFile::LOAD << std::endl
+              << "3. " << NFile::BACK << std::endl
+              << NFile::END << std::endl;
+    InputCode();
+}
+
+void FileMenu::InputCode() const
+{
+    int code = SetCode();
+    if (code == 1)
+    {
+        File file;
+        file.SaveToFile();
+        std::cout << NFile::SAVED << ". " << std::endl;
+        InputCode();
+    }
+    else if (code == 2)
+    {
+        std::cout << NFile::ARE_YOU_SURE << std::endl;
+        In yes;
+        std::cin >> yes;
+        if (std::string(yes) == "y")
+        {
+            File file;
+            file.LoadFromFile();
+            std::cout << NFile::LOADED << ". " << std::endl;
+        }
+        else
+        {
+            std::cout << NFile::NOT_LOADED << ". " << std::endl;
+        }
+        InputCode();
+    }
+    else if (code == 3)
+    {
+        std::shared_ptr<MainMenu> pMenu = std::make_shared<MainMenu>();
+        pMenu->Menu();
+    }
+    else
+    {
+        std::cerr << NError::ILLEGAL_NUMBER << ", "
+                  << NError::PLEASE_INPUT_AGAIN << ". "
+                  << std::endl;
+        InputCode();
+    }
 }
 
 #pragma endregion

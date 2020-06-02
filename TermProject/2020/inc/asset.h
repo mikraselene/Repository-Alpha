@@ -1,17 +1,24 @@
+//OK
 #ifndef ASSET_H
 #define ASSET_H
 
 #include <iostream>
 #include <memory>
 
-#include "date.h"
-#include "input.h"
-#include "text.h"
-#include "period.h"
-#include "category.h"
-#include "menu.h"
 #include "bill.h"
+#include "date.h"
+#include "category.h"
+#include "input.h"
+#include "menu.h"
+#include "period.h"
+#include "text.h"
 
+/*---------------------------------------------------------------------------
+类名: Asset 
+
+描述:
+    财产基类, 提供了设定各种数据的函数.
+---------------------------------------------------------------------------*/
 class Asset
 {
 public:
@@ -27,18 +34,23 @@ public:
     };
 
 protected:
-    void
-    SetId(const int &);
+    void SetId(const int &);
     double SetAmount() const;
     Date SetDate() const;
+    void ShowCategory() const;
     Category SetCategory() const;
     Period SetPeriod() const;
     int SetCode() const;
-    void ShowCategory() const;
     void PrintInstruction() const;
     int id;
 };
 
+/*---------------------------------------------------------------------------
+类名: Transaction 
+
+描述:
+    交易类, 用于操作单笔交易或定期交易.
+---------------------------------------------------------------------------*/
 class Transaction : public Asset,
                     public std::enable_shared_from_this<Transaction>
 {
@@ -106,6 +118,12 @@ private:
     Period period;
 };
 
+/*---------------------------------------------------------------------------
+类名: DepositAndLoan 
+
+描述:
+    存贷类, 用于操作存款和贷款.
+---------------------------------------------------------------------------*/
 class DepositAndLoan : public Asset,
                        public std::enable_shared_from_this<DepositAndLoan>
 {
