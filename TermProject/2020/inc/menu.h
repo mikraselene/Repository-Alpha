@@ -7,17 +7,17 @@
 #include <memory>
 #include <numeric>
 
-#include "date.h"
-#include "input.h"
-#include "text.h"
-#include "period.h"
-#include "category.h"
-#include "bill.h"
 #include "asset.h"
-#include "wallet.h"
-#include "fitting.h"
-#include "refresh.h"
+#include "bill.h"
+#include "category.h"
+#include "date.h"
 #include "file.h"
+#include "fitting.h"
+#include "input.h"
+#include "period.h"
+#include "refresh.h"
+#include "text.h"
+#include "wallet.h"
 
 class MainMenu
 {

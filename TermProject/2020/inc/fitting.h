@@ -1,8 +1,8 @@
 #ifndef FITTING_H
 #define FITTING_H
 
-#include <vector>
 #include <iostream>
+#include <vector>
 
 /*---------------------------------------------------------------------------
 类名: LeastSquare

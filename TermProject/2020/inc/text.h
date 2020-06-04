@@ -79,6 +79,7 @@ namespace NTransaction
 
 namespace NDepositAndLoan
 {
+    T(TITLE, "////////// 存贷交易 //////////");
     T(YUAN, "元");
     T(TOTAL_INCOME, "来自利息的总收入");
     T(TOTAL_EXPENSE, "来自利息的总支出");

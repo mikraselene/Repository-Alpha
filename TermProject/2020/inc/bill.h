@@ -1,9 +1,9 @@
 #ifndef BILL_H
 #define BILL_H
 
+#include <iomanip>
 #include <iostream>
 #include <vector>
-#include <iomanip>
 
 #include "date.h"
 #include "period.h"

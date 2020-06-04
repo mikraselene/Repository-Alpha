@@ -23,8 +23,8 @@ public:
     void TopUp();
     void Withdraw();
     void Edit();
-
     void Change(const double &);
+
     double GetBalance() const;
 
 private:

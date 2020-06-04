@@ -2,8 +2,8 @@
 #define CATEGORY_H
 
 #include <iostream>
-#include <vector>
 #include <memory>
+#include <vector>
 
 #include "text.h"
 

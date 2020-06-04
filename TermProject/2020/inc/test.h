@@ -3,8 +3,12 @@
 
 #include <iostream>
 
-void Test(const int &);
-void Test(const std::string &);
-void Test(const std::string &, const int &);
+class Test
+{
+public:
+    Test(const int &);
+    Test(const std::string &);
+    Test(const std::string &, const int &);
+};
 
 #endif

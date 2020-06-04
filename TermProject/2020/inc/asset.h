@@ -5,8 +5,8 @@
 #include <memory>
 
 #include "bill.h"
-#include "date.h"
 #include "category.h"
+#include "date.h"
 #include "input.h"
 #include "menu.h"
 #include "period.h"

@@ -2,8 +2,8 @@
 #define PERIOD_H
 
 #include <iostream>
-#include <vector>
 #include <memory>
+#include <vector>
 
 #include "date.h"
 #include "text.h"

@@ -1,8 +1,8 @@
 #ifndef INPUT_H
 #define INPUT_H
 
-#include <iostream>
 #include <cmath>
+#include <iostream>
 
 #include "date.h"
 #include "text.h"
