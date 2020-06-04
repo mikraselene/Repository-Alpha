@@ -19,7 +19,6 @@ namespace NCategory
     T(INTERNET, "网络");
     T(MISCELLANEOUS, "杂项");
     T(ADD_NEW_CATEGORY, "新建类别");
-
 } // namespace NCategory
 
 namespace NPeriod
@@ -35,7 +34,6 @@ namespace NDate
     T(YEAR, "年");
     T(MONTH, "月");
     T(DAY, "日");
-
 } // namespace NDate
 
 namespace NMenu
@@ -104,7 +102,6 @@ namespace NTransaction
     T(DELETE, "删除");
     T(BACK, "返回");
     T(ID, "编号");
-
 } // namespace NTransaction
 
 namespace NDepositAndLoan
@@ -133,7 +130,6 @@ namespace NDepositAndLoan
     T(DELETE, "删除");
     T(EDIT, "编辑");
     T(BACK, "返回");
-
 } // namespace NDepositAndLoan
 
 namespace NInstruction
@@ -156,7 +152,6 @@ namespace NBill
     T(REGULAR, "定期");
     T(EXPECTED, "本月预计消费");
     T(USED, "已用");
-
 } // namespace NBill
 
 namespace NError
@@ -168,11 +163,14 @@ namespace NError
     T(NEGATIVE_NUMBER, "输入不能为负数");
     T(ILLEGAL_DATE, "不合法的日期");
     T(PLEASE_INPUT_AGAIN, "请重新输入");
-
 } // namespace NError
 
-T(DELETED, "删除成功");
-T(PRESS_ANY_KEY, "按任意键继续...");
+namespace NSystem
+{
+    T(DELETED, "删除成功");
+    T(PRESS_ANY_KEY, "按任意键继续...");
+} // namespace NSystem
+
 namespace NWallet
 {
     T(TITLE, "////////// 我的钱包 //////////");
@@ -196,7 +194,6 @@ namespace NFile
     T(LOAD, "读取");
     T(BACK, "返回");
     T(END, "////////// ＝＝＝＝ //////////");
-
 } // namespace NFile
 
 #endif

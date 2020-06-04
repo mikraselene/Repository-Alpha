@@ -406,7 +406,7 @@ void Transaction::Edit()
     CLEAR;
     PrintOneBody(amount, category, date);
 
-    std::cout << PRESS_ANY_KEY;
+    std::cout << NSystem::PRESS_ANY_KEY;
     getchar();
 
     CLEAR;
@@ -427,8 +427,8 @@ void Transaction::Delete() const
             it++;
         }
     }
-    std::cout << DELETED << ". " << std::endl
-              << PRESS_ANY_KEY;
+    std::cout << NSystem::DELETED << ". " << std::endl
+              << NSystem::PRESS_ANY_KEY;
     getchar();
 }
 
@@ -697,8 +697,8 @@ void DepositAndLoan::InputSubmenuCode() const
                 it++;
             }
         }
-        std::cout << DELETED << ". " << std::endl
-                  << PRESS_ANY_KEY;
+        std::cout << NSystem::DELETED << ". " << std::endl
+                  << NSystem::PRESS_ANY_KEY;
         getchar();
     }
     else if (code == 2)

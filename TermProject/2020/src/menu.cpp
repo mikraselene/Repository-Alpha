@@ -383,7 +383,7 @@ void DepositAndLoanMenu::GetStats() const
               << abs(totalIncome) << NDepositAndLoan::YUAN << std::endl
               << NDepositAndLoan::TOTAL_EXPENSE << ": "
               << abs(totalExpense) << NDepositAndLoan::YUAN << std::endl
-              << PRESS_ANY_KEY;
+              << NSystem::PRESS_ANY_KEY;
     getchar();
 }
 
@@ -521,7 +521,7 @@ void OverviewMenu::PrintAll(const int &flag) const
         it->Print();
     }
     std::cout << Division(90) << std::endl
-              << PRESS_ANY_KEY;
+              << NSystem::PRESS_ANY_KEY;
     getchar();
 }
 
@@ -587,7 +587,7 @@ void FilterMenu::PrintFiltered() const
         it->Print();
     }
     std::cout << Division(90) << std::endl
-              << PRESS_ANY_KEY;
+              << NSystem::PRESS_ANY_KEY;
     getchar();
 }
 
@@ -841,7 +841,7 @@ void StatisticsMenu::Menu() const
               << NBill::EXPECTED << fit << NBill::YUAN << ", "
               << NBill::USED << y[totalMonth].amount * 100 / fit << "%. " << std::endl;
 
-    std::cout << PRESS_ANY_KEY;
+    std::cout << NSystem::PRESS_ANY_KEY;
     getchar();
     std::shared_ptr<MainMenu> pMenu = std::make_shared<BillMenu>();
     pMenu->Menu();

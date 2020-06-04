@@ -254,7 +254,6 @@ double CalcIn::Calc(std::string input) const
         rawans += (input[i] - '0') * pow(10, p);
         p++;
     }
-    return rawans;
     double ans = rawans / pow(10, decim);
     return ans;
 }
