@@ -9,33 +9,6 @@
 
 #define T(code, text) const std::string(code) = (text)
 
-namespace NCategory
-{
-    T(ROUTINE, "日常");
-    T(FOOD, "饮食");
-    T(CLOTHING, "服装");
-    T(EDUCATION, "教育");
-    T(ENTERTAINMENT, "娱乐");
-    T(INTERNET, "网络");
-    T(MISCELLANEOUS, "杂项");
-    T(ADD_NEW_CATEGORY, "新建类别");
-} // namespace NCategory
-
-namespace NPeriod
-{
-    T(STR_MONTHLY, "按月");
-    T(STR_WEEKLY, "按周");
-    T(STR_DAILY, "按日");
-    T(STR_NO_PERIOD, "-");
-} // namespace NPeriod
-
-namespace NDate
-{
-    T(YEAR, "年");
-    T(MONTH, "月");
-    T(DAY, "日");
-} // namespace NDate
-
 namespace NMenu
 {
     T(TITLE, "/////////// 主菜单 ///////////");
@@ -115,7 +88,6 @@ namespace NDepositAndLoan
     T(LOAN, "贷款");
     T(TYPE, "种类");
     T(ID, "编号");
-    T(TITLE, "////////// 存款贷款 //////////");
     T(PRINCIPLE, "本金");
     T(INTEREST_RATE, "利率");
     T(INTEREST_TYPE, "利率类型");
@@ -132,13 +104,6 @@ namespace NDepositAndLoan
     T(BACK, "返回");
 } // namespace NDepositAndLoan
 
-namespace NInstruction
-{
-    T(COMFIRM_AND_SAVE, "确认并保存");
-    T(INPUT_AGAIN, "重新输入");
-    T(BACK, "返回");
-} // namespace NInstruction
-
 namespace NBill
 {
     T(TYPE, "种类");
@@ -153,23 +118,6 @@ namespace NBill
     T(EXPECTED, "本月预计消费");
     T(USED, "已用");
 } // namespace NBill
-
-namespace NError
-{
-    T(CANNOT_OPEN_FILE, "找不到文件, 已创建新的空文件");
-    T(ILLEGAL_OPERATION, "不合法的运算");
-    T(ILLEGAL_CATEGORY, "不合法的类别");
-    T(ILLEGAL_NUMBER, "不合法的数字");
-    T(NEGATIVE_NUMBER, "输入不能为负数");
-    T(ILLEGAL_DATE, "不合法的日期");
-    T(PLEASE_INPUT_AGAIN, "请重新输入");
-} // namespace NError
-
-namespace NSystem
-{
-    T(DELETED, "删除成功");
-    T(PRESS_ANY_KEY, "按任意键继续...");
-} // namespace NSystem
 
 namespace NWallet
 {
@@ -195,5 +143,56 @@ namespace NFile
     T(BACK, "返回");
     T(END, "////////// ＝＝＝＝ //////////");
 } // namespace NFile
+
+namespace NCategory
+{
+    T(ROUTINE, "日常");
+    T(FOOD, "饮食");
+    T(CLOTHING, "服装");
+    T(EDUCATION, "教育");
+    T(ENTERTAINMENT, "娱乐");
+    T(INTERNET, "网络");
+    T(MISCELLANEOUS, "杂项");
+    T(ADD_NEW_CATEGORY, "新建类别");
+} // namespace NCategory
+
+namespace NPeriod
+{
+    T(STR_MONTHLY, "按月");
+    T(STR_WEEKLY, "按周");
+    T(STR_DAILY, "按日");
+    T(STR_NO_PERIOD, "-");
+} // namespace NPeriod
+
+namespace NDate
+{
+    T(YEAR, "年");
+    T(MONTH, "月");
+    T(DAY, "日");
+} // namespace NDate
+
+namespace NInstruction
+{
+    T(COMFIRM_AND_SAVE, "确认并保存");
+    T(INPUT_AGAIN, "重新输入");
+    T(BACK, "返回");
+} // namespace NInstruction
+
+namespace NError
+{
+    T(CANNOT_OPEN_FILE, "找不到文件, 已创建新的空文件");
+    T(ILLEGAL_OPERATION, "不合法的运算");
+    T(ILLEGAL_CATEGORY, "不合法的类别");
+    T(ILLEGAL_NUMBER, "不合法的数字");
+    T(NEGATIVE_NUMBER, "输入不能为负数");
+    T(ILLEGAL_DATE, "不合法的日期");
+    T(PLEASE_INPUT_AGAIN, "请重新输入");
+} // namespace NError
+
+namespace NSystem
+{
+    T(DELETED, "删除成功");
+    T(PRESS_ANY_KEY, "按任意键继续...");
+} // namespace NSystem
 
 #endif

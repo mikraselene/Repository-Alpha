@@ -1,11 +1,11 @@
 #ifndef MENU_H
 #define MENU_H
 
-#include <iostream>
 #include <algorithm>
-#include <numeric>
 #include <iomanip>
+#include <iostream>
 #include <memory>
+#include <numeric>
 
 #include "date.h"
 #include "input.h"
