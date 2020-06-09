@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 2.8.3)
+project (TermProject2019)
+add_executable(build Labyrinthos.cpp ${SRC})
+add_definitions(-std=c++11)
+add_definitions(-O2)
