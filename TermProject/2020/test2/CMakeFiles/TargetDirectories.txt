@@ -1,3 +1,0 @@
-/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/test2/CMakeFiles/rebuild_cache.dir
-/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/test2/CMakeFiles/edit_cache.dir
-/Users/parvaluna/statio-spatialis/code/Repository-Alpha/TermProject/2020/test2/CMakeFiles/build.dir

@@ -3,3 +3,6 @@ tempCodeRunnerFile.cpp
 *.plist
 .DS_Store
 *.
+CMakeFiles/
+CMakeCache.txt
+Makefile
