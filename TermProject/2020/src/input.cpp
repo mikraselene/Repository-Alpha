@@ -13,7 +13,7 @@ std::istream &operator>>(std::istream &in, In &A)
 重载: operator int()
 
 目的:
-    接收 string 成员变量并检查其是否合法. 如果其是合法的, 返回其等效整形值 x. 
+    接收 string 成员变量并检查其是否合法. 如果其是合法的, 返回其等效整型值 x. 
 
 返回值:
     整数 x.
@@ -167,7 +167,7 @@ void In::CheckInput()
 函数: double GetAnswer()
 
 目的:
-    接收一个合法的 string 并返回其等效整形值 x.
+    接收一个合法的 string 并返回其等效整型值 x.
 
 返回值:
     整数 x.
@@ -262,7 +262,7 @@ double CalcIn::Calc(std::string input) const
 函数: int ToInt()
 
 目的:
-    接收 string 成员变量并检查其是否整形合法. 如果其是合法的, 返回其等效整形值 x.
+    接收 string 成员变量并检查其是否整型合法. 如果其是合法的, 返回其等效整型值 x.
 
 返回值:
     整数 x.
