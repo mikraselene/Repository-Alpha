@@ -4,6 +4,7 @@
 #include <iostream>
 #include <memory>
 
+#include "bill.h"
 #include "input.h"
 #include "text.h"
 

@@ -38,21 +38,32 @@ void Wallet::TopUp()
 {
     std::cout << NWallet::TOP_UP << ": ";
     double amount = SetAmount();
-    Change(amount);
+    Date today;
+    std::shared_ptr<Bill>
+        p = std::make_shared<Bill>(Bill::INCOME, amount, today, NWallet::TOP_UP);
+    p->Add();
 }
 
 void Wallet::Withdraw()
 {
     std::cout << NWallet::WITHDRAW << ": ";
     double amount = SetAmount();
-    Change(-amount);
+    Date today;
+    std::shared_ptr<Bill>
+        p = std::make_shared<Bill>(Bill::EXPENSE, amount, today, NWallet::WITHDRAW);
+    p->Add();
 }
 
 void Wallet::Edit()
 {
     std::cout << NWallet::EDIT << ": " << balance << " -> ";
     double amount = SetAmount();
+    double delta = amount - balance;
     balance = amount;
+    Date today;
+    std::shared_ptr<Bill>
+        p = std::make_shared<Bill>(delta > 0 ? 1 : -1, delta, today, NWallet::EDIT);
+    p->Add();
 }
 
 void Wallet::Change(const double &increment)
