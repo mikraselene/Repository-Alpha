@@ -784,12 +784,10 @@ void StatisticsMenu::Menu() const
                   << std::fixed << std::setprecision(2)
                   << y[i].amount << NBill::YUAN << " " << std::endl;
 
-        std::cout << "[";
         for (int j = 0; j < monthAmount[i] * 30 / max; j++)
         {
-            std::cout << "#";
+            std::cout << "\033[47m \033[0m";
         }
-        std::cout << "]";
 
         std::cout << std::endl;
     }
@@ -803,35 +801,31 @@ void StatisticsMenu::Menu() const
 
     if (y[totalMonth].amount / fit < 1)
     {
-        std::cout << "[";
         for (int j = 0; j < monthAmount[totalMonth] * 30 / max; j++)
         {
             if (j < (monthAmount[totalMonth] * 30 / max) * y[totalMonth].amount / fit)
             {
-                std::cout << "#";
+                std::cout << "\033[42m \033[0m";
             }
             else
             {
-                std::cout << " ";
+                std::cout << "\033[47m  \033[0m";
             }
         }
-        std::cout << "] ";
     }
     else
     {
-
-        std::cout << "[";
         for (int j = 0;
              j < (monthAmount[totalMonth] * 30 / max) * y[totalMonth].amount / fit;
              j++)
         {
-            if (j == int(monthAmount[totalMonth] * 30 / max))
+            if (j <= int(monthAmount[totalMonth] * 30 / max))
             {
-                std::cout << "]";
+                std::cout << "\033[47m  \033[0m";
             }
             else
             {
-                std::cout << "#";
+                std::cout << "\033[41m  \033[0m";
             }
         }
     }

@@ -124,7 +124,7 @@ namespace NWallet
 {
     T(TITLE, "////////// 我的钱包 //////////");
     T(BALANCE, "余额");
-    T(NEGATIVE_BALANCE_WARNING, "余额小于零, 请合理消费");
+    T(NEGATIVE_BALANCE_WARNING, "\033[31m余额小于零, 请合理消费\033[0m");
     T(TOP_UP, "充值");
     T(WITHDRAW, "转出");
     T(EDIT, "编辑");
@@ -136,10 +136,10 @@ namespace NFile
 {
     T(TITLE, "////////// 文件菜单 //////////");
     T(SAVE, "保存");
-    T(SAVED, "文件已保存");
-    T(LOADED, "文件已读取");
+    T(SAVED, "\033[32m文件已保存\033[0m");
+    T(LOADED, "\033[32m文件已读取\033[0m");
     T(NOT_LOADED, "文件未读取");
-    T(ARE_YOU_SURE, "确定读取吗? (y/n)");
+    T(ARE_YOU_SURE, "确定读取吗? (\033[32my\033[0m/n)");
     T(LOAD, "读取");
     T(BACK, "返回");
     T(END, "////////// ＝＝＝＝ //////////");
@@ -182,17 +182,17 @@ namespace NInstruction
 namespace NError
 {
     T(CANNOT_OPEN_FILE, "找不到文件, 已创建新的空文件");
-    T(ILLEGAL_OPERATION, "不合法的运算");
-    T(ILLEGAL_CATEGORY, "不合法的类别");
-    T(ILLEGAL_NUMBER, "不合法的数字");
-    T(NEGATIVE_NUMBER, "输入不能为负数");
-    T(ILLEGAL_DATE, "不合法的日期");
+    T(ILLEGAL_OPERATION, "\033[31m不合法的运算\033[0m");
+    T(ILLEGAL_CATEGORY, "\033[31m不合法的类别\033[0m");
+    T(ILLEGAL_NUMBER, "\033[31m不合法的数字\033[0m");
+    T(NEGATIVE_NUMBER, "\033[31m输入不能为负数\033[0m");
+    T(ILLEGAL_DATE, "\033[31m不合法的日期\033[0m");
     T(PLEASE_INPUT_AGAIN, "请重新输入");
 } // namespace NError
 
 namespace NSystem
 {
-    T(DELETED, "删除成功");
+    T(DELETED, "\033[32m删除成功\033[0m");
     T(PRESS_ANY_KEY, "按任意键继续...");
 } // namespace NSystem
 
