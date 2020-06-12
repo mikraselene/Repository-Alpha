@@ -38,6 +38,7 @@ PathFinder::PathFinder(MazeGenerator m)
         {
             maze[i][j].x = i;
             maze[i][j].y = j;
+            State(i, j) = UNDEFINED;
         }
     }
 
@@ -65,10 +66,12 @@ PathFinder::PathFinder(MazeGenerator m)
         tp = tp->child;
 
 #if !SHOW_PATH_DIRECTLY
+        getchar();
         PrintPath();
 
 #endif
     }
+
     PrintPath();
 }
 
@@ -113,11 +116,11 @@ void PathFinder::Find(int x, int y)
             // 若 State(S) == UNDEFINED, 令 State(S) == OPEN, 计算 F(S);
             if (State(adjx, adjy) == UNDEFINED)
             {
-                listOpen.push_back(maze[adjx][adjy]);
-                State(adjx, adjy) = OPEN;
                 G(adjx, adjy) = G(*maze[adjx][adjy].parent) + 1; //计算子节点的代价.
                 H(adjx, adjy) = HeuristicDistance(adjx, adjy, MANHATTAN);
                 F(adjx, adjy) = G(adjx, adjy) + H(adjx, adjy);
+                listOpen.push_back(maze[adjx][adjy]);
+                State(adjx, adjy) = OPEN;
             }
 
             // 若 State(S) == OPEN, 则计算新的 F'(S). 若 F(S) > F'(S), 令 F(S) == F'(S).
@@ -130,20 +133,21 @@ void PathFinder::Find(int x, int y)
             }
         }
     }
-    // 取 F 值最小的节点, 从 listOpen 中移除.
+    // 取 F 值最小的节点.
     listOpen.sort([](MAZE a, MAZE b) { return F(a) < F(b); });
     int tx = listOpen.front().x;
     int ty = listOpen.front().y;
 
-#if SHOW_FINDING_PROCESS
-    // 打印步骤.
-    PrintProcess();
-
-#endif
-
     // 当 T 为出口才停止寻路.
     if ((x != gate) || (y != width))
     {
+
+#if SHOW_FINDING_PROCESS
+        // 打印步骤.
+        PrintProcess();
+
+#endif
+
         Find(tx, ty);
     }
 }
@@ -174,7 +178,7 @@ int PathFinder::HeuristicDistance(int x, int y, int type)
 // 打印路径.
 void PathFinder::PrintPath()
 {
-    system("clear");
+    system("printf \"\033c\"");
     for (int i = 1; i <= length; i++)
     {
         for (int j = 1; j <= width; j++)
@@ -208,24 +212,46 @@ void PathFinder::PrintPath()
 // 打印步骤.
 void PathFinder::PrintProcess()
 {
-    system("clear");
+    system("printf \"\033c\"");
     for (int i = 1; i <= length; i++)
     {
         for (int j = 1; j <= width; j++)
         {
             if (maze[i][j].isRoad)
             {
-                switch (State(i, j))
+                if ((i == 2 && j == 1) || (i == gate && j == width))
                 {
-                case OPEN:
-                    std::cout << BLUE;
-                    break;
-                case CLOSED:
                     std::cout << RED;
-                    break;
-                case UNDEFINED:
-                    std::cout << TRANSPARENT;
-                    break;
+                }
+                else
+                {
+                    switch (State(i, j))
+                    {
+                    case OPEN:
+                        listOpen.sort([](MAZE a, MAZE b) { return F(a) < F(b); });
+                        if (F(i, j) == F(listOpen.front().x, listOpen.front().y))
+                        {
+                            // 绿色
+                            std::cout << "\033[42m"
+                                      << std::setw(2) << std::setfill('0') << F(i, j) % 100
+                                      << "\033[0m";
+                        }
+                        else
+                        {
+                            // 黄色
+                            std::cout << "\033[43m"
+                                      << std::setw(2) << std::setfill('0') << F(i, j) % 100
+                                      << "\033[0m";
+                        }
+
+                        break;
+                    case CLOSED:
+                        std::cout << BLUE;
+                        break;
+                    case UNDEFINED:
+                        std::cout << TRANSPARENT;
+                        break;
+                    }
                 }
             }
             else
@@ -236,5 +262,6 @@ void PathFinder::PrintProcess()
         std::cout << std::endl;
     }
     std::cout << std::endl;
+    std::cout << "F(P)min = " << F(listOpen.front().x, listOpen.front().y) << std::endl;
     usleep(50000);
 }

@@ -27,7 +27,6 @@ MazeGenerator::MazeGenerator(int l, int w)
 
     // 初始化起始点.
     State(2, 1) = GATE;
-    State(length - 1, width) = WALL;
     State(2, 2) = ROAD;
     Add2List(2, 2);
 
@@ -118,6 +117,7 @@ void MazeGenerator::Add2List(int x, int y)
 // 打印迷宫.
 void MazeGenerator::PrintMaze()
 {
+    system("printf \"\033c\"");
     for (int i = 1; i <= length; i++)
     {
         for (int j = 1; j <= width; j++)
@@ -143,14 +143,13 @@ void MazeGenerator::PrintMaze()
 // 打印步骤.
 void MazeGenerator::PrintProcess()
 {
-    system("clear");
+    system("printf \"\033c\"");
     for (int i = 1; i <= length; i++)
     {
         for (int j = 1; j <= width; j++)
         {
             if (!maze[i][j].isInS)
             {
-
                 if (State(i, j) == WALL)
                 {
                     std::cout << WHITE;
@@ -172,4 +171,5 @@ void MazeGenerator::PrintProcess()
         printf("\n");
     }
     printf("\n(%d * %d)\n", length, width);
+    usleep(50000);
 }
