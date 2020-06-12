@@ -738,7 +738,7 @@ void DepositAndLoan::Print() const
               << info << std::endl;
 }
 
-void DepositAndLoan::SetData(const DATA &data)
+void DepositAndLoan::SetData(const DepositAndLoan::DATA &data)
 {
     this->isCompound = data.isCompound;
     this->type = data.type;
@@ -748,6 +748,7 @@ void DepositAndLoan::SetData(const DATA &data)
     this->totalInterest = data.totalInterest;
     this->date = data.date;
     this->tempDate = data.tempDate;
+    this->period = data.period;
     this->info = data.info;
 }
 

@@ -5,17 +5,7 @@
 #include <iostream>
 #include <list>
 #include <unistd.h>
-/*
-字背景颜色范围: 40--49         
-40: 黑             
-41: 红             
-42: 绿             
-43: 黄             
-44: 蓝             
-45: 紫             
-46: 深绿            
-47: 白色
-*/
+
 #define BLACK "\033[40m  \033[0m"
 #define RED "\033[41m  \033[0m"
 #define GREEN "\033[42m  \033[0m"

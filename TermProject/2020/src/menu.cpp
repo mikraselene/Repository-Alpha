@@ -700,7 +700,7 @@ void FilterMenu::FilterByDate() const
 void FilterMenu::FilterByType() const
 {
     std::cout << "1. " << NBill::INCOME << std::endl
-              << "2." << NBill::EXPENSE << std::endl;
+              << "2. " << NBill::EXPENSE << std::endl;
     int code = SetType();
     if (code == 1)
     {
@@ -789,7 +789,8 @@ void StatisticsMenu::Menu() const
             std::cout << "\033[47m \033[0m";
         }
 
-        std::cout << std::endl;
+        std::cout << std::endl
+                  << std::endl;
     }
 
     std::cout << currentYear << "."
@@ -809,7 +810,7 @@ void StatisticsMenu::Menu() const
             }
             else
             {
-                std::cout << "\033[47m  \033[0m";
+                std::cout << "\033[47m \033[0m";
             }
         }
     }
@@ -821,19 +822,20 @@ void StatisticsMenu::Menu() const
         {
             if (j <= int(monthAmount[totalMonth] * 30 / max))
             {
-                std::cout << "\033[47m  \033[0m";
+                std::cout << "\033[47m \033[0m";
             }
             else
             {
-                std::cout << "\033[41m  \033[0m";
+                std::cout << "\033[41m \033[0m";
             }
         }
     }
-    std::cout << std::endl;
-
-    std::cout << Division(50) << std::endl
-              << NBill::EXPECTED << fit << NBill::YUAN << ", "
-              << NBill::USED << y[totalMonth].amount * 100 / fit << "%. " << std::endl;
+    std::cout << std::endl
+              << std::endl;
+    std::cout
+        << Division(50) << std::endl
+        << NBill::EXPECTED << fit << NBill::YUAN << ", "
+        << NBill::USED << y[totalMonth].amount * 100 / fit << "%. " << std::endl;
 
     std::cout << NSystem::PRESS_ANY_KEY;
     getchar();

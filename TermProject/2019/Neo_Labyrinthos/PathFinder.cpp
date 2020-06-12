@@ -1,7 +1,7 @@
 #include "PathFinder.h"
 
-#define SHOW_FINDING_PROCESS 0
-#define SHOW_PATH_DIRECTLY 1
+#define SHOW_FINDING_PROCESS 1
+#define SHOW_PATH_DIRECTLY 0
 
 // F(P) = G(P) + H(P)
 #define G1(P) (P).cost
@@ -24,7 +24,7 @@ PathFinder::PathFinder(MazeGenerator m)
     maze.resize(length + 1);
     maze.assign(temp.begin(), temp.end());
 
-    // 读取迷宫信息
+    // 读取迷宫信息.
     for (int i = 1; i <= length; i++)
     {
         for (int j = 1; j <= width; j++)
@@ -42,15 +42,15 @@ PathFinder::PathFinder(MazeGenerator m)
         }
     }
 
-    // 初始化起始地块(2, 2)
+    // 初始化起始地块(2, 2).
     RemoveFromOpen(2, 2);
     G(2, 2) = 0;
     State(2, 2) = CLOSED;
 
-    // 从地块(2, 2)开始寻路
+    // 从地块(2, 2)开始寻路.
     Find(2, 2);
 
-    // 逆序遍历
+    // 逆序遍历.
     MAZE *ip = (MAZE *)&maze[gate][width - 1];
     while (ip->parent)
     {
@@ -58,7 +58,7 @@ PathFinder::PathFinder(MazeGenerator m)
         ip = ip->parent;
     }
 
-    // 正序遍历得到路径并打印
+    // 正序遍历得到路径并打印.
     MAZE *tp = (MAZE *)&maze[2][2];
     while (tp)
     {
@@ -75,7 +75,7 @@ PathFinder::PathFinder(MazeGenerator m)
     PrintPath();
 }
 
-// 把地块 (x, y) 从列表 listOpen 中移除
+// 把地块 (x, y) 从列表 listOpen 中移除.
 void PathFinder::RemoveFromOpen(int x, int y)
 {
     for (auto it = listOpen.begin(); it != listOpen.end();)
@@ -116,7 +116,7 @@ void PathFinder::Find(int x, int y)
             // 若 State(S) == UNDEFINED, 令 State(S) == OPEN, 计算 F(S);
             if (State(adjx, adjy) == UNDEFINED)
             {
-                G(adjx, adjy) = G(*maze[adjx][adjy].parent) + 1; //计算子节点的代价.
+                G(adjx, adjy) = G(*maze[adjx][adjy].parent) + 1; // 计算子节点的代价.
                 H(adjx, adjy) = HeuristicDistance(adjx, adjy, MANHATTAN);
                 F(adjx, adjy) = G(adjx, adjy) + H(adjx, adjy);
                 listOpen.push_back(maze[adjx][adjy]);
@@ -231,14 +231,14 @@ void PathFinder::PrintProcess()
                         listOpen.sort([](MAZE a, MAZE b) { return F(a) < F(b); });
                         if (F(i, j) == F(listOpen.front().x, listOpen.front().y))
                         {
-                            // 绿色
+                            // 绿色:
                             std::cout << "\033[42m"
                                       << std::setw(2) << std::setfill('0') << F(i, j) % 100
                                       << "\033[0m";
                         }
                         else
                         {
-                            // 黄色
+                            // 黄色:
                             std::cout << "\033[43m"
                                       << std::setw(2) << std::setfill('0') << F(i, j) % 100
                                       << "\033[0m";
