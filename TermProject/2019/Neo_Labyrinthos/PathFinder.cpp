@@ -60,13 +60,18 @@ PathFinder::PathFinder(MazeGenerator m)
 
     // 正序遍历得到路径并打印.
     MAZE *tp = (MAZE *)&maze[2][2];
+
+#if !SHOW_PATH_DIRECTLY
+    getchar();
+
+#endif
+
     while (tp)
     {
         maze[tp->x][tp->y].isPath = 1;
         tp = tp->child;
 
 #if !SHOW_PATH_DIRECTLY
-        getchar();
         PrintPath();
 
 #endif
