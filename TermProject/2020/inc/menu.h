@@ -101,6 +101,7 @@ private:
     template <typename T1, typename T2>
     void PrintFilterBody(const T1 &, const T2 &) const;
 };
+
 class StatisticsMenu : public BillMenu
 {
 private:
