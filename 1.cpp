@@ -2,5 +2,8 @@
 using namespace std;
 int main()
 {
-    printf("hello");
+    for (int i = 30; i <= 47; i++)
+    {
+        printf("\\e[%dm: \e[%dm salve munde!\e[0m\n", i, i);
+    }
 }
