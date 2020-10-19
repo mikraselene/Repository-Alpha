@@ -3,12 +3,14 @@
 
 #pragma region // BASE
 
+#include <assert.h>
+#include <limits.h>
+#include <stdarg.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <limits.h>
-#include <stdbool.h>
-#include <assert.h>
+#include <time.h>
 
 #pragma region // define: tokens
 
@@ -17,11 +19,10 @@ enum
     T_ERROR = 0,
     T_IDENTIFIER,
     T_KEYWORD,
-    T_SEPARATOR,
+    T_CONSTANT,
+    T_STRLITERAL,
     T_OPERATOR,
-    T_NUMBER,
-    T_TEXT,
-    T_COMMENT,
+    T_SEPARATOR,
     T_UNKNOWN,
     T_EOI,
 };
@@ -46,9 +47,9 @@ enum
     TOKEN(16, T_KEYWORD, VOLATILE, "volatile") \
     TOKEN(32, T_IDENTIFIER, ID, "id")          \
     TOKEN(33, T_OPERATOR, EXCL, "!")           \
-    TOKEN(34, T_NUMBER, FLTCON, "float con")   \
-    TOKEN(35, T_NUMBER, INTCON, "int con")     \
-    TOKEN(36, T_TEXT, STRCON, "string con")    \
+    TOKEN(34, T_CONSTANT, FLTCON, "fltcon")    \
+    TOKEN(35, T_CONSTANT, INTCON, "intcon")    \
+    TOKEN(36, T_STRLITERAL, STRCON, "strcon")  \
     TOKEN(37, T_OPERATOR, MOD, "%")            \
     TOKEN(38, T_OPERATOR, AND, "&")            \
     TOKEN(39, T_OPERATOR, INCR, "++")          \
@@ -195,12 +196,30 @@ uint col_no = 1;
 uint error_cnt = 0;
 uint warning_cnt = 0;
 
+void Exit(bool exit_code)
+{
+    PRINT(MAGENTA ITALIC "*Exeunt Instructions and Data*\n");
+    printf(FAINT "exit code: %d\n" RESET, exit_code);
+    exit(exit_code);
+}
+
+void ErrorMessage(const char *err_message)
+{
+    PRINT(RED UNDERLINE "error: ");
+    printf("%s", err_message);
+}
+
+void WarningMessage(const char *war_message, ...)
+{
+    PRINT(YELLOW UNDERLINE "warning: ");
+    printf("%s", war_message);
+}
+
 void Error(const char *err_message)
 {
     error_cnt++;
     printf("%d:%d: ", ln_no, col_no);
-    PRINT(RED UNDERLINE "error: ");
-    printf("%s\n", err_message);
+    ErrorMessage(err_message);
     uchar *anomaly = pos;
     uint len = 1;
     // XXX: pos++;...pos--; could this be optimized?
@@ -231,16 +250,14 @@ void Error(const char *err_message)
 void FatalError(const char *err_message)
 {
     Error(err_message);
-    PRINT(MAGENTA ITALIC "*Exeunt Instructions and Data*\n");
-    exit(1);
+    Exit(EXIT_FAILURE);
 }
 
 void Warning(const char *war_message)
 {
     warning_cnt++;
     printf("%d:%d: ", ln_no + 1, col_no + 1);
-    PRINT(YELLOW UNDERLINE "warning: ");
-    printf("%s\n", war_message);
+    WarningMessage(war_message);
     uchar *anomaly = pos;
     uint len = 1;
     while (*(pos + 1) != '\n')
@@ -273,6 +290,7 @@ void Exeunt()
     {
         PRINT(GREEN "Let there be light!\n");
         printf("Build succeeded with 0 errors, 0 warnings.\n");
+        Exit(EXIT_SUCCESS);
     }
     else if (error_cnt == 0 && warning_cnt != 0)
     {
@@ -280,6 +298,7 @@ void Exeunt()
         printf("Build succeeded with ");
         printf(error_cnt == 1 ? "%d error, " : "%d errors, ", error_cnt);
         printf(warning_cnt == 1 ? "%d warning.\n" : "%d warnings.\n", warning_cnt);
+        Exit(EXIT_SUCCESS);
     }
     else
     {
@@ -287,8 +306,7 @@ void Exeunt()
         printf("Build failed with ");
         printf(error_cnt == 1 ? "%d error, " : "%d errors, ", error_cnt);
         printf(warning_cnt == 1 ? "%d warning.\n" : "%d warnings.\n", warning_cnt);
-        PRINT(MAGENTA ITALIC "*Exeunt Instructions and Data*\n");
-        exit(1);
+        Exit(EXIT_FAILURE);
     }
 }
 

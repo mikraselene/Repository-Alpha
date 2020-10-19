@@ -19,7 +19,6 @@ struct defs
 };
 main(n, args) /* C REFERENCE MANUAL         */
     int n;
-int s = 0x1g2;
 char **args;
 {
 

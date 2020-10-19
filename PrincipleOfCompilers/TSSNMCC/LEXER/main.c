@@ -22,9 +22,25 @@ void PrintToken(FILE *file, Token token, int n)
         fprintf(file, "│ %18s │ %18s │ %18s ", "keyword", token_str[token.id], token_str[token.id]);
         break;
     }
-    case T_SEPARATOR:
+    case T_CONSTANT:
     {
-        fprintf(file, "│ %18s │ %18s │ %18s ", "separator", token_str[token.id], token_str[token.id]);
+        if (token_name[token.id] == INTCON)
+        {
+            fprintf(file, "│ %18s │ %18s │ %18lld ", "constant", token_str[token.id], token.info.val.i);
+        }
+        if (token_name[token.id] == FLTCON)
+        {
+            fprintf(file, "│ %18s │ %18s │ %18Lf ", "constant", token_str[token.id], token.info.val.f);
+        }
+        break;
+    }
+    case T_STRLITERAL:
+    {
+        uchar *s = token.info.val.s;
+        s[18] = '\0';
+        s[17] = '"';
+        s[16] = s[15] = s[14] = '.';
+        fprintf(file, "│ %18s │ %18s │ %18s ", "string literal", token_str[token.id], s);
         break;
     }
     case T_OPERATOR:
@@ -32,25 +48,9 @@ void PrintToken(FILE *file, Token token, int n)
         fprintf(file, "│ %18s │ %18s │ %18s ", "operator", token_str[token.id], token_str[token.id]);
         break;
     }
-    case T_NUMBER:
+    case T_SEPARATOR:
     {
-        if (token_name[token.id] == INTCON)
-        {
-            fprintf(file, "│ %18s │ %18s │ %18lld ", "number", token_str[token.id], token.info.val.i);
-        }
-        if (token_name[token.id] == FLTCON)
-        {
-            fprintf(file, "│ %18s │ %18s │ %18Lf ", "number", token_str[token.id], token.info.val.d);
-        }
-        break;
-    }
-    case T_TEXT:
-    {
-        uchar *s = token.info.val.s;
-        s[18] = '\0';
-        s[17] = '"';
-        s[16] = s[15] = s[14] = '.';
-        fprintf(file, "│ %18s │ %18s │ %18s ", "text", token_str[token.id], s);
+        fprintf(file, "│ %18s │ %18s │ %18s ", "separator", token_str[token.id], token_str[token.id]);
         break;
     }
     case T_EOI:
@@ -66,13 +66,13 @@ void PrintToken(FILE *file, Token token, int n)
     default:
     {
         int unknown_token = 1;
-        Error("unknown token");
+        Error("unknown token\n");
         break;
     }
     }
-    char pos[18];
-    sprintf(pos, "%d:%d", ln_no, col_no);
-    fprintf(file, "│ %18s │\n", pos);
+    char coordinate[18];
+    sprintf(coordinate, "%d:%d", token.coordinate.ln, token.coordinate.col);
+    fprintf(file, "│ %18s │\n", coordinate);
 
 #undef OUT
 }
@@ -80,6 +80,12 @@ void PrintToken(FILE *file, Token token, int n)
 uint ReadFile(const char *name)
 {
     FILE *fp = fopen(name, "r");
+    if (fp == NULL)
+    {
+        ErrorMessage("no such file or directory: ");
+        printf("%s\n", name);
+        Exit(EXIT_FAILURE);
+    }
     fseek(fp, 0, SEEK_END);
     uint len = ftell(fp);
     fseek(fp, 0, SEEK_SET);
@@ -90,7 +96,7 @@ uint ReadFile(const char *name)
     return len;
 }
 
-int main()
+void LexerWrite(const char *token_file_name)
 {
 #define TOKEN(num, type, name, str) \
     token_str[num] = str;           \
@@ -98,10 +104,8 @@ int main()
     token_name[num] = name;
     TOKENS
 #undef TOKEN
-
-    uint length = ReadFile("0.sample");
     first_pos = pos;
-    FILE *token_file = fopen("2.tokens", "w");
+    FILE *token_file = fopen(token_file_name, "w");
     fprintf(token_file, "╒═══════╤════════════════════╤════════════════════╤════════════════════╤════════════════════╕\n"
                         "│    NO │               TYPE │              TOKEN │              VALUE │           POSITION │\n"
                         "╞═══════╪════════════════════╪════════════════════╪════════════════════╪════════════════════╡\n");
@@ -114,5 +118,19 @@ int main()
     } while (token.id != EOI);
     fprintf(token_file, "└───────┴────────────────────┴────────────────────┴────────────────────┴────────────────────┘\n");
     fclose(token_file);
+}
+
+int main()
+{
+    clock_t start, end;
+    start = clock();
+    for (int i = 0; i < 1; i++)
+    {
+        ReadFile("../c.c.sample");
+        LexerWrite("0.tokens");
+        free(buf);
+    }
+    end = clock();
+    printf("LEX: %f s\n", (double)(end - start) / CLOCKS_PER_SEC);
     Exeunt();
 }

@@ -1,28 +1,25 @@
-#include "base.h"
+#include "c.h"
 
-typedef union
-{
-    union
-    {
-        ll i;     // int constant
-        ull u;    // unsigned constant
-        ld f;     // float constant
-        uchar *s; // string constant
-    } val;        // constant value
-    uchar *name;  // name of the identifier
-} Infomation;
-Infomation current_info;
+uchar *first;
+uchar *token;
 
-typedef struct
+typedef struct Value
 {
-    uint id;
-    Infomation info;
-    struct
+    union Type
     {
-        uint ln;
-        uint col;
-    } coordinate;
-} Token;
+        ll i;
+        ull u;
+        ld d;
+        uchar *s;
+    } vtype;
+} Value;
+Value val;
+
+#define TOKEN(num, type, name, str) name = num,
+enum
+{
+    TOKENS
+};
 
 #pragma region // CASES
 
@@ -102,29 +99,20 @@ typedef struct
 
 #pragma endregion
 
-#pragma region // DEFINES
-
-#define TOKEN(num, type, name, str) name = num,
-enum
-{
-    TOKENS
-};
-
-#define MATCH_STR(str, x, STR)                                                           \
-    if (!memcmp(current_pos, str, x) && (!(map[*(current_pos + x)] & (DIGIT | LETTER)))) \
-    {                                                                                    \
-        pos = current_pos + x;                                                           \
-        return STR;                                                                      \
+// XXX: This could be optimized. !memcmp() -> (*rcp == '*' && *(rcp + 1) == '*' && ...)
+#define MATCH_STR(str, x, STR)                                           \
+    if (!memcmp(rcp, str, x) && (!(map[*(rcp + x)] & (DIGIT | LETTER)))) \
+    {                                                                    \
+        cp = rcp + x;                                                    \
+        return STR;                                                      \
     }
 
 #define MATCH_CHAR(ch, STR) \
-    if (*current_pos == ch) \
+    if (*rcp == ch)         \
     {                       \
-        pos++;              \
+        cp++;               \
         return STR;         \
     }
-
-#pragma endregion
 
 enum
 {
@@ -160,72 +148,72 @@ static uint map[128] = {
     0,                                                                                  //
 };
 
-uint GetTokenID()
+uint GetToken()
 {
     while (true)
     {
-        uchar *current_pos = pos;
-        while (map[*current_pos] & BLANK)
+        uchar *rcp = cp;
+        while (map[*rcp] & BLANK)
         {
-            current_pos++;
+            rcp++;
         }
-        col_no = current_pos - first_pos + 1;
-        pos = current_pos + 1;
-        switch (*current_pos++)
+        col_no = rcp - first;
+        cp = rcp + 1;
+        switch (*rcp++)
         {
         CASE_ID: // #identifier#
-        id:
         {
-            uchar *start_pos = current_pos - 1;
-            while (map[*current_pos] & (DIGIT | LETTER))
+        id:
+            uchar *start = rcp - 1;
+            while (map[*rcp] & (DIGIT | LETTER))
             {
-                current_pos++;
+                rcp++;
             }
             uint i;
-            uint len = current_pos - start_pos;
-            current_info.name = MALLOC(uchar, len);
+            uint len = rcp - start;
+            token = MALLOC(uchar, len);
             for (i = 0; i < len; i++)
             {
-                current_info.name[i] = start_pos[i];
+                token[i] = start[i];
             }
-            current_info.name[len] = '\0';
-            pos = current_pos;
+            token[len] = '\0';
+            cp = rcp;
             return ID;
         }
         CASE_OTHER: // #other#
         {
-            return *(current_pos - 1);
+            return *(rcp - 1);
         }
         CASE_NEXTLINE: // #nextline#
         {
             ln_no++;
-            first_pos = pos;
+            first = cp;
             continue;
         }
         CASE_DIGIT: // #digit#
         {
             ull n = 0;
-            uchar *last_pos = current_pos - 1;
-            if (*last_pos == '0' && (*current_pos == 'x' || *current_pos == 'X')) // hexadecimal
+            token = rcp - 1;
+            if (*token == '0' && (*rcp == 'x' || *rcp == 'X')) // hexadecimal
             {
                 uint last_digit = 0;
                 bool invalid_hex = false;
                 bool overflow = false;
-                while (*++current_pos)
+                while (*++rcp)
                 {
-                    if (map[*current_pos] & DIGIT)
+                    if (map[*rcp] & DIGIT)
                     {
-                        last_digit = *current_pos - '0';
+                        last_digit = *rcp - '0';
                     }
-                    else if (map[*current_pos] & LETTER)
+                    else if (map[*rcp] & LETTER)
                     {
-                        if (*current_pos >= 'a' && *current_pos <= 'f')
+                        if (*rcp >= 'a' && *rcp <= 'f')
                         {
-                            last_digit = *current_pos - 'a' + 10;
+                            last_digit = *rcp - 'a' + 10;
                         }
-                        else if (*current_pos >= 'A' && *current_pos <= 'F')
+                        else if (*rcp >= 'A' && *rcp <= 'F')
                         {
-                            last_digit = *current_pos - 'A' + 10;
+                            last_digit = *rcp - 'A' + 10;
                         }
                         else
                         {
@@ -245,26 +233,26 @@ uint GetTokenID()
                         n = (n << 4) + last_digit;
                     }
                 }
-                if (current_pos - last_pos <= 2)
+                if (rcp - token <= 2)
                 {
-                    Error("invalid hexadecimal constant\n");
+                    Error("invalid hexadecimal constant");
                     return ERROR;
                 }
-                pos = current_pos;
-                current_info.val.i = n;
+                cp = rcp;
+                val.vtype.i = n;
                 if (invalid_hex)
                 {
-                    Error("invalid hexadecimal constant\n");
+                    Warning("invalid hexadecimal constant");
                     return ERROR;
                 }
             }
-            else if (*last_pos == '0') // octal
+            else if (*token == '0') // octal
             {
                 bool invalid_oct = false;
                 bool overflow = false;
-                for (; map[*current_pos] & DIGIT; current_pos++)
+                for (; map[*rcp] & DIGIT; rcp++)
                 {
-                    if (*current_pos == '8' || *current_pos == '9')
+                    if (*rcp == '8' || *rcp == '9')
                     {
                         invalid_oct = true;
                     }
@@ -274,22 +262,22 @@ uint GetTokenID()
                     }
                     else
                     {
-                        n = (n << 3) + (*current_pos - '0');
+                        n = (n << 3) + (*rcp - '0');
                     }
                 }
-                pos = current_pos;
-                current_info.val.i = n;
+                cp = rcp;
+                val.vtype.i = n;
                 if (invalid_oct)
                 {
-                    Error("invalid octal constant\n");
+                    Error("invalid octal constant");
                 }
             }
             else // decimal
             {
                 bool overflow = false;
-                for (n = *last_pos - '0'; map[*current_pos] & DIGIT;)
+                for (n = *token - '0'; map[*rcp] & DIGIT;)
                 {
-                    uint d = *current_pos++ - '0';
+                    uint d = *rcp++ - '0';
                     if (n > (ULONG_MAX - d) / 10)
                     {
                         overflow = true;
@@ -299,102 +287,102 @@ uint GetTokenID()
                         n = 10 * n + d;
                     }
                 }
-                if (*current_pos == '.')
+                if (*rcp == '.')
                 {
-                    uchar *start_pos = current_pos;
+                    uchar *start = rcp;
                     do
                     {
-                        current_pos++;
-                    } while (map[*current_pos] & DIGIT);
-                    uint len = current_pos - start_pos;
+                        rcp++;
+                    } while (map[*rcp] & DIGIT);
+                    uint len = rcp - start;
                     uchar *x = MALLOC(uchar, len);
                     uint i;
                     for (i = 0; i < len; i++)
                     {
-                        *(x + i) = *(start_pos + i);
+                        *(x + i) = *(start + i);
                     }
                     x[len] = '\0';
-                    pos = current_pos;
-                    current_info.val.f = n + strtod((char *)x, NULL);
+                    cp = rcp;
+                    val.vtype.d = n + strtod((char *)x, NULL);
                     return FLTCON;
                 }
-                pos = current_pos;
-                current_info.val.i = n;
+                cp = rcp;
+                val.vtype.i = n;
             }
             return INTCON;
         }
         case '.': // .
         {
-            if ((map[*current_pos] & DIGIT) == 0)
+            if ((map[*rcp] & DIGIT) == 0)
             {
                 return '.';
             }
         }
         case '\'': // '
         {
-            uchar *start_pos = current_pos - 1;
+            uchar *start = rcp - 1;
             do
             {
-                current_pos++;
-            } while ((*(current_pos - 2) != '\\' && *(current_pos - 1) == '\\') || *current_pos != '\'');
+                rcp++;
+            } while ((*(rcp - 2) != '\\' && *(rcp - 1) == '\\') || *rcp != '\'');
             uint i;
-            uint len = current_pos - start_pos + 1;
-            current_info.val.s = MALLOC(uchar, len);
+            uint len = rcp - start + 1;
+            val.vtype.s = MALLOC(uchar, len);
             for (i = 0; i < len; i++)
             {
-                current_info.val.s[i] = start_pos[i];
+                val.vtype.s[i] = start[i];
             }
-            pos = current_pos + 1;
+            cp = rcp + 1;
             return STRCON;
         }
         case '"': // "
         {
-            uchar *start_pos = current_pos - 1;
+            uchar *start = rcp - 1;
             bool flag = false;
             do
             {
                 flag = false;
-                if (*current_pos == '\\' && *(current_pos + 1) != '\\')
+                if (*rcp == '\\' && *(rcp + 1) != '\\')
                 {
                     flag = true;
                 }
-                current_pos++;
-            } while (flag == true || *current_pos != '"');
+                rcp++;
+            } while (flag == true || *rcp != '"');
             uint i;
-            uint len = current_pos - start_pos + 1;
-            current_info.val.s = MALLOC(uchar, len);
+            uint len = rcp - start + 1;
+            val.vtype.s = MALLOC(uchar, len);
             for (i = 0; i < len; i++)
             {
-                current_info.val.s[i] = start_pos[i];
+                val.vtype.s[i] = start[i];
             }
-            pos = current_pos + 1;
+            cp = rcp + 1;
             return STRCON;
         }
         case '/': // /**/ // /
         {
-            if (*current_pos == '*')
+            if (*rcp == '*')
             {
                 uchar *c;
-                current_pos++;
-                while (*current_pos != '/' || *c != '*')
+                rcp++;
+                while (*rcp != '/' || *c != '*')
                 {
-                    c = current_pos++;
-                    if (map[*current_pos] & NEWLINE)
+                    c = rcp++;
+                    if (map[*rcp] & NEWLINE)
                     {
                         ln_no++;
                     }
                 }
-                current_pos++;
-                pos = current_pos;
+                rcp++;
+                cp = rcp;
                 continue;
             }
-            else if (*current_pos == '/')
+            else if (*rcp == '/')
             {
-                while (*current_pos != '\n')
+                while (*rcp != '\n')
                 {
-                    current_pos++;
+                    rcp++;
                 }
-                pos = current_pos;
+                cp = rcp;
                 continue;
             }
             return '/';
@@ -485,7 +473,7 @@ uint GetTokenID()
             MATCH_STR("oto", 3, GOTO)
             goto id;
         }
-        case 'i': // if uint
+        case 'i': // if int
         {
             MATCH_STR("f", 1, IF)
             MATCH_STR("nt", 2, INT)
@@ -540,24 +528,14 @@ uint GetTokenID()
         }
         default: //
         {
-            if ((map[*(pos - 1)] & BLANK) == 0)
+            if ((map[*(cp - 1)] & BLANK) == 0)
             {
-                Error("illegal character\n");
+                Error("illegal character");
             }
         }
         }
     }
     return ERROR;
-}
-
-Token GetToken()
-{
-    Token next;
-    next.id = GetTokenID();
-    next.info = current_info;
-    next.coordinate.ln = ln_no;
-    next.coordinate.col = col_no;
-    return next;
 }
 
 #undef TOKEN
