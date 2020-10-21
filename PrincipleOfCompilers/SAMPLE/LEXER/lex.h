@@ -3,16 +3,39 @@
 
 #include "base.h"
 
+typedef union
+{
+    union
+    {
+        ll i;     // int constant
+        ull u;    // unsigned constant
+        ld f;     // float constant
+        uchar *s; // string constant
+    } val;        // constant value
+    uchar *name;  // name of the identifier
+} Infomation;
+Infomation current_info;
+
+typedef struct
+{
+    uint id;
+    Infomation info;
+    struct
+    {
+        uint ln;
+        uint col;
+    } coordinate;
+} Token;
+
 #pragma region // CASES
 
 #define CASE_ID \
+    case 'g':   \
     case 'h':   \
+    case 'l':   \
     case 'j':   \
     case 'k':   \
     case 'm':   \
-    case 'n':   \
-    case 'o':   \
-    case 'p':   \
     case 'q':   \
     case 'x':   \
     case 'y':   \
@@ -56,23 +79,6 @@
     case '7':      \
     case '8':      \
     case '9'
-
-#define CASE_OTHER \
-    case ';':      \
-    case ',':      \
-    case '.':      \
-    case ':':      \
-    case '*':      \
-    case '~':      \
-    case '%':      \
-    case '^':      \
-    case '?':      \
-    case '[':      \
-    case ']':      \
-    case '{':      \
-    case '}':      \
-    case '(':      \
-    case ')'
 
 #define CASE_NEXTLINE \
     case '\n':        \
@@ -171,9 +177,45 @@ uint GetTokenID()
             pos = current_pos;
             return ID;
         }
-        CASE_OTHER: // #other#
+        case '+':
         {
-            return *(current_pos - 1);
+            return PLUS;
+        }
+        case '-':
+        {
+            return MINUS;
+        }
+        case '=':
+        {
+            return EQUAL;
+        }
+        case ';':
+        {
+            return SEMICOL;
+        }
+        case ',':
+        {
+            return COMMA;
+        }
+        case '*':
+        {
+            return ASTERISK;
+        }
+        case '[':
+        {
+            return LBRKT;
+        }
+        case ']':
+        {
+            return RBRKT;
+        }
+        case '(':
+        {
+            return LPAR;
+        }
+        case ')':
+        {
+            return RPAR;
         }
         CASE_NEXTLINE: // #nextline#
         {
@@ -283,6 +325,7 @@ uint GetTokenID()
                         n = 10 * n + d;
                     }
                 }
+                /*
                 if (*current_pos == '.')
                 {
                     uchar *start_pos = current_pos;
@@ -301,11 +344,13 @@ uint GetTokenID()
                     current_info.val.f = n + strtod((char *)x, NULL);
                     return FLTCON;
                 }
+                */
                 pos = current_pos;
                 current_info.val.i = n;
             }
             return INTCON;
         }
+        /*
         case '\'': // '
         {
             if (*current_pos == '\\' && *(current_pos + 2) == '\'')
@@ -363,7 +408,13 @@ uint GetTokenID()
             }
             return INTCON;
         }
-        case '"': // "
+        */
+        case '.': // .. .
+        {
+            MATCH_CHAR('.', DOTDOT)
+            return DOT;
+        }
+        case '\'': // '
         {
             uchar *start_pos = current_pos;
             bool escape_sequence = false;
@@ -375,9 +426,9 @@ uint GetTokenID()
                     escape_sequence = true;
                 }
                 current_pos++;
-            } while (escape_sequence == true || *current_pos != '"');
+            } while (escape_sequence == true || *current_pos != '\'');
             uint i;
-            uint len = current_pos - start_pos - 1;
+            uint len = current_pos - start_pos;
             current_info.val.s = MALLOC(uchar, len);
             for (i = 0; i < len; i++)
             {
@@ -385,7 +436,7 @@ uint GetTokenID()
             }
             current_info.val.s[len] = '\0';
             pos = current_pos + 1;
-            return STRCON;
+            return CHARCON;
         }
         case '/': // /**/ // /
         {
@@ -411,141 +462,121 @@ uint GetTokenID()
                 pos = current_pos;
                 continue;
             }
-            return '/';
+            return SLASH;
         }
-        case '+': // ++ +
+        case '<': // <= <> <
         {
-            MATCH_CHAR('+', INCR)
-            return '+';
-        }
-        case '-': // -> -- -
-        {
-            MATCH_CHAR('>', DEREF)
-            MATCH_CHAR('-', DECR)
-            return '-';
-        }
-        case '<': // <= << <
-        {
+            MATCH_CHAR('>', NEQL)
             MATCH_CHAR('=', LEQL)
-            MATCH_CHAR('<', LSHIFT)
-            return '<';
+            return LESS;
         }
-        case '>': // >= >> >
+        case '>': // >= >
         {
             MATCH_CHAR('=', GEQL)
-            MATCH_CHAR('>', RSHIFT)
-            return '>';
+            return GREATER;
         }
-        case '=': // == =
+        case ':': // := :
         {
-            MATCH_CHAR('=', EQL)
-            return '=';
+            MATCH_CHAR('=', ASSIGN)
+            return COLON;
         }
-        case '|': // || |
+        case 'a': // and array
         {
-            MATCH_CHAR('|', OROR)
-            return '|';
-        }
-        case '&': // && &
-        {
-            MATCH_CHAR('&', ANDAND)
-            return '&';
-        }
-        case '!': // != !
-        {
-            MATCH_CHAR('=', NEQ)
-            return '!';
-        }
-        case 'a': // auto
-        {
-            MATCH_STR("uto", 3, AUTO)
+            MATCH_STR("nd", 2, AND)
+            MATCH_STR("rray", 4, ARRAY)
             goto id;
         }
-        case 'b': // break
+        case 'b': // begin bool
         {
-            MATCH_STR("reak", 4, BREAK)
+            MATCH_STR("egin", 4, BEGIN)
+            MATCH_STR("ool", 3, BOOL)
             goto id;
         }
-        case 'c': // case char const continue
+        case 'c': // call case char constant
         {
+            MATCH_STR("all", 3, CALL)
             MATCH_STR("ase", 3, CASE)
             MATCH_STR("har", 3, CHAR)
-            MATCH_STR("onst", 4, CONST)
-            MATCH_STR("ontinue", 7, CONTINUE)
+            MATCH_STR("onstant", 7, CONSTANT)
             goto id;
         }
-        case 'd': // default double do
+        case 'd': // dim do
         {
-            MATCH_STR("efault", 6, DEFAULT)
-            MATCH_STR("ouble", 5, DOUBLE)
+            MATCH_STR("im", 2, DIM)
             MATCH_STR("o", 1, DO)
             goto id;
         }
-        case 'e': // else enum extern
+        case 'e': // else end
         {
             MATCH_STR("lse", 3, ELSE)
-            MATCH_STR("num", 3, ENUM)
-            MATCH_STR("xtern", 5, EXTERN)
+            MATCH_STR("nd", 2, END)
             goto id;
         }
-        case 'f': // float for
+        case 'f': // false for
         {
-            MATCH_STR("loat", 4, FLOAT)
+            MATCH_STR("alse", 4, FALSE)
             MATCH_STR("or", 2, FOR)
             goto id;
         }
-        case 'g': // goto
-        {
-            MATCH_STR("oto", 3, GOTO)
-            goto id;
-        }
-        case 'i': // if int
+        case 'i': // if input integer
         {
             MATCH_STR("f", 1, IF)
-            MATCH_STR("nt", 2, INT)
+            MATCH_STR("nput", 4, INPUT)
+            MATCH_STR("nteger", 6, INTEGER)
             goto id;
         }
-        case 'l': // long
+        case 'n': // not
         {
-            MATCH_STR("ong", 3, LONG)
+            MATCH_STR("ot", 2, NOT)
             goto id;
         }
-        case 'r': // register return
+        case 'o': // of or output
         {
-            MATCH_STR("egister", 7, REGISTER)
-            MATCH_STR("eturn", 5, RETURN)
+            MATCH_STR("f", 1, OF)
+            MATCH_STR("r", 1, OR)
+            MATCH_STR("utput", 5, OUTPUT)
             goto id;
         }
-        case 's': // short signed sizeof static struct switch
+        case 'p': // procedure program
         {
-            MATCH_STR("hort", 4, SHORT)
-            MATCH_STR("igned", 5, SIGNED)
-            MATCH_STR("izeof", 5, SIZEOF)
-            MATCH_STR("tatic", 5, STATIC)
-            MATCH_STR("truct", 5, STRUCT)
-            MATCH_STR("witch", 5, SWITCH)
+            MATCH_STR("rocedure", 8, PROCEDURE)
+            MATCH_STR("rogram", 6, PROGRAM)
             goto id;
         }
-        case 't': // typedef
+        case 'r': // read real repeat
         {
-            MATCH_STR("ypedef", 6, TYPEDEF)
+            MATCH_STR("ead", 3, READ)
+            MATCH_STR("eal", 3, REAL)
+            MATCH_STR("epeat", 5, REPEAT)
             goto id;
         }
-        case 'u': // union unsigned
+        case 's': // set stop
         {
-            MATCH_STR("nion", 4, UNION)
-            MATCH_STR("nsigned", 7, UNSIGNED)
+            MATCH_STR("et", 2, SET)
+            MATCH_STR("top", 3, STOP)
             goto id;
         }
-        case 'v': // void volatile
+        case 't': // then to true
         {
-            MATCH_STR("oid", 3, VOID)
-            MATCH_STR("olatile", 7, VOLATILE)
+            MATCH_STR("hen", 3, THEN)
+            MATCH_STR("o", 1, TO)
+            MATCH_STR("rue", 3, TRUE)
             goto id;
         }
-        case 'w': // while
+        case 'u': // until
+        {
+            MATCH_STR("ntil", 4, UNTIL)
+            goto id;
+        }
+        case 'v': // var
+        {
+            MATCH_STR("ar", 2, VAR)
+            goto id;
+        }
+        case 'w': // while write
         {
             MATCH_STR("hile", 4, WHILE)
+            MATCH_STR("rite", 4, WRITE)
             goto id;
         }
         case '\0': //
@@ -574,8 +605,5 @@ Token GetToken()
     return next;
 }
 
-#undef MATCH_CHAR
-#undef MATCH_STR
 #undef TOKEN
-
 #endif

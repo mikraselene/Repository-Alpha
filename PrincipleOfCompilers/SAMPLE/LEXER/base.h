@@ -27,82 +27,68 @@ enum
     T_EOI,
 };
 
-#define TOKENS                                 \
-    TOKEN(0, T_ERROR, ERROR, "error")          \
-    TOKEN(1, T_KEYWORD, FLOAT, "float")        \
-    TOKEN(2, T_KEYWORD, DOUBLE, "double")      \
-    TOKEN(3, T_KEYWORD, CHAR, "char")          \
-    TOKEN(4, T_KEYWORD, SHORT, "short")        \
-    TOKEN(5, T_KEYWORD, INT, "int")            \
-    TOKEN(6, T_KEYWORD, UNSIGNED, "unsigned")  \
-    TOKEN(7, T_UNKNOWN, POINTER, "pointer")    \
-    TOKEN(8, T_KEYWORD, VOID, "void")          \
-    TOKEN(9, T_KEYWORD, STRUCT, "struct")      \
-    TOKEN(10, T_KEYWORD, UNION, "union")       \
-    TOKEN(11, T_UNKNOWN, FUNCTION, "function") \
-    TOKEN(12, T_UNKNOWN, ARRAY, "array")       \
-    TOKEN(13, T_KEYWORD, ENUM, "enum")         \
-    TOKEN(14, T_KEYWORD, LONG, "long")         \
-    TOKEN(15, T_KEYWORD, CONST, "const")       \
-    TOKEN(16, T_KEYWORD, VOLATILE, "volatile") \
-    TOKEN(32, T_IDENTIFIER, ID, "id")          \
-    TOKEN(33, T_OPERATOR, EXCL, "!")           \
-    TOKEN(34, T_CONSTANT, FLTCON, "fltcon")    \
-    TOKEN(35, T_CONSTANT, INTCON, "intcon")    \
-    TOKEN(36, T_STRLITERAL, STRCON, "strcon")  \
-    TOKEN(37, T_OPERATOR, MOD, "%")            \
-    TOKEN(38, T_OPERATOR, AND, "&")            \
-    TOKEN(39, T_OPERATOR, INCR, "++")          \
-    TOKEN(40, T_SEPARATOR, LPAR, "(")          \
-    TOKEN(41, T_SEPARATOR, RPAR, ")")          \
-    TOKEN(42, T_OPERATOR, ASTERISK, "*")       \
-    TOKEN(43, T_OPERATOR, PLUS, "+")           \
-    TOKEN(44, T_OPERATOR, COMMA, ",")          \
-    TOKEN(45, T_OPERATOR, MINUS, "-")          \
-    TOKEN(46, T_OPERATOR, DOT, ".")            \
-    TOKEN(47, T_OPERATOR, SLASH, "/")          \
-    TOKEN(48, T_OPERATOR, DECR, "--")          \
-    TOKEN(49, T_OPERATOR, DEREF, "->")         \
-    TOKEN(50, T_OPERATOR, ANDAND, "&&")        \
-    TOKEN(51, T_OPERATOR, OROR, "||")          \
-    TOKEN(52, T_OPERATOR, LEQL, "<=")          \
-    TOKEN(53, T_OPERATOR, EQL, "==")           \
-    TOKEN(54, T_OPERATOR, NEQ, "!=")           \
-    TOKEN(55, T_OPERATOR, GEQL, ">=")          \
-    TOKEN(56, T_OPERATOR, RSHIFT, ">>")        \
-    TOKEN(57, T_OPERATOR, LSHIFT, "<<")        \
-    TOKEN(58, T_OPERATOR, COLON, ":")          \
-    TOKEN(59, T_SEPARATOR, SEMICOL, ";")       \
-    TOKEN(60, T_OPERATOR, LESS, "<")           \
-    TOKEN(61, T_OPERATOR, ASSIGN, "=")         \
-    TOKEN(62, T_OPERATOR, GREATER, ">")        \
-    TOKEN(63, T_OPERATOR, QUESTION, "?")       \
-    TOKEN(65, T_KEYWORD, SIZEOF, "sizeof")     \
-    TOKEN(67, T_KEYWORD, AUTO, "auto")         \
-    TOKEN(68, T_KEYWORD, BREAK, "break")       \
-    TOKEN(69, T_KEYWORD, CASE, "case")         \
-    TOKEN(70, T_KEYWORD, CONTINUE, "continue") \
-    TOKEN(71, T_KEYWORD, DEFAULT, "default")   \
-    TOKEN(72, T_KEYWORD, DO, "do")             \
-    TOKEN(73, T_KEYWORD, ELSE, "else")         \
-    TOKEN(74, T_KEYWORD, EXTERN, "extern")     \
-    TOKEN(75, T_KEYWORD, FOR, "for")           \
-    TOKEN(76, T_KEYWORD, GOTO, "goto")         \
-    TOKEN(77, T_KEYWORD, IF, "if")             \
-    TOKEN(78, T_KEYWORD, REGISTER, "register") \
-    TOKEN(79, T_KEYWORD, RETURN, "return")     \
-    TOKEN(80, T_KEYWORD, SIGNED, "signed")     \
-    TOKEN(81, T_KEYWORD, STATIC, "static")     \
-    TOKEN(82, T_KEYWORD, SWITCH, "switch")     \
-    TOKEN(83, T_KEYWORD, TYPEDEF, "typedef")   \
-    TOKEN(84, T_KEYWORD, WHILE, "while")       \
-    TOKEN(91, T_SEPARATOR, LBRKT, "[")         \
-    TOKEN(93, T_SEPARATOR, RBRKT, "]")         \
-    TOKEN(94, T_OPERATOR, CARET, "^")          \
-    TOKEN(123, T_SEPARATOR, LBRACE, "{")       \
-    TOKEN(124, T_OPERATOR, BAR, "|")           \
-    TOKEN(125, T_SEPARATOR, RBRACE, "}")       \
-    TOKEN(126, T_OPERATOR, TLIDE, "~")         \
+#define TOKENS                                   \
+    TOKEN(0, T_ERROR, ERROR, "error")            \
+    TOKEN(1, T_KEYWORD, AND, "and")              \
+    TOKEN(2, T_KEYWORD, ARRAY, "array")          \
+    TOKEN(3, T_KEYWORD, BEGIN, "begin")          \
+    TOKEN(4, T_KEYWORD, BOOL, "bool")            \
+    TOKEN(5, T_KEYWORD, CALL, "call")            \
+    TOKEN(6, T_KEYWORD, CASE, "case")            \
+    TOKEN(7, T_KEYWORD, CHAR, "char")            \
+    TOKEN(8, T_KEYWORD, CONSTANT, "constant")    \
+    TOKEN(9, T_KEYWORD, DIM, "dim")              \
+    TOKEN(10, T_KEYWORD, DO, "do")               \
+    TOKEN(11, T_KEYWORD, ELSE, "else")           \
+    TOKEN(12, T_KEYWORD, END, "end")             \
+    TOKEN(13, T_KEYWORD, FALSE, "false")         \
+    TOKEN(14, T_KEYWORD, FOR, "for")             \
+    TOKEN(15, T_KEYWORD, IF, "if")               \
+    TOKEN(16, T_KEYWORD, INPUT, "input")         \
+    TOKEN(17, T_KEYWORD, INTEGER, "integer")     \
+    TOKEN(18, T_KEYWORD, NOT, "not")             \
+    TOKEN(19, T_KEYWORD, OF, "of")               \
+    TOKEN(20, T_KEYWORD, OR, "or")               \
+    TOKEN(21, T_KEYWORD, OUTPUT, "output")       \
+    TOKEN(22, T_KEYWORD, PROCEDURE, "procedure") \
+    TOKEN(23, T_KEYWORD, PROGRAM, "program")     \
+    TOKEN(24, T_KEYWORD, READ, "read")           \
+    TOKEN(25, T_KEYWORD, REAL, "real")           \
+    TOKEN(26, T_KEYWORD, REPEAT, "repeat")       \
+    TOKEN(27, T_KEYWORD, SET, "set")             \
+    TOKEN(28, T_KEYWORD, STOP, "stop")           \
+    TOKEN(29, T_KEYWORD, THEN, "then")           \
+    TOKEN(30, T_KEYWORD, TO, "to")               \
+    TOKEN(31, T_KEYWORD, TRUE, "true")           \
+    TOKEN(32, T_KEYWORD, UNTIL, "until")         \
+    TOKEN(33, T_KEYWORD, VAR, "var")             \
+    TOKEN(34, T_KEYWORD, WHILE, "while")         \
+    TOKEN(35, T_KEYWORD, WRITE, "write")         \
+    TOKEN(36, T_IDENTIFIER, ID, "identifier")    \
+    TOKEN(37, T_CONSTANT, INTCON, "intcon")      \
+    TOKEN(38, T_STRLITERAL, CHARCON, "charcon")  \
+    TOKEN(39, T_SEPARATOR, LPAR, "(")            \
+    TOKEN(40, T_SEPARATOR, RPAR, ")")            \
+    TOKEN(41, T_OPERATOR, ASTERISK, "*")         \
+    TOKEN(42, T_OPERATOR, ASTSLASH, "*/")        \
+    TOKEN(43, T_OPERATOR, PLUS, "+")             \
+    TOKEN(44, T_OPERATOR, COMMA, ",")            \
+    TOKEN(45, T_OPERATOR, MINUS, "-")            \
+    TOKEN(46, T_OPERATOR, DOT, ".")              \
+    TOKEN(47, T_OPERATOR, DOTDOT, "..")          \
+    TOKEN(48, T_OPERATOR, SLASH, "/")            \
+    TOKEN(49, T_OPERATOR, SLASHAST, "/*")        \
+    TOKEN(50, T_OPERATOR, COLON, ":")            \
+    TOKEN(51, T_OPERATOR, ASSIGN, ":=")          \
+    TOKEN(52, T_OPERATOR, SEMICOL, ";")          \
+    TOKEN(53, T_OPERATOR, LESS, "<")             \
+    TOKEN(54, T_OPERATOR, LEQL, "<=")            \
+    TOKEN(55, T_OPERATOR, NEQL, "<>")            \
+    TOKEN(56, T_OPERATOR, EQUAL, "=")            \
+    TOKEN(57, T_OPERATOR, GREATER, ">")          \
+    TOKEN(58, T_OPERATOR, GEQL, ">=")            \
+    TOKEN(59, T_SEPARATOR, LBRKT, "[")           \
+    TOKEN(60, T_SEPARATOR, RBRKT, "]")           \
     TOKEN(127, T_EOI, EOI, "$")
 
 #pragma endregion
@@ -190,30 +176,6 @@ uchar *pos;
 uchar *first_pos;
 uint ln_no = 1;
 uint col_no = 1;
-
-typedef union
-{
-    union
-    {
-        ll i;     // int constant
-        ull u;    // unsigned constant
-        ld f;     // float constant
-        uchar *s; // string constant
-    } val;        // constant value
-    uchar *name;  // name of the identifier
-} Infomation;
-Infomation current_info;
-
-typedef struct
-{
-    uint id;
-    Infomation info;
-    struct
-    {
-        uint ln;
-        uint col;
-    } coordinate;
-} Token;
 
 #pragma region // error and warning
 

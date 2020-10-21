@@ -28,10 +28,12 @@ void PrintToken(FILE *file, Token token, int n)
         {
             fprintf(file, "│ %18s │ %18s │ %18lld ", "constant", token_str[token.id], token.info.val.i);
         }
+        /*
         if (token_name[token.id] == FLTCON)
         {
             fprintf(file, "│ %18s │ %18s │ %18Lf ", "constant", token_str[token.id], token.info.val.f);
         }
+        */
         break;
     }
     case T_STRLITERAL:
@@ -123,7 +125,7 @@ int main()
     start = clock();
     for (int i = 0; i < 1; i++)
     {
-        ReadFile("../c.c.sample");
+        ReadFile("8q.scut");
         LexerWrite("0.tokens");
         free(buf);
     }

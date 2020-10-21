@@ -640,18 +640,6 @@ s243(pd0) /*  2.4.3 Character constants  */
             printf(s243er, 1);
     }
 
-    /* Finally, the escape \ddd consists of the backslash followed
-      by 1, 2, or 3 octal digits which are taken to specify  the
-      desired character.                           */
-
-    if ('\0' != 0 || '\01' != 1 || '\02' != 2 || '\03' != 3 || '\04' != 4 || '\05' != 5 || '\06' != 6 || '\07' != 7 || '\10' != 8 || '\17' != 15 || '\20' != 16 || '\77' != 63 || '\100' != 64 || '\177' != 127)
-    {
-
-        rc = rc + 8;
-        if (pd0->flgd != 0)
-            printf(s243er, 8);
-    }
-
     return rc;
 }
 zerofill(x) char *x;
