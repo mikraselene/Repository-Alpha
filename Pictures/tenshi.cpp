@@ -7,7 +7,7 @@
 #define H_REIMU 102
 #define W_REIMU 94
 
-const int system[256] = {
+const int system_colors[256] = {
     0x000000, 0x800000, 0x008000, 0x808000, 0x000080, 0x800080, 0x008080, 0xC0C0C0,
     0x808080, 0xFF0000, 0x00FF00, 0xFFFF00, 0x0000FF, 0xFF00FF, 0x00FFFF, 0xFFFFFF,
     0x000000, 0x00005F, 0x000087, 0x0000AF, 0x0000D7, 0x0000FF, 0x005F00, 0x005F5F,
@@ -271,7 +271,7 @@ int Match(int a)
     int pos = 0;
     for (int i = 0; i < 256; i++)
     {
-        int dist = Distance(system[i], a);
+        int dist = Distance(system_colors[i], a);
         if (dist < min)
         {
             min = dist;
