@@ -6,33 +6,33 @@ using namespace std;
 
 bool cmp(int a, int b)
 {
-	return abs(a - b) <= 2;
+    return abs(a - b) <= 2;
 }
 
 int main()
 {
-	vector<int> a = {1, 14, 5, 1, 4, 1, 9, 1, 9, 8, 1, 0};
-	a.insert(a.begin() + 1, 4);
-	copy(a.begin(), a.end(), ostream_iterator<int>(cout, " "));
-	string s = "helloolleh";
-	vector<int> b = {1, 14, 15, 12, 19, 19, 8, 1, 0};
-	vector<int> c = {1, 9, 1, 9};
-	vector<int>::iterator adj = adjacent_find(b.begin(), b.end());
-	bool binary = binary_search(a.begin(), a.end(), 1);
-	int cnt = count(a.begin(), a.end(), 9);
-	int cntif = count_if(a.begin(), a.end(), [](int i) { return i % 2 == 0; });
-	bool equ = equal(s.begin(), s.end(), s.rbegin());
+    vector<int> a = {1, 14, 5, 1, 4, 1, 9, 1, 9, 8, 1, 0};
+    a.insert(a.begin() + 1, 4);
+    copy(a.begin(), a.end(), ostream_iterator<int>(cout, " "));
+    string s = "helloolleh";
+    vector<int> b = {1, 14, 15, 12, 19, 19, 8, 1, 0};
+    vector<int> c = {1, 9, 1, 9};
+    vector<int>::iterator adj = adjacent_find(b.begin(), b.end());
+    bool binary = binary_search(a.begin(), a.end(), 1);
+    int cnt = count(a.begin(), a.end(), 9);
+    int cntif = count_if(a.begin(), a.end(), [](int i) { return i % 2 == 0; });
+    bool equ = equal(s.begin(), s.end(), s.rbegin());
 
-	vector<int>::iterator fd = find(a.begin(), a.end(), 5);
-	vector<int>::iterator fde = find_end(a.begin(), a.end(), c.begin(), c.end());
-	vector<int>::iterator fdfo = find_first_of(a.begin(), a.end(), c.begin(), c.end());
-	vector<int>::iterator fdif = find_if(a.begin(), a.end(), [](int i) { return i % 2 == 0; });
-	vector<int>::iterator sch = search(a.begin(), a.end(), c.begin(), c.end());
-	vector<int>::iterator schn = search_n(b.begin(), b.end(), 2, 19);
-	vector<int> mg;
-	//merge(a.begin(), a.end(), b.begin(), b.end(), mg);
+    vector<int>::iterator fd = find(a.begin(), a.end(), 5);
+    vector<int>::iterator fde = find_end(a.begin(), a.end(), c.begin(), c.end());
+    vector<int>::iterator fdfo = find_first_of(a.begin(), a.end(), c.begin(), c.end());
+    vector<int>::iterator fdif = find_if(a.begin(), a.end(), [](int i) { return i % 2 == 0; });
+    vector<int>::iterator sch = search(a.begin(), a.end(), c.begin(), c.end());
+    vector<int>::iterator schn = search_n(b.begin(), b.end(), 2, 19);
+    vector<int> mg;
+    //merge(a.begin(), a.end(), b.begin(), b.end(), mg);
 
-	pair<vector<int>::iterator, vector<int>::iterator> it = mismatch(a.begin(), a.end(), b.begin());
+    pair<vector<int>::iterator, vector<int>::iterator> it = mismatch(a.begin(), a.end(), b.begin());
 }
 /*
    equal_range:             功能类似equal，返回一对iterator，第一个表示lower_bound，第二个表示upper_bound。

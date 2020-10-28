@@ -20,23 +20,23 @@ using namespace std;
 
 struct Exit : runtime_error
 {
-	Exit() : runtime_error("Exit") {}
+    Exit() : runtime_error("Exit") {}
 };
 
 // error() simply disguises throws:
 inline void error(const string &s)
 {
-	throw runtime_error(s);
+    throw runtime_error(s);
 }
 
 inline void error(const string &s, const string &s2)
 {
-	error(s + s2);
+    error(s + s2);
 }
 
 inline void error(const string &s, int i)
 {
-	ostringstream os;
-	os << s << ": " << i;
-	error(os.str());
+    ostringstream os;
+    os << s << ": " << i;
+    error(os.str());
 }
