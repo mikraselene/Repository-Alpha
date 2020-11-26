@@ -87,8 +87,8 @@ direct-declarator:
     direct-declarator ( identifier-list(opt) )
 
 pointer:
-* type-qualifier-list(opt)
-* type-qualifier-list(opt) pointer
+    * type-qualifier-list(opt)
+    * type-qualifier-list(opt) pointer
 
 type-qualifier-list:
     type-qualifier
@@ -248,7 +248,7 @@ unary-expression:
     sizeof (type-name)
 
 unary operator: one of
-    & * + - ~!
+    & * + - ~ !
 
 postfix-expression:
     primary-expression

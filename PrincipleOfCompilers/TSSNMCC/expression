@@ -1,0 +1,104 @@
+expression:
+    assignment_expression
+    expression , assignment_expression
+
+assignment_expression:
+    conditional_expression
+    unary_expression assignment_operator assignment_expression
+
+assignment_operator: one of
+    = *= /= %= += -= <<= >>= &= ^= |=
+
+conditional_expression:
+    logical_OR_expression
+    logical_OR_expression ? expression : conditional_expression
+
+constant_expression:
+    conditional_expression
+
+logical_OR_expression:
+    logical_AND_expression
+    logical_OR_expression || logical_AND_expression
+
+logical_AND_expression:
+    inclusive_OR_expression
+    logical_AND_expression && inclusive_OR_expression
+
+inclusive_OR_expression:
+    exclusive_OR_expression
+    inclusive_OR_expression | exclusive_OR_expression
+
+exclusive_OR_expression:
+    AND_expression
+    exclusive_OR_expression ^ AND_expression
+
+AND_expression:
+    equality_expression
+    AND_expression & equality_expression
+
+equality_expression:
+    relational_expression
+    equality_expression == relational_expression
+    equality_expression != relational_expression
+
+relational_expression:
+    shift_expression
+    relational_expression < shift_expression
+    relational_expression > shift_expression
+    relational_expression <= shift_expression
+    relational_expression >= shift_expression
+
+shift_expression:
+    additive_expression
+    shift_expression << additive_expression
+    shift_expression >> additive_expression
+
+additive_expression:
+    multiplicative_expression
+    additive_expression + multiplicative_expression
+    additive_expression - multiplicative_expression
+
+multiplicative_expression:
+    multiplicative_expression * cast_expression
+    multiplicative_expression / cast_expression
+    multiplicative_expression % cast_expression
+
+cast_expression:
+    unary_expression
+    ( type_name ) cast_expression
+
+unary_expression:
+    postfix_expression
+    ++ unary_expression
+    -- unary_expression
+    unary_operator cast_expression
+    sizeof unary_expression
+    sizeof ( type-name )
+
+unary_operator: one of
+    & * + - ~ !
+
+postfix_expression:
+    primary_expression
+    postfix_expression [ expression ]
+    postfix_expression ( argument_expression_list ( opt ) )
+    postfix_expression . identifier
+    postfix_expression -> identifier
+    postfix_expression ++
+    postfix_expression --
+
+primary_expression:
+    identifier
+    constant
+    string
+    ( expression )
+
+argument_expression_list:
+    assignment_expression
+    assignment_expression_list , assignment_expression
+
+constant:
+    integer_constant
+    character_constant
+    floating_constant
+    enumeration_constant

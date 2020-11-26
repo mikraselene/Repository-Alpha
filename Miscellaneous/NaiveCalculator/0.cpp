@@ -67,7 +67,7 @@ bool caculator::checkpoint(const char *p)
     {
         if (*p == '.')
             return true;
-        *p++;
+        p++;
     }
     return false;
 }
@@ -82,15 +82,15 @@ float caculator::trans(const char *p) //底层const,对象为常量
         while (--i && (*p != '.'))
         {
             n = n * 10 + (*p - '\0' - 48);
-            *p++;
+            p++;
         }
         --i;
-        *p++; //跳过小数点
+        p++; //跳过小数点
         j = i;
         m = *p - '\0' - 48; //确保转化成int后数值不变,*p指向第一位
         while (i--)
         {
-            *p++;
+            p++;
             m = m * 10 + (*p - '\0' - 48);
         }
         return n + m * pow(0.1, j + 1);
@@ -100,7 +100,7 @@ float caculator::trans(const char *p) //底层const,对象为常量
         while (i--)
         {
             n = n * 10 + (*p - '\0' - 48);
-            *p++;
+            p++;
         }
         return n;
     }
@@ -206,15 +206,18 @@ float caculator::antipoland()
 }
 int main()
 {
-    char ch[40];
-    char *p = ch;
-    cin >> p;
-    caculator a(p);
-    //a.antipoland();//两次重复调用改变数字栈中的数字！
-    //a.show();
-    //cout << endl;
-    cout << "=" << a.antipoland() << endl;
-    // cout << endl;
-    //a.shownum();
-    //a.showop();
+    while (1)
+    {
+        char ch[40];
+        char *p = ch;
+        cin >> p;
+        caculator a(p);
+        //a.antipoland();//两次重复调用改变数字栈中的数字！
+        //a.show();
+        //cout << endl;
+        cout << "=" << a.antipoland() << endl;
+        // cout << endl;
+        //a.shownum();
+        //a.showop();}
+    }
 }

@@ -1,0 +1,98 @@
+/* === EXPRESSION ===
+expression:
+    arithmetic_expression
+    boolean_expression
+    charcon_expression
+
+arithmetic_expression:
+    multiplicative_expression
+    arithmetic_expression + multiplicative_expression
+    arithmetic_expression - multiplicative_expression
+    
+multiplicative_expression:
+    unary_expression
+    multiplicative_expression * unary_expression
+    multiplicative_expression / unary_expression
+
+unary_expression:
+    primary_expression
+    - unary_expression
+
+primary_expression:
+    constant
+    identifier
+    ( arithmetic_expression )
+
+boolean_expression:
+    logical_AND_expression
+    boolean_expression or logical_AND_expression
+
+logical_AND_expression:
+    xxexpression
+    logical_AND_expression and xxexpression
+
+cast_expression:
+    not cast_expression;
+    boolean_constant
+
+boolean_constant:
+    true
+    false
+    constant
+    identifier
+    ( boolean_expression )
+    identifier relational_operator identifier
+    arithmetic_expression relational_operator arithmetic_expression
+
+relational_operator: one of
+    < > <= >= = <>
+
+charcon_expression:
+    char_constant
+    identifier
+
+*/
+
+/* === STATEMENT ===
+statement:
+    assignment_statement
+    selection_statement
+    iteration_statement
+    compound_statement
+
+assignment_statement:
+    assignment_operator := conditional_expression
+
+selection_statement:
+    if expression then statement
+    if expression then statement else statement
+
+iteration_statement:
+    while expression do statement
+    repeat statement until expression
+
+compound_statement:
+    begin statement_list end
+
+statement_list:
+    statement
+    statement statement_list
+*/
+
+/* === DECLARATION ===
+variable_declaration:
+    var declaration_specifiers
+
+declaration_specifiers:
+    identifier_list : type_specifier ; declaration_specifiers
+    identifier_list : type_specifier
+
+identifier_list:
+    identifier, identifier_list
+    identifier
+
+type_specifier:
+    integer
+    bool
+    char
+*/

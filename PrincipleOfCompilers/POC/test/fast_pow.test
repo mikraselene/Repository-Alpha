@@ -1,0 +1,10 @@
+program FastPower;
+var base, exponent, sum : integer;
+begin
+    sum := 1; base := 114; exponent := 514;
+    while (exponent <> 0) do
+        if (exponent / 2 <> 0) then
+            sum := sum * base;
+        exponent := exponent / 2;
+        base := base * base
+end.

@@ -1,0 +1,41 @@
+program eight_queens; // eight_queens
+
+array up[15], down[15], rows[8], x[8] : integer;
+
+print() // In fact, I can't understand the grammar of this language (
+begin
+    var k : integer;
+    output('eight queens\n');
+    for (k := 0; k < 8; k := k + 1)
+        output('%d ', x[k] + 1);
+    output('\n');
+end
+
+queens(c : integer)
+begin
+    var r : integer;
+    for (r := 0; r < 8; r := r + 1)
+    begin
+        if (rows[r] and up[r - c + 7] and down[r + c]) then
+        begin
+            rows[r] := up[r - c + 7] := down[r + c] := 0;
+            /* A surprising comment */ x[c] := r;
+            if (c = 7) then
+                print();
+            else
+                queens(c + 1);
+            rows[r] := up[r - c + 7] := down[r + c] := 1;
+        end
+    end
+end
+
+main() : integer
+begin
+    var i : integer;
+    for (i := 0; i < 15; /* Another surprising comment */ i := i + 1)
+        up[i] := down[i] := 1;
+    for (i := 0; i < 8; i := i + 1)
+        rows[i] := 1;
+    queens(0);
+    0
+end.
