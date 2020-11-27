@@ -2,19 +2,6 @@
 
 #define INFO "201930343162 Qyu Yiwei"
 
-void TimeCostTest(const char *filename)
-{
-    Tokenizer sample(filename);
-    TICK;
-    int n = 1000;
-    for (int i = 0; i < n; i++)
-    {
-        sample.TokenizeTest(); // Time(30000000 tokens) = 0.62 sec. (2.3 GHz Intel Core i9, -O2)
-    }
-    TOCK;
-    printf("TEST: %f s\n", TIME_COST);
-}
-
 #define TEST_TOKENIZER(filename) Tokenizer(filename).PrintAsTheyWish(INFO)
 #define TEST_PARSER(filename) Parser(Tokenizer(filename).Token2Vec()).PrintAsTheyWish(INFO)
 

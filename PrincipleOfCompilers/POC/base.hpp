@@ -12,13 +12,11 @@
 #include <ctime>
 #include <vector>
 #include <iostream>
-#include <map>
-#include <stack>
+#include <iomanip>
 using std::cin;
 using std::cout;
 using std::endl;
-using std::map;
-using std::stack;
+using std::setw;
 using std::string;
 using std::to_string;
 using std::vector;
@@ -241,7 +239,6 @@ enum
 
 #pragma region // define: etc
 
-#define uchar unsigned char
 #define ull unsigned long long
 #define ll long long
 #define ld long double
@@ -256,20 +253,23 @@ clock_t clock_end_ = clock();
 
 #pragma endregion
 
-uchar *initial;
+char *initial;
 
 struct Information
 {
     union U
     {
-        ll i;     // int constant
-        ull u;    // unsigned constant
-        ld f;     // float constant
-        uchar *s; // string constant
-    } val;        // constant value
-    uchar *name;  // name of the identifier
-    int index;
+        ll i;    // int constant
+        ull u;   // unsigned constant
+        ld f;    // float constant
+        char *s; // string constant
+    } val;       // constant value
+    char *name;  // name of the identifier
 } current_info;
+
+const char *token_str[128] = {0};
+uint token_type[128] = {0};
+uint token_name[128] = {0};
 
 struct Coordinate
 {
@@ -297,12 +297,12 @@ public:
         PRINT(YELLOW UNDERLINE "warning: ");
         printf("%s", war_message);
     }
-    void Error(const char *err_message, uchar *pos, Coordinate c)
+    void Error(const char *err_message, char *pos, Coordinate c)
     {
         error_cnt++;
         printf("%d:%d: ", c.ln, c.col);
         ErrorMessage(err_message);
-        uchar *anomaly = pos;
+        char *anomaly = pos;
         uint len = 1;
         // XXX: pos++;...pos--; could this be optimized?
         while (*(pos + 1) != '\n')
@@ -314,7 +314,7 @@ public:
             pos--;
             len++;
         }
-        anomaly = new uchar[len];
+        anomaly = new char[len];
         unsigned int i;
         for (i = 0; i < len; i++)
         {
@@ -328,17 +328,17 @@ public:
         PRINT(GREEN "^\n");
         pos += len;
     }
-    void FatalError(const char *err_message, uchar *pos, Coordinate c)
+    void FatalError(const char *err_message, char *pos, Coordinate c)
     {
         Error(err_message, pos, c);
         Exit(EXIT_FAILURE);
     }
-    void Warning(const char *war_message, uchar *pos, Coordinate c)
+    void Warning(const char *war_message, char *pos, Coordinate c)
     {
         warning_cnt++;
         printf("%d:%d: ", c.ln + 1, c.col + 1);
         WarningMessage(war_message);
-        uchar *anomaly = pos;
+        char *anomaly = pos;
         uint len = 1;
         while (*(pos + 1) != '\n')
         {
@@ -349,7 +349,7 @@ public:
             pos--;
             len++;
         }
-        anomaly = new uchar[len];
+        anomaly = new char[len];
         unsigned int i;
         for (i = 0; i < len; i++)
         {

@@ -39,18 +39,13 @@ class Tokenizer
         OTHER, OTHER, OTHER, OTHER,                                                         // { | } ~
         0,                                                                                  //
     };
-    const char *token_str[128] = {0};
-    uint token_type[128] = {0};
-    uint token_name[128] = {0};
-    uchar *buf;
+
+    char *buf;
     uint len;
-    uchar *pos;
-    uchar *first_pos;
+    char *pos;
+    char *first_pos;
     Coordinate coord;
     vector<Token *> token_vec;
-    std::map<string, int> names;
-    std::map<int, int> intcon;
-    std::map<string, int> charcon;
     int cnt[3] = {1, 1, 1};
 
 #pragma endregion
@@ -74,7 +69,7 @@ public:
         fseek(fp, 0, SEEK_END);
         len = ftell(fp);
         fseek(fp, 0, SEEK_SET);
-        buf = new uchar[len];
+        buf = new char[len];
         initial = buf;
         Initialize();
         fread(pos, len, 1, fp);
@@ -217,7 +212,7 @@ private:
         }
         case T_STRLITERAL:
         {
-            strcpy(s, (const char *)token->info.val.s);
+            strcpy(s, token->info.val.s);
             s[18] = '\0';
             s[17] = s[16] = s[15] = '.';
             fprintf(file, "│ %18s │ %18s │ %18s ", "string literal", token_str[token->id], s);
@@ -259,25 +254,6 @@ private:
     {
         Token *next = new Token;
         next->id = GetTokenID();
-        if (next->id == ID)
-        {
-            names.insert({string((char *)current_info.name), cnt[0]++});
-            current_info.index = names[string((char *)current_info.name)];
-        }
-        else if (next->id == INTCON)
-        {
-            intcon.insert({current_info.val.i, cnt[0]++});
-            current_info.index = intcon[current_info.val.i];
-        }
-        else if (next->id == CHARCON)
-        {
-            charcon.insert({string((char *)current_info.val.s), cnt[2]++});
-            current_info.index = charcon[string((char *)current_info.val.s)];
-        }
-        else
-        {
-            current_info.index = -1;
-        }
         next->info = current_info;
         next->coordinate = coord;
         return next;
@@ -300,7 +276,7 @@ private:
     }
         while (true)
         {
-            uchar *current_pos = pos;
+            char *current_pos = pos;
             while (map[*current_pos] & BLANK)
             {
                 current_pos++;
@@ -312,13 +288,13 @@ private:
             CASE_ID: // #identifier#
             id:
             {
-                uchar *start_pos = current_pos - 1;
+                char *start_pos = current_pos - 1;
                 while (map[*current_pos] & (DIGIT | LETTER))
                 {
                     current_pos++;
                 }
                 uint len = current_pos - start_pos;
-                current_info.name = new uchar[len];
+                current_info.name = new char[len];
                 for (uint i = 0; i < len; i++)
                 {
                     current_info.name[i] = start_pos[i];
@@ -336,7 +312,7 @@ private:
             CASE_DIGIT: // #digit#
             {
                 ull n = 0;
-                uchar *start_pos = current_pos - 1;
+                char *start_pos = current_pos - 1;
                 if (*start_pos == '0' && (*current_pos == 'x' || *current_pos == 'X')) // hexadecimal
                 {
                     uint last_digit = 0;
@@ -487,7 +463,7 @@ private:
             }
             case '\'': // '
             {
-                uchar *start_pos = current_pos;
+                char *start_pos = current_pos;
                 bool escape_sequence = false;
                 do
                 {
@@ -507,7 +483,7 @@ private:
                 } while (escape_sequence == true || *current_pos != '\'');
                 uint i;
                 uint len = current_pos - start_pos;
-                current_info.val.s = new uchar[len];
+                current_info.val.s = new char[len];
                 for (i = 0; i < len; i++)
                 {
                     current_info.val.s[i] = start_pos[i];

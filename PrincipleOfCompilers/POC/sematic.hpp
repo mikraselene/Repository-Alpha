@@ -2,46 +2,32 @@
 #define SEMATIC_HPP
 #include "lexical.hpp"
 
+enum SingletonType
+{
+    TOKEN,  // token
+    ASGN,   // op: assign
+    PROG,   // op: start
+    SYS,    // op: end
+    JNZ,    // op: jnz
+    JROP,   // op: jrop
+    JUMP,   // op: jump
+    SINGID, // result: singleton id
+    TRES,   // result: true
+    FRES,   // result: false
+    NONE,   // -
+};
+
 class Singleton
 {
-    friend class Parser;
-    friend class Quadruple;
-
 public:
-    Singleton()
+    Singleton(SingletonType type)
     {
-        this->content = "";
-        this->type = -1;
     }
-    Singleton(string content)
-    {
-        this->content = content;
-        this->type = -1;
-    }
-    Singleton(const char *content)
-    {
-        this->content = content;
-        this->type = -1;
-    }
-    Singleton(string content, int type)
-    {
-        this->content = content;
-        this->type = type;
-    }
-    Singleton(Token *token)
-    {
-        this->content = (const char *)token->info.name;
-        this->type = token->id;
-    }
-    void SetContent(string s) { content = s; }
-    void SetContent(int s) { content = to_string(s); }
 
-protected:
-    Token *token;
+private:
     string content;
-    int other;
-    int type;
-    int index_in_list;
+    SingletonType type;
+    int info;
 };
 
 class Quadruple // = Three-Address Code
@@ -49,7 +35,7 @@ class Quadruple // = Three-Address Code
     friend class Parser;
 
 public:
-    Quadruple(Singleton op, Singleton arg1, Singleton arg2, Singleton result)
+    Quadruple(string op, string arg1, string arg2, string result)
     {
         this->op = op;
         this->arg1 = arg1;
@@ -58,22 +44,23 @@ public:
     }
     void Print()
     {
+        int w = 8;
         cout << "("
-             << op.content << ", "
-             << arg1.content << ", "
-             << arg2.content << ", "
-             << result.content << ")" << endl;
+             << setw(w) << op << ","
+             << setw(w) << arg1 << ","
+             << setw(w) << arg2 << ","
+             << setw(w) << result << ")" << endl;
     }
 
 protected:
-    Singleton op;
-    Singleton arg1;
-    Singleton arg2;
-    Singleton result;
+    string op;
+    string arg1;
+    string arg2;
+    string result;
 };
 
 #define error exit(-1)
-#define NONE "-"
+
 #define CURRENT_TOKEN_ID tokens[current_token_index]->id
 
 class Parser
@@ -86,61 +73,47 @@ class Parser
     {
         return "T" + to_string(++temp_variable_index);
     }
+    void AddQuadruple(string op, string arg1, string arg2, string result)
+    {
+        quadruple_list.push_back(Quadruple(op, arg1, arg2, result));
+    }
+    void Expect(int num)
+    {
+        if (CURRENT_TOKEN_ID == num)
+        {
+            current_token_index++;
+        }
+        else
+        {
+            error;
+        }
+    }
 
 public:
     Parser(vector<Token *> tokens)
     {
         this->tokens = tokens;
         Program();
-        AddQuadruple("sys", NONE, NONE, NONE);
+        AddQuadruple("sys", "-", "-", "-");
     }
     void PrintAsTheyWish(string info)
     {
         cout << info << endl;
+        cout << "     (      OP,    ARG1,    ARG2,  RESULT)\n";
         for (int i = 0; i < quadruple_list.size(); i++)
         {
-            cout << "(" << i << ")\t";
+            cout << setw(3) << i << ". ";
             quadruple_list[i].Print();
         }
     }
 
 private:
-    void Expect(int num)
-    {
-        if (CURRENT_TOKEN_ID == num)
-            current_token_index++;
-        else
-            error;
-    }
-    string deal(string str)
-    {
-        string tp;
-        for (int i = 0; i < str.size(); i++)
-        {
-            tp.push_back(str[i]);
-            if (str[i] == '+' || str[i] == '-' || str[i] == '*' || str[i] == '/')
-            {
-                string x = GenerateTempVar();
-                string y = deal(str.substr(i + 1));
-                string op;
-                op.push_back(str[i]);
-                AddQuadruple(op, str.substr(0, i), y, x);
-                return x;
-            }
-        }
-        return tp;
-    }
-
-    void AddQuadruple(string a, string b, string c, string d)
-    {
-        quadruple_list.push_back(Quadruple(a, b, c, d));
-    }
     void Program()
     {
         Expect(PROGRAM);
         Expect(ID);
         Expect(SEMICOL);
-        AddQuadruple("Program", (char *)tokens[current_token_index - 2]->info.name, NONE, NONE);
+        AddQuadruple("Program", tokens[current_token_index - 2]->info.name, "-", "-");
         if (CURRENT_TOKEN_ID == VAR)
         {
             Expect(VAR);
@@ -153,20 +126,30 @@ private:
             Expect(END);
         }
         else
+        {
             error;
+        }
     }
 
     void VariantDeclaration()
     {
         if (CURRENT_TOKEN_ID == ID)
+        {
             IdentifierList();
+        }
         else
+        {
             error;
+        }
         Expect(COLON);
         if (CURRENT_TOKEN_ID == BOOL || CURRENT_TOKEN_ID == CHAR || CURRENT_TOKEN_ID == INTEGER)
+        {
             current_token_index++;
+        }
         else
+        {
             error;
+        }
         Expect(SEMICOL);
         if (CURRENT_TOKEN_ID == ID)
         {
@@ -197,9 +180,9 @@ private:
         {
             Expect(ID);
             Expect(ASSIGN);
-            string var = (char *)tokens[current_token_index - 2]->info.name;
-            string ret = parseSSA();
-            AddQuadruple(":=", ret, NONE, var);
+            string result = tokens[current_token_index - 2]->info.name;
+            string arg1 = parseSSA();
+            AddQuadruple(":=", arg1, "-", result);
         }
         else if (CURRENT_TOKEN_ID == IF)
         {
@@ -212,19 +195,19 @@ private:
             int Ffalse = quadruple_list.size();
             if (CURRENT_TOKEN_ID == ELSE)
             {
-                AddQuadruple("j", NONE, NONE, NONE);
+                AddQuadruple("j", "-", "-", "-");
                 Ffalse++;
                 int temp = quadruple_list.size() - 1;
                 Expect(ELSE);
                 Expression();
-                quadruple_list[temp].result.content = to_string(quadruple_list.size());
+                quadruple_list[temp].result = to_string(quadruple_list.size());
             }
             for (int i = tcur; i < quadruple_list.size(); i++)
             {
-                if (quadruple_list[i].result.content == "T")
-                    quadruple_list[i].result.content = to_string(Ttrue);
-                if (quadruple_list[i].result.content == "F")
-                    quadruple_list[i].result.content = to_string(Ffalse);
+                if (quadruple_list[i].result == "T")
+                    quadruple_list[i].result = to_string(Ttrue);
+                if (quadruple_list[i].result == "F")
+                    quadruple_list[i].result = to_string(Ffalse);
             }
         }
         else if (CURRENT_TOKEN_ID == WHILE)
@@ -235,14 +218,18 @@ private:
             Expect(DO);
             int Ttrue = quadruple_list.size();
             Expression();
-            AddQuadruple("j", NONE, NONE, to_string(tcur));
+            AddQuadruple("j", "-", "-", to_string(tcur));
             int Ffalse = quadruple_list.size();
             for (int i = tcur; i < quadruple_list.size(); i++)
             {
-                if (quadruple_list[i].result.content == "T")
-                    quadruple_list[i].result.content = to_string(Ttrue);
-                if (quadruple_list[i].result.content == "F")
-                    quadruple_list[i].result.content = to_string(Ffalse);
+                if (quadruple_list[i].result == "T")
+                {
+                    quadruple_list[i].result = to_string(Ttrue);
+                }
+                if (quadruple_list[i].result == "F")
+                {
+                    quadruple_list[i].result = to_string(Ffalse);
+                }
             }
         }
         else if (CURRENT_TOKEN_ID == REPEAT)
@@ -255,10 +242,14 @@ private:
             BooleanExpression();
             for (int i = tcur; i < quadruple_list.size(); i++)
             {
-                if (quadruple_list[i].result.content == "F")
-                    quadruple_list[i].result.content = to_string(Ttrue);
-                if (quadruple_list[i].result.content == "T")
-                    quadruple_list[i].result.content = to_string((int)quadruple_list.size());
+                if (quadruple_list[i].result == "F")
+                {
+                    quadruple_list[i].result = to_string(Ttrue);
+                }
+                if (quadruple_list[i].result == "T")
+                {
+                    quadruple_list[i].result = to_string(quadruple_list.size());
+                }
             }
         }
         else if (CURRENT_TOKEN_ID == BEGIN)
@@ -268,31 +259,49 @@ private:
             Expect(END);
         }
         else
+        {
             error;
+        }
     }
 
+    string deal(string str)
+    {
+        string tp;
+        for (int i = 0; i < str.size(); i++)
+        {
+            tp.push_back(str[i]);
+            if (str[i] == '+' || str[i] == '-' || str[i] == '*' || str[i] == '/')
+            {
+                string result = GenerateTempVar();
+                string arg2 = deal(str.substr(i + 1));
+                string op;
+                op.push_back(str[i]);
+                AddQuadruple(op, str.substr(0, i), arg2, result);
+                return result;
+            }
+        }
+        return tp;
+    }
     string parseSSA()
     {
         string tp1 = parseSSB();
         string tp2 = AdditionAndSubtraction();
-        string x = deal(tp1 + tp2);
-        return x;
+        return deal(tp1 + tp2);
     }
     string parseSSB()
     {
         string tp1 = parseSSC();
         string tp2 = MultiplyAndDivide();
-        string x = deal(tp1 + tp2);
-        return x;
+        return deal(tp1 + tp2);
     }
     string parseSSC()
     {
         if (CURRENT_TOKEN_ID == MINUS)
         {
-            ++current_token_index;
-            string tp = parseSSC();
+            current_token_index++;
+            string arg2 = parseSSC();
             string result = GenerateTempVar();
-            AddQuadruple(NONE, "minus", tp, result);
+            AddQuadruple("-", "minus", arg2, result);
             return result;
         }
         else
@@ -303,8 +312,7 @@ private:
             }
             else if (CURRENT_TOKEN_ID == INTCON)
             {
-                current_token_index++;
-                return to_string(tokens[current_token_index - 1]->info.val.i);
+                return to_string(tokens[current_token_index++]->info.val.i);
             }
             else if (CURRENT_TOKEN_ID == LPAR)
             {
@@ -313,46 +321,38 @@ private:
                 Expect(RPAR);
                 return x;
             }
-            return (char *)tokens[current_token_index - 1]->info.name;
+            return tokens[current_token_index - 1]->info.name;
         }
     }
     string MultiplyAndDivide()
     {
-        if (CURRENT_TOKEN_ID == ASTERISK)
+        if (CURRENT_TOKEN_ID == ASTERISK || CURRENT_TOKEN_ID == SLASH)
         {
+            string op = token_str[CURRENT_TOKEN_ID];
             current_token_index++;
             string tp1 = parseSSC();
             string tp2 = MultiplyAndDivide();
-            return "*" + tp1 + tp2;
-        }
-        else if (CURRENT_TOKEN_ID == SLASH)
-        {
-            current_token_index++;
-            string tp1 = parseSSC();
-            string tp2 = MultiplyAndDivide();
-            return "/" + tp1 + tp2;
+            return op + tp1 + tp2;
         }
         else
+        {
             return "";
+        }
     }
     string AdditionAndSubtraction()
     {
-        if (CURRENT_TOKEN_ID == PLUS)
+        if (CURRENT_TOKEN_ID == PLUS || CURRENT_TOKEN_ID == MINUS)
         {
+            string op = token_str[CURRENT_TOKEN_ID];
             current_token_index++;
             string tp1 = parseSSB();
             string tp2 = AdditionAndSubtraction();
-            return "+" + tp1 + tp2;
-        }
-        else if (CURRENT_TOKEN_ID == MINUS)
-        {
-            current_token_index++;
-            string tp1 = parseSSB();
-            string tp2 = AdditionAndSubtraction();
-            return "-" + tp1 + tp2;
+            return op + tp1 + tp2;
         }
         else
+        {
             return "";
+        }
     }
 
     void BooleanExpression()
@@ -394,14 +394,14 @@ private:
             if (CURRENT_TOKEN_ID == FALSE)
             {
                 current_token_index++;
-                AddQuadruple("jnz", "FALSE", NONE, "T");
-                AddQuadruple("j", NONE, NONE, "F");
+                AddQuadruple("jnz", "FALSE", "-", "T");
+                AddQuadruple("j", "-", "-", "F");
             }
             else if (CURRENT_TOKEN_ID == TRUE)
             {
                 current_token_index++;
-                AddQuadruple("jnz", "TRUE", NONE, "T");
-                AddQuadruple("j", NONE, NONE, "F");
+                AddQuadruple("jnz", "TRUE", "-", "T");
+                AddQuadruple("j", "-", "-", "F");
             }
             else if (CURRENT_TOKEN_ID == LPAR)
             {
@@ -415,28 +415,16 @@ private:
                 if (CURRENT_TOKEN_ID >= LESS && CURRENT_TOKEN_ID <= GEQL)
                 {
                     int tp = quadruple_list.size();
-                    string op;
-                    if (CURRENT_TOKEN_ID == LESS)
-                        op = "<";
-                    if (CURRENT_TOKEN_ID == LEQL)
-                        op = "<=";
-                    if (CURRENT_TOKEN_ID == NEQL)
-                        op = "<>";
-                    if (CURRENT_TOKEN_ID == EQUAL)
-                        op = "=";
-                    if (CURRENT_TOKEN_ID == GREATER)
-                        op = ">";
-                    if (CURRENT_TOKEN_ID == GEQL)
-                        op = ">=";
-                    ++current_token_index;
-                    AddQuadruple("j" + op, tp1, NONE, "T");
-                    AddQuadruple("j", NONE, NONE, "F");
+                    string op = token_str[CURRENT_TOKEN_ID];
+                    current_token_index++;
+                    AddQuadruple("j" + op, tp1, "-", "T");
+                    AddQuadruple("j", "-", "-", "F");
                     string tp2 = parseSSA();
                     quadruple_list[tp].arg2 = tp2;
                     return;
                 }
-                AddQuadruple("jnz", tp1, NONE, "T");
-                AddQuadruple("jnz", NONE, NONE, "F");
+                AddQuadruple("jnz", tp1, "-", "T");
+                AddQuadruple("jnz", "-", "-", "F");
             }
         }
     }
