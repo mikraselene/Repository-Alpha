@@ -10,7 +10,7 @@ int main()
     // Use TEST_TOKENIZER(filename) or TEST_PARSER(filename) to test me.
     // Do not test more than one case a time.
     TICK;
-    TEST_PARSER("test/4.test");
+    TEST_PARSER("test/3.test");
     TOCK;
     printf("Time Cost: %lf s\n", TIME_COST);
     prog.Exeunt();

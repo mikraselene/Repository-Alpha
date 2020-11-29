@@ -41,6 +41,24 @@ enum
     T_EOI,
 };
 
+/// SINGLETON(num, name, str)
+#define SINGLETONS                \
+    SINGLETON(0, TOK, "")         \
+    SINGLETON(1, ASGN, ":=")      \
+    SINGLETON(2, PROG, "program") \
+    SINGLETON(3, SYS, "sys")      \
+    SINGLETON(4, JNZ, "jnz")      \
+    SINGLETON(5, JROP, "jrop")    \
+    SINGLETON(6, JUMP, "jump")    \
+    SINGLETON(7, NEG, "neg")      \
+    SINGLETON(8, TARG, "true")    \
+    SINGLETON(9, FARG, "false")   \
+    SINGLETON(10, SINGID, "")     \
+    SINGLETON(11, TRES, "T")      \
+    SINGLETON(12, FRES, "F")      \
+    SINGLETON(13, NONE, "-")      \
+    SINGLETON(14, INTC, "-")
+
 /// TOKEN(num, type, name, str)
 #define TOKENS                                   \
     TOKEN(0, T_ERROR, ERROR, "error")            \
@@ -113,6 +131,17 @@ enum
 };
 #undef TOKEN
 
+#define SINGLETON(num, name, str) str,
+string singleton_str[] = {SINGLETONS};
+#undef SINGLETON
+
+#define SINGLETON(num, name, str) name = num,
+enum
+{
+    SINGLETONS
+};
+#undef SINGLETON
+
 #pragma endregion
 
 #pragma region // define: colors
@@ -176,7 +205,7 @@ enum
 
 #pragma endregion
 
-#pragma region // dsefine: cases
+#pragma region // define: cases
 
 #define CASE_ID \
     case 'g':   \
@@ -250,10 +279,13 @@ clock_t clock_end_ = clock();
 #define TICK clock_start_ = clock()
 #define TOCK clock_end_ = clock()
 #define TIME_COST (double)(clock_end_ - clock_start_) / CLOCKS_PER_SEC
+#define CURRENT_TOKEN_ID tokens[current_token_index]->id
+#define NEXT_QUADRUPLE quadruple_list[elem.result.poc]
 
 #pragma endregion
 
 char *initial;
+char *conclusion;
 
 struct Information
 {
@@ -279,6 +311,7 @@ struct Coordinate
 
 struct Token
 {
+    char *pos;
     uint id;
     Information info;
     Coordinate coordinate;
@@ -290,38 +323,42 @@ public:
     void ErrorMessage(const char *err_message)
     {
         PRINT(RED UNDERLINE "error: ");
-        printf("%s", err_message);
+        printf("%s\n", err_message);
     }
     void WarningMessage(const char *war_message, ...)
     {
         PRINT(YELLOW UNDERLINE "warning: ");
-        printf("%s", war_message);
+        printf("%s\n", war_message);
     }
     void Error(const char *err_message, char *pos, Coordinate c)
     {
         error_cnt++;
         printf("%d:%d: ", c.ln, c.col);
         ErrorMessage(err_message);
-        char *anomaly = pos;
         uint len = 1;
+        int k = 0;
         // XXX: pos++;...pos--; could this be optimized?
-        while (*(pos + 1) != '\n')
+        while (*pos != '\n' && *(pos + 1) != '\n' && pos + 1 != conclusion)
         {
             pos++;
+            k++;
         }
-        while (*(pos - 1) != '\n' && pos != initial)
+        while (*pos != '\n' && *(pos - 1) != '\n' && pos != initial)
         {
             pos--;
+            //k++;
             len++;
+            if (len > 128)
+            {
+                break;
+            }
         }
-        anomaly = new char[len];
-        unsigned int i;
-        for (i = 0; i < len; i++)
+        for (int i = 0; i < len; i++)
         {
-            *(anomaly + i) = *(pos + i);
+            printf("%c", *(pos + i));
         }
-        printf("%s\n", anomaly);
-        for (i = 0; i < c.col; i++)
+        printf("\n");
+        for (int i = 0; i < c.col - 1; i++)
         {
             printf(" ");
         }

@@ -1,3 +1,4 @@
+#if 0
 #include <map>
 #include <string>
 #include <vector>
@@ -485,7 +486,7 @@ public:
     void VariantDeclaration()
     {
         if (tokens[current_token_index].fi == ID)
-            IdentifierList();
+            DeclarationSpecifiers();
         else
             error;
         Expect(COLON);
@@ -499,13 +500,13 @@ public:
             VariantDeclaration();
         }
     }
-    void IdentifierList()
+    void DeclarationSpecifiers()
     {
         Expect(ID);
         if (tokens[current_token_index].fi == COMMA)
         {
             Expect(COMMA);
-            IdentifierList();
+            DeclarationSpecifiers();
         }
     }
 
@@ -779,3 +780,4 @@ void Error(string error_message, Coordinate coord, char *pos)
          << "电脑没油了，先exit(1)了，886";
     exit(1);
 }
+#endif

@@ -71,6 +71,7 @@ public:
         fseek(fp, 0, SEEK_SET);
         buf = new char[len];
         initial = buf;
+        conclusion = buf + len - 1;
         Initialize();
         fread(pos, len, 1, fp);
         fclose(fp);
@@ -254,6 +255,7 @@ private:
     {
         Token *next = new Token;
         next->id = GetTokenID();
+        next->pos = pos - 1;
         next->info = current_info;
         next->coordinate = coord;
         return next;
@@ -642,15 +644,23 @@ private:
             }
             default: //
             {
+                cout << (*(pos - 2) == '\0');
                 if (*(pos - 1) == '\n')
                 {
                     continue;
                 }
+                if (pos - 1 == conclusion)
+                {
+                    cout << "hello";
+                    return EOI;
+                }
                 if ((map[*(pos - 1)] & BLANK) == 0)
                 {
+                    cout << "xhello";
+                    exit(1);
                     pos--;
                     coord.col--;
-                    prog.Error("illegal character\n", pos, coord);
+                    prog.Error("illegal character", pos, coord);
                     pos = current_pos;
                 }
                 continue;
