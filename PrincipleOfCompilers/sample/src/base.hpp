@@ -10,18 +10,22 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
-#include <vector>
-#include <iostream>
 #include <iomanip>
+#include <iostream>
+#include <vector>
+
 using std::cin;
 using std::cout;
 using std::endl;
+using std::function;
+using std::pair;
 using std::setw;
+using std::stoi;
 using std::string;
 using std::to_string;
 using std::vector;
 
-#define FLAG_DISABLE_COLORS 0
+#define FLAG_DISABLE_COLORS 1
 #define FLAG_DCOLOR 0
 #define FATAL 1
 #define DO_NOT_PRINT 0
@@ -268,19 +272,23 @@ enum
 
 #pragma region // define: etc
 
-#define ull unsigned long long
-#define ll long long
-#define ld long double
-
-#define ALL(x) x.begin(), x.end()
-
 clock_t clock_start_ = clock();
 clock_t clock_end_ = clock();
 #define TICK clock_start_ = clock()
 #define TOCK clock_end_ = clock()
+#define ull unsigned long long
+#define ll long long
+#define ld long double
+#define ALL(x) x.begin(), x.end()
 #define TIME_COST (double)(clock_end_ - clock_start_) / CLOCKS_PER_SEC
 #define CURRENT_TOKEN_ID tokens[current_token_index]->id
 #define NEXT_QUADRUPLE quadruple_list[elem.result.poc]
+#define TOK(x) pair<int, string>(TOK, x)
+#define SINGID(x) pair<int, int>(SINGID, x)
+#define JROP(x) pair<int, string>(JROP, "j" + x)
+#define INTC(x) pair<int, int>(INTC, x)
+#define CURRENT_POS tokens[current_token_index - 1]->pos
+#define CURRENT_COORD tokens[current_token_index - 1]->coordinate
 
 #pragma endregion
 

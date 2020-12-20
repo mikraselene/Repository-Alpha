@@ -1,15 +1,7 @@
 #ifndef SEMATIC_HPP
 #define SEMATIC_HPP
+
 #include "lexical.hpp"
-
-using std::function;
-using std::pair;
-using std::stoi;
-
-#define TOK(x) pair<int, string>(TOK, x)
-#define SINGID(x) pair<int, int>(SINGID, x)
-#define JROP(x) pair<int, string>(JROP, "j" + x)
-#define INTC(x) pair<int, int>(INTC, x)
 
 struct Singleton
 {
@@ -31,13 +23,6 @@ struct Quadruple
     Singleton arg2;
     Singleton result;
 };
-
-#define Error(message)                               \
-    prog.Error(message, CURRENT_POS, CURRENT_COORD); \
-    prog.Exeunt();
-
-#define CURRENT_POS tokens[current_token_index - 1]->pos
-#define CURRENT_COORD tokens[current_token_index - 1]->coordinate
 
 class Parser
 {
@@ -95,7 +80,7 @@ private:
         if (CURRENT_TOKEN_ID == BEGIN)
         {
             Expect(BEGIN, "expected 'begin'");
-            IdentifierList();
+            StatementList();
             Expect(END, "expected 'end'");
         }
         else
@@ -121,7 +106,7 @@ private:
         }
         else
         {
-            Error("unknown type name"); // FIXME:
+            Error("unknown type name");
         }
         Expect(SEMICOL, "expected ';'");
         if (CURRENT_TOKEN_ID == ID)
@@ -138,13 +123,13 @@ private:
             DeclarationSpecifiers();
         }
     }
-    void IdentifierList()
+    void StatementList()
     {
         Statement();
         if (CURRENT_TOKEN_ID == SEMICOL)
         {
             current_token_index++;
-            IdentifierList();
+            StatementList();
         }
     }
 
@@ -152,12 +137,12 @@ private:
     {
         switch (CURRENT_TOKEN_ID)
         {
-        case ID: // assignment_statement
+        case ID: // assignment statement
         {
             Expect(ID, "expected an identifier");
             Expect(ASSIGN, "expected ':='");
             string result = tokens[current_token_index - 2]->info.name;
-            Singleton arg1 = MultiplicativeExpression();
+            Singleton arg1 = Expression();
             AddQuadruple(ASGN, arg1, NONE, TOK(result));
             break;
         }
@@ -239,7 +224,7 @@ private:
         case BEGIN: // compound statement
         {
             Expect(BEGIN, "expected 'begin'");
-            IdentifierList();
+            StatementList();
             Expect(END, "expected 'end'");
             break;
         }
@@ -269,7 +254,7 @@ private:
         }
         return TOK(t);
     }
-    Singleton MultiplicativeExpression()
+    Singleton Expression()
     {
         string t1 = UnaryExpression().content;
         string t2 = AdditionAndSubtraction().content;
@@ -304,7 +289,7 @@ private:
             else if (CURRENT_TOKEN_ID == LPAR)
             {
                 current_token_index++;
-                Singleton s = MultiplicativeExpression();
+                Singleton s = Expression();
                 Expect(RPAR, "expected ')'");
                 return s;
             }
@@ -345,10 +330,10 @@ private:
     void BooleanExpression()
     {
         BooleanConstant();
-        LogicalAndExpression();
-        LogicalOrExpression();
+        AndExpression();
+        OrExpression();
     }
-    void LogicalOrExpression()
+    void OrExpression()
     {
         if (CURRENT_TOKEN_ID == OR)
         {
@@ -356,11 +341,11 @@ private:
             quadruple_list[quadruple_list.size() - 1].result =
                 SINGID(quadruple_list.size());
             BooleanConstant();
-            LogicalAndExpression();
-            LogicalOrExpression();
+            AndExpression();
+            OrExpression();
         }
     }
-    void LogicalAndExpression()
+    void AndExpression()
     {
         if (CURRENT_TOKEN_ID == AND)
         {
@@ -368,7 +353,7 @@ private:
             quadruple_list[quadruple_list.size() - 2].result =
                 SINGID(quadruple_list.size());
             BooleanConstant();
-            LogicalAndExpression();
+            AndExpression();
         }
     }
     void BooleanConstant()
@@ -404,7 +389,7 @@ private:
         }
         default:
         {
-            Singleton arg1 = MultiplicativeExpression();
+            Singleton arg1 = Expression();
             if (CURRENT_TOKEN_ID >= LESS && CURRENT_TOKEN_ID <= GEQL)
             {
                 int tp = quadruple_list.size();
@@ -412,7 +397,7 @@ private:
                 current_token_index++;
                 AddQuadruple(JROP(rop), arg1, NONE, TRES);
                 AddQuadruple(JUMP, NONE, NONE, FRES);
-                Singleton arg2 = MultiplicativeExpression();
+                Singleton arg2 = Expression();
                 quadruple_list[tp].arg2 = arg2;
                 return;
             }
@@ -425,6 +410,11 @@ private:
     Singleton GenerateTempVar()
     {
         return TOK("T" + to_string(++temp_variable_index));
+    }
+    void Error(const char *err_message)
+    {
+        prog.Error(err_message, CURRENT_POS, CURRENT_COORD);
+        prog.Exeunt();
     }
     void AddQuadruple(Singleton op, Singleton arg1, Singleton arg2, Singleton result)
     {
