@@ -1,4 +1,4 @@
-#include "sematic.hpp"
+#include "syntactic.hpp"
 
 #define INFO "Principle of Compilers SCUT 201930343162 Qyu Yiwei"
 

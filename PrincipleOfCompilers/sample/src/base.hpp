@@ -1,8 +1,6 @@
 #ifndef BASE_HPP
 #define BASE_HPP
 
-#pragma region // BASE
-
 #include <climits>
 #include <cstdarg>
 #include <cstdbool>
@@ -25,10 +23,10 @@ using std::string;
 using std::to_string;
 using std::vector;
 
-#define FLAG_DISABLE_COLORS 1
-#define FLAG_DCOLOR 0
-#define FATAL 1
-#define DO_NOT_PRINT 0
+#define FLAG_DISABLE_COLORS true
+#define FLAG_DCOLOR false
+#define FATAL true
+#define DO_NOT_PRINT false
 
 #pragma region // define: tokens
 
@@ -249,7 +247,6 @@ enum
     case 'Y':   \
     case 'Z':   \
     case '_'
-
 #define CASE_DIGIT \
     case '0':      \
     case '1':      \
@@ -261,7 +258,6 @@ enum
     case '7':      \
     case '8':      \
     case '9'
-
 #define CASE_NEXTLINE \
     case '\n':        \
     case '\v':        \
@@ -294,6 +290,9 @@ clock_t clock_end_ = clock();
 
 char *initial;
 char *conclusion;
+const char *token_str[128] = {0};
+uint token_type[128] = {0};
+uint token_name[128] = {0};
 
 struct Information
 {
@@ -306,10 +305,6 @@ struct Information
     } val;       // constant value
     char *name;  // name of the identifier
 } current_info;
-
-const char *token_str[128] = {0};
-uint token_type[128] = {0};
-uint token_name[128] = {0};
 
 struct Coordinate
 {
@@ -448,7 +443,5 @@ private:
     uint error_cnt = 0;
     uint warning_cnt = 0;
 } prog;
-
-#pragma endregion
 
 #endif

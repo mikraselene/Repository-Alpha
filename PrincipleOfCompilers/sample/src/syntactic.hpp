@@ -1,5 +1,5 @@
-#ifndef SEMATIC_HPP
-#define SEMATIC_HPP
+#ifndef SYNTACTIC_HPP
+#define SYNTACTIC_HPP
 
 #include "lexical.hpp"
 

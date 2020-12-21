@@ -5,8 +5,6 @@
 
 class Tokenizer
 {
-#pragma region
-
     enum
     {
         BLANK = 1,   // 000001
@@ -47,8 +45,6 @@ class Tokenizer
     Coordinate coord;
     vector<Token *> token_vec;
     int cnt[3] = {1, 1, 1};
-
-#pragma endregion
 
 public:
     Tokenizer(const char *filename)
