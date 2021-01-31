@@ -9,7 +9,7 @@
             "command": "/usr/bin/g++",
             "args": [
                 //"-g",
-                "-std=c++17",
+                "-std=c++2a",
                 "${file}",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}.out"

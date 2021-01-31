@@ -1,0 +1,64 @@
+positions:
+    xml_period[0].position = 0,
+    xml_period[1].position = 249,
+    xml_period[2].position = 625,
+
+author-tree <key, value> pairs:
+    <Frank Manola, 249>,
+    <Birgit Wesche, 625>,
+
+title-tree <key, value> pairs:
+    <Computer Science Curricula 2013, 0>,
+    <An Evaluation of Object-Oriented DBMS Developments: 1994 Edition., 249>,
+    <Dokumentation der Syntax der LILOG-Grammatik, 625>,
+
+search_author("Frank Manola")
+    -> read xml file [249, 624] and parse it
+search_title("Computer Science Curricula 2013")
+    -> read xml file [0, 248] and parse it
+
+xml file:
+<book mdate="2019-05-27" key="tr/acm/CS2013"><title>Computer Science Curricula 2013</title><publisher>ACM Press and IEEE Computer Society Press</publisher><year>2013</year><ee>https://doi.org/10.1145/2534860</ee><isbn>978-1-4503-2309-3</isbn></book><article mdate="2019-10-25" key="tr/gte/TR-0263-08-94-165" publtype="informal"><author>Frank Manola</author><title>An Evaluation of Object-Oriented DBMS Developments: 1994 Edition.</title><journal>GTE Laboratories Incorporated</journal><volume>TR-0263-08-94-165</volume><month>August</month><year>1994</year><url>db/journals/gtelab/index.html#TR-0263-08-94-165</url></article><article mdate="2017-06-08" key="tr/ibm/LILOGM9" publtype="informal"><author>Birgit Wesche</author><title>Dokumentation der Syntax der LILOG-Grammatik</title><journal>LILOG-Memo</journal><volume>9</volume><year>1988</year><publisher>IBM Deutschland GmbH</publisher></article>
+
+A 'RISC' Object Model for Object System Interoperation: Conce...: [3970, 4392]
+A Combined Symbolic-Empirical Apprach for the Automatic Trans...: [9776, 10191]
+A Logical Operational Semantics of Full Prolog: [12865, 13187]
+Algebraical Optimization of FTA-Expressions: [8845, 9126]
+An Algebraic Characterization of STUF: [9443, 9775]
+An Evaluation of Object-Oriented DBMS Developments: 1994 Edit...: [1345, 1720]
+Attribute Inheritance Implemented on Top of a Relational Data...: [14182, 14532]
+Cognitive Linguistics: The Processing of Spatial Concepts: [11393, 11687]
+Computer Science Curricula 2013: [1096, 1344]
+DARWIN: On the Incremental Migration of Legacy Information Sy...: [1721, 2301]
+Definite Resolution over Constraint Languages: [10810, 11117]
+Die Repr: [8463, 8844]
+Differential Closure Computation for General Horn-Clause Queries: [12096, 12507]
+Distributed Object Management Technology.: [5568, 5917]
+Dokumentation der Syntax der LILOG-Grammatik: [11118, 11392]
+Ein Fact Manager zur persistenten Speicherung variabel strukt...: [13188, 13506]
+Experiments with Dispatching in a Distributed Object System.: [5918, 6321]
+How could a good system of practical NLP look like?: [13507, 13838]
+Implementation Aspects of a Natural Language Understanding Sy...: [14852, 15202]
+Inheritance for ADTs (revised): [6982, 7431]
+Integrating Heterogeneous, Autonomous, Distributed Applicatio...: [2302, 2768]
+Integrating Object-Oriented Applications and Middleware with ...: [3138, 3532]
+LILOG-DB: Database Support for Knowledge-Based Systems: [11688, 12095]
+LMT: [14533, 14851]
+M: [13839, 14181]
+Machine Translation Demonstration: [14533, 14851]
+Meltdown: [571, 1095]
+Mengenorientierte Auswertung von Anfragen in der Logikprogram...: [10463, 10809]
+MetaObject Protocol Concepts for a RISC Object Model.: [4393, 4758]
+Modification of User Defined Types: [7432, 7742]
+Muffin: A Distributed Database Machine: [6322, 6613]
+Object ADTs (with improvements for Value ADTs): [7743, 8181]
+Object Data Language Facilities for Multimedia Data Types.: [4759, 5129]
+Object Data Model Facilities for Multimedia Data Types.: [5130, 5567]
+Object Model Capabilities For Distributed Object Management.: [2769, 3137]
+Object Oriented DBMS as a Generalization of Relational DBMS: [6614, 6981]
+SQL/Data System for VSE: A Relational Data System for Applica...: [12508, 12864]
+Spectre Attacks: Exploiting Speculative Execution.: [6, 570]
+Towards a Transaction Management System for DOM.: [3533, 3969]
+Unification of Value and Object ADTs: [8182, 8462]
+Wissensrepr: [9127, 9442]
+Zur Systemarchitektur von LILOG: [10192, 10462]
