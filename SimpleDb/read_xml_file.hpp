@@ -1,11 +1,26 @@
+#ifndef SIMPLEDB_READ_XML_FILE_HPP_
+#define SIMPLEDB_READ_XML_FILE_HPP_
+
 #include <libxml/SAX2.h>
+
+#include <map>
+#include <utility>
+#include <string>
+#include <vector>
+
 #include "util.hpp"
 
 #define MATCH(y, x) strcmp((const char *)y, x) == 0
 #define KEY_MAX_SIZE 64
 
+using std::map;
+using std::multimap;
+using std::pair;
+using std::string;
+using std::vector;
+
 using xstr = const xmlChar *;
-using position = pair<long long, long long>;
+using position = pair<uint32_t, uint32_t>;
 
 multimap<string, position> title_map;
 multimap<string, position> author_map;
@@ -21,7 +36,6 @@ map<parser_state, vector<string>> key_list;
 vector<string> &title_key_list = key_list[parser_state::TITLE];
 vector<string> &author_key_list = key_list[parser_state::AUTHOR];
 int layer_count;
-string keyx;
 
 int max_key_size = 0;
 
@@ -66,7 +80,7 @@ static void on_end_element(void *ctx, xstr name)
         title_map.clear();
     }
 }
-long long cnt = 0;
+uint32_t cnt = 0;
 static void on_characters(void *ctx, xstr ch, int len)
 {
     auto push_back_helper = [](string k) {
@@ -123,7 +137,8 @@ void read_xmlfile(const char *file_name)
             sax_hander.characters = on_characters;
             return sax_hander;
         }();
-        auto ctxt = xmlCreatePushParserCtxt(&sax_hander, NULL, chars, res, NULL);
+        auto ctxt =
+            xmlCreatePushParserCtxt(&sax_hander, nullptr, chars, res, nullptr);
         while ((res = fread(chars, 1, sizeof(chars), file)) > 0)
         {
             if (xmlParseChunk(ctxt, chars, res, 0))
@@ -142,3 +157,5 @@ void read_xmlfile(const char *file_name)
     }
     fclose(file);
 }
+
+#endif // SIMPLEDB_READ_XML_FILE_HPP_

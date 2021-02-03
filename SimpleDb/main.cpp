@@ -1,4 +1,6 @@
 #include "read_xml_file.hpp"
+using std::cout;
+using std::endl;
 
 int main()
 {
@@ -18,7 +20,12 @@ int main()
     cout << "    --------" << endl;
     for (auto i : title_map)
     {
-        cout << i.first << "    [" << i.second.first << ", " << i.second.second << "]" << endl;
+        cout << i.first
+             << "    ["
+             << i.second.first
+             << ", "
+             << i.second.second
+             << "]" << endl;
     }
     cout << cnt << endl;
     TOCK;

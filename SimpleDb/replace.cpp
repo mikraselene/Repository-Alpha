@@ -1,6 +1,10 @@
 #include <iostream>
 #include <fstream>
-using namespace std;
+
+using std::cout;
+using std::endl;
+using std::ofstream;
+using std::string;
 
 string rp(string k, string s, string p)
 {
@@ -21,7 +25,7 @@ int main()
     string input_file = "new_dblp.xml";
     std::ifstream in(input_file);
     ofstream out("ndblp.xml");
-    long long cnt = 0;
+    int64_t cnt = 0;
     while (getline(in, s))
     {
         cnt++;

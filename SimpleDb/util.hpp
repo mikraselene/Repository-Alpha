@@ -1,25 +1,7 @@
-#ifndef _UTILS_HPP_
-#define _UTILS_HPP_
+#ifndef SIMPLEDB_UTIL_HPP_
+#define SIMPLEDB_UTIL_HPP_
 
 #include <iostream>
-#include <list>
-#include <cmath>
-#include <vector>
-#include <stack>
-#include <map>
-#include <exception>
-#include <memory>
-
-using std::cout;
-using std::endl;
-using std::list;
-using std::map;
-using std::multimap;
-using std::ostream_iterator;
-using std::pair;
-using std::stack;
-using std::string;
-using std::vector;
 
 clock_t clock_start_ = clock();
 clock_t clock_end_ = clock();
@@ -40,4 +22,4 @@ clock_t clock_end_ = clock();
 
 #define PRINT(xx) printf(xx RESET)
 
-#endif
+#endif // SIMPLEDB_UTIL_HPP_
