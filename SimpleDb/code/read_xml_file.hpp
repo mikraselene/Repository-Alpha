@@ -1,5 +1,5 @@
-#ifndef SIMPLEDB_READ_XML_FILE_HPP_
-#define SIMPLEDB_READ_XML_FILE_HPP_
+#ifndef SIMPLEDB_CODE_READ_XML_FILE_HPP_
+#define SIMPLEDB_CODE_READ_XML_FILE_HPP_
 
 #include <libxml/SAX2.h>
 
@@ -9,8 +9,6 @@
 #include <vector>
 
 #include "database.hpp"
-
-#define KEY_MAX_SIZE 64
 
 using std::map;
 using std::multimap;
@@ -175,4 +173,4 @@ void read_xmlfile(const char *file_name)
     fclose(file);
 }
 
-#endif // SIMPLEDB_READ_XML_FILE_HPP_
+#endif // SIMPLEDB_CODE_READ_XML_FILE_HPP_

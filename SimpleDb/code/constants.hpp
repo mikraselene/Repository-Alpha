@@ -1,5 +1,5 @@
-#ifndef SIMPLEDB_CONSTANTS_HPP_
-#define SIMPLEDB_CONSTANTS_HPP_
+#ifndef SIMPLEDB_CODE_CONSTANTS_HPP_
+#define SIMPLEDB_CODE_CONSTANTS_HPP_
 
 #include <iostream>
 
@@ -46,4 +46,4 @@ namespace btree_node
 
 } // namespace btree_node
 
-#endif // SIMPLEDB_CONSTANTS_HPP_
+#endif // SIMPLEDB_CODE_CONSTANTS_HPP_

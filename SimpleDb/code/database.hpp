@@ -1,5 +1,5 @@
-#ifndef SIMPLEDB_DATABASE_HPP_
-#define SIMPLEDB_DATABASE_HPP_
+#ifndef SIMPLEDB_CODE_DATABASE_HPP_
+#define SIMPLEDB_CODE_DATABASE_HPP_
 
 #include <fcntl.h>
 #include <unistd.h>
@@ -366,4 +366,4 @@ bool Database::is_open() const { return is_open_; }
 
 Database db;
 
-#endif // SIMPLEDB_DATABASE_HPP_
+#endif // SIMPLEDB_CODE_DATABASE_HPP_

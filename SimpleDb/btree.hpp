@@ -20,11 +20,11 @@ class Node
 public:
     auto leaf_node_num_cells() -> uint32_t *
     {
-        return CAST_UINT(CAST(node_ptr) + btree_node::NODE_TYPE_OFFSET);
+        return CAST_UINT(CHAR(node_ptr) + btree_node::NODE_TYPE_OFFSET);
     }
     auto leaf_node_cell(uint32_t cell_num) -> pointer
     {
-        return CAST(node_ptr) +
+        return CHAR(node_ptr) +
                btree_node::HEADER_SIZE + cell_num * btree_node::CELL_SIZE;
     }
     auto leaf_node_key(uint32_t cell_num) -> pointer
@@ -33,7 +33,7 @@ public:
     }
     auto leaf_node_value(uint32_t cell_num) -> pointer
     {
-        return CAST(leaf_node_cell(cell_num)) + btree_node::KEY_SIZE;
+        return CHAR(leaf_node_cell(cell_num)) + btree_node::KEY_SIZE;
     }
     void initialize() { *leaf_node_num_cells() = 0; } // WHY?
 
