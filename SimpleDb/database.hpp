@@ -8,6 +8,7 @@
 #include <vector>
 #include <string>
 
+#include "btree.hpp"
 #include "constants.hpp"
 
 using std::string;
@@ -20,7 +21,7 @@ enum class TablePosition
     OTHER,
 };
 
-// Row 是包含 key-value 对的一行.
+// Row 是包含 value 的一行.
 class Row
 {
 public:
@@ -48,13 +49,13 @@ class Pager
 {
 public:
     Pager();
-    Pager(int file_descriptor, int32_t file_length, int32_t num_of_pages);
+    Pager(int file_descriptor, int32_t file_length);
     // 获得 page_num 指向的页, 如果没有则新建一页.
     auto get_page(const int32_t &page_num) -> pointer;
     // 把 page_num 指向的页置为空指针.
     void nullptrify(const int32_t &page_num);
     // 把 page_num 指向的页写入文件.
-    void flush(const int32_t &page_num, const int32_t &size) const;
+    void flush(const int32_t &page_num) const;
 
     auto num_of_pages() const -> int32_t;
     auto file_descriptor() const -> int;
@@ -73,7 +74,7 @@ class Table
 {
 public:
     Table();
-    Table(Pager *pager, int32_t num_of_rows);
+    explicit Table(Pager *pager);
     // 读取给定 row_num 指向的行的位置.
     auto row_slot(const int32_t &row_num) const -> pointer;
     // 在表中插入一行.
@@ -81,12 +82,12 @@ public:
     // 读取表中的所有行.
     void select();
 
-    auto num_of_rows() const -> int32_t;
+    auto root_page_num() const -> int32_t;
     auto pager() const -> Pager *;
 
 private:
-    int32_t num_of_rows_; // Table 中的总 Row 数.
-    Pager *pager_;        // 页管理 Pager.
+    int32_t root_page_num_;
+    Pager *pager_; // 页管理 Pager.
 };
 
 // Cursor 指明了 Table 中的一个位置.
@@ -102,13 +103,15 @@ public:
     auto operator++(int) -> Cursor;
 
     auto table() const -> Table *;
-    auto row_num() const -> int32_t;
+    auto page_num() const -> int32_t;
+    auto cell_num() const -> int32_t;
     bool table_end() const;
 
 private:
-    Table *table_;    // Cursor 所在的 Table
-    int32_t row_num_; // Cursor 指向的 Row
-    bool table_end_;  // 是否在 Table 尾部
+    Table *table_;     // Cursor 所在的 Table
+    int32_t page_num_; // Cursor 指向的 Page
+    int32_t cell_num_; //
+    bool table_end_;   // 是否在 Table 尾部
 };
 
 // 数据库表层.
@@ -130,6 +133,26 @@ private:
     string dbname_;
     bool is_open_;
 };
+
+void leaf_node_insert(Cursor *cursor, uint32_t key, Row *value)
+{
+    auto node_ptr = cursor->table()->pager()->get_page(cursor->page_num());
+    Node<void> node(node_ptr);
+    uint32_t num_cells = *node.leaf_node_num_cells();
+    assert(num_cells < btree_node::MAX_CELLS);
+    if (cursor->cell_num() < num_cells)
+    {
+        // Make room for new cell
+        for (uint32_t i = num_cells; i > cursor->cell_num(); i--)
+        {
+            memcpy(node.leaf_node_cell(i), node.leaf_node_cell(i - 1),
+                   btree_node::CELL_SIZE);
+        }
+    }
+    *node.leaf_node_num_cells() += 1;
+    *node.leaf_node_key(cursor->cell_num()) = key;
+    value->serialize_to(node.leaf_node_value(cursor->cell_num()));
+}
 
 #pragma region // Row Implementations
 
@@ -172,16 +195,18 @@ auto Row::right_pos() const -> uint32_t { return right_pos_; }
 
 #pragma region // Pager Implementations
 
-Pager::Pager() : file_descriptor_(0), file_length_(0), pages_()
+Pager::Pager() : num_of_pages_(0),
+                 file_descriptor_(0),
+                 file_length_(0),
+                 pages_()
 {
 }
-Pager::Pager(int file_descriptor, int32_t file_length, int32_t num_of_pages)
-    : num_of_pages_(num_of_pages),
+Pager::Pager(int file_descriptor, int32_t file_length)
+    : num_of_pages_(file_length / database::PAGE_SIZE),
       file_descriptor_(file_descriptor),
       file_length_(file_length),
       pages_()
 {
-    assert(num_of_pages >= 0);
     assert(file_length >= 0);
 }
 auto Pager::get_page(const int32_t &page_num) -> pointer
@@ -216,16 +241,15 @@ void Pager::nullptrify(const int32_t &page_num)
     assert(page_num >= 0);
     pages_[page_num] = nullptr;
 }
-void Pager::flush(const int32_t &page_num, const int32_t &size) const
+void Pager::flush(const int32_t &page_num) const
 {
     assert(page_num >= 0);
-    assert(size >= 0);
     assert(pages_[page_num] != nullptr);
     auto offset =
         lseek(file_descriptor_, page_num * database::PAGE_SIZE, SEEK_SET);
     assert(offset != -1);
-    auto w = write(file_descriptor_, pages_[page_num], size);
-    assert(w != -1);
+    auto bytes = write(file_descriptor_, pages_[page_num], database::PAGE_SIZE);
+    assert(bytes != -1);
 }
 
 auto Pager::num_of_pages() const -> int32_t { return num_of_pages_; }
@@ -238,11 +262,12 @@ auto Pager::pages(const int32_t &page_num) const
 
 #pragma region // Table Implementations
 
-Table::Table() : num_of_rows_(0), pager_(new Pager)
+Table::Table() : pager_(new Pager), root_page_num_(0)
 {
 }
-Table::Table(Pager *pager, int32_t num_of_rows)
-    : num_of_rows_(num_of_rows), pager_(pager) { assert(num_of_rows >= 0); }
+Table::Table(Pager *pager) : pager_(pager), root_page_num_(0)
+{
+}
 auto Table::row_slot(const int32_t &row_num) const -> pointer
 {
     assert(row_num >= 0);
@@ -255,7 +280,6 @@ void Table::insert(Row row)
 {
     Cursor cursor(this, TablePosition::END); // 在 Table 尾部插入.
     row.serialize_to(cursor.ptr_value());
-    num_of_rows_++;
 }
 void Table::select()
 {
@@ -269,7 +293,7 @@ void Table::select()
     }
 }
 
-auto Table::num_of_rows() const -> int32_t { return num_of_rows_; }
+auto Table::root_page_num() const -> int32_t { return root_page_num_; }
 auto Table::pager() const -> Pager * { return pager_; }
 
 #pragma endregion
@@ -278,23 +302,26 @@ auto Table::pager() const -> Pager * { return pager_; }
 
 Cursor::Cursor(Table *table, TablePosition pos)
     : table_(table),
-      row_num_(pos == TablePosition::END ? table->num_of_rows() : 0),
-      table_end_(pos == TablePosition::START
-                     ? table->num_of_rows() == 0
-                     : true)
+      page_num_(table->root_page_num())
 {
+    auto root_node_ptr = table->pager()->get_page(table->root_page_num());
+    Node<void> root_node(root_node_ptr);
+    auto num_of_cells = *root_node.leaf_node_num_cells(); // TODO:
+    cell_num_ = pos == TablePosition::END ? num_of_cells : 0;
+    table_end_ = pos == TablePosition::END ? true : num_of_cells == 0;
 }
 auto Cursor::ptr_value() const -> pointer
 {
-    auto page_num = row_num_ / database::ROWS_PER_PAGE;
-    auto page = table_->pager()->get_page(page_num);
-    auto offset = (row_num_ % database::ROWS_PER_PAGE) * database::ROW_SIZE;
-    return reinterpret_cast<char *>(page) + offset;
+    auto page_ptr = table_->pager()->get_page(page_num_);
+    Node<void> page(page_ptr);
+    return page.leaf_node_value(cell_num_);
 }
 auto Cursor::operator++() -> Cursor &
 {
-    row_num_++;
-    if (row_num_ >= table_->num_of_rows())
+    auto node_ptr = table_->pager()->get_page(page_num_);
+    Node<void> node(node_ptr);
+    cell_num_++;
+    if (cell_num_ >= *node.leaf_node_num_cells()) // TODO:
     {
         table_end_ = true;
     }
@@ -303,7 +330,8 @@ auto Cursor::operator++() -> Cursor &
 auto Cursor::operator++(int) -> Cursor { return ++(*this); }
 
 auto Cursor::table() const -> Table * { return table_; }
-auto Cursor::row_num() const -> int32_t { return row_num_; }
+auto Cursor::page_num() const -> int32_t { return page_num_; }
+auto Cursor::cell_num() const -> int32_t { return cell_num_; }
 bool Cursor::table_end() const { return table_end_; }
 
 #pragma endregion
@@ -319,26 +347,30 @@ void Database::dbopen(const char *filename)
     auto file_descriptor = // TODO:
         open(filename, O_RDWR | O_CREAT, S_IWUSR | S_IRUSR);
     auto file_length = lseek(file_descriptor, 0, SEEK_END);
-    auto num_of_pages = file_length / database::PAGE_SIZE;
-    auto pager = new Pager(file_descriptor, file_length, num_of_pages);
-    auto num_of_rows = pager->file_length() / database::ROW_SIZE;
-    table_ = new Table(pager, num_of_rows);
+    auto pager = new Pager(file_descriptor, file_length);
+    table_ = new Table(pager);
+    if (pager->num_of_pages() == 0)
+    {
+        auto root_node_ptr = pager->get_page(0);
+        Node<void> root_node(root_node_ptr);
+        root_node.initialize();
+    }
     dbname_ = filename;
 }
 void Database::dbclose() const
 {
     auto pager = table_->pager();
-    auto num_of_full_pages = table_->num_of_rows() / database::ROWS_PER_PAGE;
-    for (auto i = 0; i < num_of_full_pages; i++)
+    for (auto i = 0; i < pager->num_of_pages(); i++)
     {
         if (pager->pages(i) == nullptr)
         {
             continue;
         }
-        pager->flush(i, database::PAGE_SIZE);
+        pager->flush(i);
         free(pager->pages(i));
         pager->nullptrify(i);
     }
+    /*
     auto num_of_additional_rows =
         table_->num_of_rows() % database::ROWS_PER_PAGE;
     if (num_of_additional_rows > 0)
@@ -351,6 +383,7 @@ void Database::dbclose() const
             pager->nullptrify(page_num);
         }
     }
+    */
     auto res = close(pager->file_descriptor());
     assert(res != -1);
     delete pager;
