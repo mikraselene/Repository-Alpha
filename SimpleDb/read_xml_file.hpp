@@ -3,6 +3,7 @@
 
 #include <libxml/SAX2.h>
 
+#include <algorithm>
 #include <map>
 #include <utility>
 #include <string>
@@ -22,6 +23,7 @@ using xstr = const xmlChar *;
 using position = pair<uint32_t, uint32_t>;
 
 position pos = {6, 0};
+std::vector<char> partial_key;
 
 enum class ParserState
 {
@@ -33,7 +35,7 @@ enum class ParserState
 ParserState state = ParserState::OTHER;
 
 // 这个是根据状态机的状态来决定选用哪个 vector.
-// 要插入其他数据的化得添加代码.
+// 要插入其他数据的话得添加代码.
 // 例如, 想要添加日期就在 ParserState 里加 DATE 状态, 再在下面加一行:
 // vector<string> &time_key_list = key_list[ParserState::TIME];
 map<ParserState, vector<string>> key_list;
@@ -65,19 +67,49 @@ struct xml_parsing_error : public std::exception
 // 然后添加一个 vector<string>, 再在这里修改代码, 可能用 switch 比较方便.
 static void on_start_element(void *ctx, xstr name, xstr *attrs)
 {
+    partial_key.clear();
     layer_count++;
     state = strcmp((const char *)name, "author") == 0
                 ? ParserState::AUTHOR
-                : strcmp((const char *)name, "title") == 0
-                      ? ParserState::TITLE
-                      : ParserState::OTHER;
+            : strcmp((const char *)name, "title") == 0
+                ? ParserState::TITLE
+                : ParserState::OTHER;
 }
 
 // 这里是读到最后, 把数据插入到数据库的表中.
 // 如果想插入其他数据, 直接添加代码就可以.
 static void on_end_element(void *ctx, xstr name)
 {
+    state = strcmp((const char *)name, "author") == 0
+                ? ParserState::AUTHOR
+            : strcmp((const char *)name, "title") == 0
+                ? ParserState::TITLE
+                : ParserState::OTHER;
     layer_count--;
+    if (state != ParserState::OTHER)
+    {
+        auto push_back_helper = [](string k) {
+            // 这里保证插入的 key 最大长度为 KEY_LENGTH, 现在设置为 64.
+            if (k.size() > database::KEY_LENGTH)
+            {
+                k = k.substr(0, database::KEY_LENGTH - 3) + "...";
+            }
+            k.resize(database::KEY_LENGTH, ' ');
+            assert(k.size() == database::KEY_LENGTH);
+            key_list[state].push_back(k);
+        };
+        string key;
+        key.insert(key.begin(), partial_key.begin(), partial_key.end());
+        while (key.find(" - ") != key.npos || key.find("; ") != key.npos)
+        {
+            bool flag = key.find(" - ") < key.find("; ");
+            auto p = key.find(flag ? " - " : "; ");
+            auto temp = key.substr(0, p);
+            push_back_helper(temp);
+            key.erase(0, p + (flag ? 3 : 2));
+        }
+        push_back_helper(key);
+    }
     if (layer_count == 1)
     {
         pos.second = xmlSAX2GetColumnNumber(ctx) - 2;
@@ -100,30 +132,10 @@ static void on_end_element(void *ctx, xstr name)
 // 这里是读取正文, 根据 ParserState 的状态来决定往哪个 vector 里插入数据.
 static void on_characters(void *ctx, xstr ch, int len)
 {
-    auto push_back_helper = [](string k) {
-        // 这里保证插入的 key 最大长度为 KEY_LENGTH, 现在设置为 64.
-        if (k.size() > database::KEY_LENGTH)
-        {
-            k = k.substr(0, database::KEY_LENGTH - 3) + "...";
-        }
-        k.resize(database::KEY_LENGTH, ' ');
-        assert(k.size() == database::KEY_LENGTH);
-        key_list[state].push_back(k);
-    };
-    string key((const char *)ch, len);
     if (state != ParserState::OTHER)
     {
-        // 避免标题过长, 检查数据后发现用 "-" 和 ";" 来分割标题是合理的.
-        while (key.find(" - ") != key.npos || key.find("; ") != key.npos)
-        {
-            bool flag = key.find(" - ") < key.find("; ");
-            auto p = key.find(flag ? " - " : "; ");
-            auto temp = key.substr(0, p);
-            push_back_helper(temp);
-            key.erase(0, p + (flag ? 3 : 2));
-        }
-        push_back_helper(key);
-        state = ParserState::OTHER;
+        string key((const char *)ch, len);
+        std::copy(key.begin(), key.end(), std::back_inserter(partial_key));
     }
 }
 

@@ -25,4 +25,5 @@ F7: 要用 Qt
 
 F8...: 过几天再想有什么又简单又能体现其他高级数据结构的功能
 
-clear && cd "/Users/mikraselene/statio-spatialis/code/Repository-Alpha/0SDB/" && g++ -I/usr/include/libxml2 -lxml2 -Wall -O3 -std=c++2a main.cpp -o main.out && ./main.out
+clear && cd "/Users/mikraselene/statio-spatialis/code/Repository-Alpha/0SDB/" && g++ -I/usr/include/libxml2 -lxml2 -Wall -O3 -std=c++2a base.cpp -o base.out && ./base.out
+

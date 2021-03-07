@@ -4,7 +4,6 @@
 
 #include <iostream>
 #include "./cosmic_mind.h"
-#include "database.hpp"
 #include "constants.hpp"
 
 enum class NodeType
@@ -13,32 +12,36 @@ enum class NodeType
     LEAF,
     UNKNOWN,
 };
-
+using pointer = void *;
 #define CAST_UINT(x) reinterpret_cast<uint32_t *>(x)
+template <class T>
 class Node
 {
 public:
+    explicit Node(T *node_ptr) : node_ptr_(node_ptr) {}
     auto leaf_node_num_cells() -> uint32_t *
     {
-        return CAST_UINT(CHAR(node_ptr) + btree_node::NODE_TYPE_OFFSET);
+        return reinterpret_cast<uint32_t *>(
+            reinterpret_cast<char *>(node_ptr_) + btree_node::NODE_TYPE_OFFSET);
     }
     auto leaf_node_cell(uint32_t cell_num) -> pointer
     {
-        return CHAR(node_ptr) +
+        return reinterpret_cast<char *>(node_ptr_) +
                btree_node::HEADER_SIZE + cell_num * btree_node::CELL_SIZE;
     }
-    auto leaf_node_key(uint32_t cell_num) -> pointer
+    auto leaf_node_key(uint32_t cell_num) -> uint32_t *
     {
         return leaf_node_cell(cell_num);
     }
     auto leaf_node_value(uint32_t cell_num) -> pointer
     {
-        return CHAR(leaf_node_cell(cell_num)) + btree_node::KEY_SIZE;
+        return reinterpret_cast<char *>(leaf_node_cell(cell_num)) +
+               btree_node::KEY_SIZE;
     }
     void initialize() { *leaf_node_num_cells() = 0; } // WHY?
 
 private:
-    pointer node_ptr;
+    T *node_ptr_;
 };
 
 //

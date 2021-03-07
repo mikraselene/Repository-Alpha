@@ -50,18 +50,24 @@ public:
     }
     auto do_meta_command() -> MetaCommandResult // TODO:
     {
-        if (command_ == ".exit") // 格式: .exit
+        if (command_ == ".test")
+        {
+            db.dbopen("test.db");
+            read_xmlfile("vs.xml");
+            return MetaCommandResult::SUCCESS;
+        }
+        if (command_ == ".exit") // format: .exit
         {
             db.dbclose();
             exit(EXIT_SUCCESS);
         }
-        else if (command_ == ".open") // 格式: .open [sample_dbname].db
+        else if (command_ == ".open") // format: .open [sample_dbname].db
         {
             string dbname = args_[0];
             db.dbopen(dbname.c_str());
             return MetaCommandResult::SUCCESS;
         }
-        else if (command_ == ".read") // 格式: .read [sample_xmlname].xml
+        else if (command_ == ".read") // format: .read [sample_xmlname].xml
         {
             assert(db.is_open());
             string xmlname = args_[0];
@@ -92,7 +98,7 @@ public:
     {
         switch (s)
         {
-        case Statement::INSERT: // 手动插入数据
+        case Statement::INSERT: // insert manually
         {
             string key;
             int p1, p2;
@@ -102,7 +108,7 @@ public:
             db.table()->insert(Row(key, p1, p2));
             break;
         }
-        case Statement::SELECT: // 打印所有数据
+        case Statement::SELECT: // print all the data
         {
             cout << "SELECT(" << db.dbname() << "): \n";
             db.table()->select();

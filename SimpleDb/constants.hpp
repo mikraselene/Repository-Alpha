@@ -16,6 +16,9 @@ namespace database
     constexpr uint32_t MAX_ROWS = ROWS_PER_PAGE * MAX_PAGES;
     constexpr uint32_t TABLE_SIZE = PAGE_SIZE * MAX_PAGES;
 
+    constexpr uint32_t CELL_SIZE = 0;
+    constexpr uint32_t MAX_CELLS = 0;
+
     constexpr off_t KEY_OFFSET = 0;
     constexpr off_t LPOS_OFFSET = KEY_OFFSET + KEY_SIZE;
     constexpr off_t RPOS_OFFSET = LPOS_OFFSET + POS_SIZE;
