@@ -26,7 +26,7 @@ class Row
 {
 public:
     Row();
-    Row(string key, int32_t lpos, int32_t rpos);
+    Row(int32_t pos, int32_t length);
     // 把给定的一行序列化到 to 指向的内存中.
     void serialize_to(const pointer to) const;
     // 从 from 指向的内存中解序列化到给定的一行.
@@ -35,13 +35,12 @@ public:
     void print() const;
 
     auto key() const -> string;
-    auto left_pos() const -> uint32_t;
-    auto right_pos() const -> uint32_t;
+    auto pos() const -> uint32_t;
+    auto length() const -> uint32_t;
 
 private:
-    char key_[database::KEY_LENGTH]; // 字符串键
-    int32_t left_pos_;               // xml 文件中的左位置
-    int32_t right_pos_;              // xml 文件中的右位置 (XXX: 可以改成长度?)
+    int32_t pos_;    // xml 文件中的左位置
+    int32_t length_; // 长度
 };
 
 // Pager 用于管理 Table 中的不同页.
@@ -78,7 +77,7 @@ public:
     // 读取给定 row_num 指向的行的位置.
     auto row_slot(const int32_t &row_num) const -> pointer;
     // 在表中插入一行.
-    void insert(Row row);
+    void insert(string key, Row row);
     // 读取表中的所有行.
     void select();
 
@@ -156,40 +155,37 @@ void leaf_node_insert(Cursor *cursor, uint32_t key, Row *value)
 
 #pragma region // Row Implementations
 
-Row::Row() : key_(), left_pos_(0), right_pos_(0)
+Row::Row() : pos_(0), length_(0)
 {
 }
-Row::Row(string key, int32_t lpos, int32_t rpos)
-    : left_pos_(lpos), right_pos_(rpos)
+Row::Row(int32_t pos, int32_t len)
+    : pos_(pos), length_(len)
 {
-    assert(lpos >= 0);
-    assert(rpos >= 0);
+    assert(pos >= 0);
+    assert(len >= 0);
+    /* TODO: KEY RESIZE
     key.resize(database::KEY_LENGTH, ' ');
     snprintf(key_, database::KEY_LENGTH, "%s", key.c_str());
+    */
 }
 void Row::serialize_to(const pointer to) const
 {
-    memcpy(reinterpret_cast<char *>(to) + database::KEY_OFFSET,
-           &key_, database::KEY_SIZE);
-    memcpy(reinterpret_cast<char *>(to) + database::LPOS_OFFSET,
-           &left_pos_, database::POS_SIZE);
-    memcpy(reinterpret_cast<char *>(to) + database::RPOS_OFFSET,
-           &right_pos_, database::POS_SIZE);
+    memcpy(reinterpret_cast<char *>(to) + database::POS_OFFSET,
+           &pos_, database::POS_SIZE);
+    memcpy(reinterpret_cast<char *>(to) + database::LEN_OFFSET,
+           &length_, database::POS_SIZE);
 }
 void Row::deserialize_from(const pointer from)
 {
-    memcpy(&key_, reinterpret_cast<char *>(from) + database::KEY_OFFSET,
-           database::KEY_SIZE);
-    memcpy(&left_pos_, reinterpret_cast<char *>(from) + database::LPOS_OFFSET,
+    memcpy(&pos_, reinterpret_cast<char *>(from) + database::POS_OFFSET,
            database::POS_SIZE);
-    memcpy(&right_pos_, reinterpret_cast<char *>(from) + database::RPOS_OFFSET,
+    memcpy(&length_, reinterpret_cast<char *>(from) + database::LEN_OFFSET,
            database::POS_SIZE);
 }
-void Row::print() const { printf("%s, %u, %u\n", key_, left_pos_, right_pos_); }
+void Row::print() const { printf("%u, %u\n", pos_, length_); }
 
-auto Row::key() const -> string { return key_; }
-auto Row::left_pos() const -> uint32_t { return left_pos_; }
-auto Row::right_pos() const -> uint32_t { return right_pos_; }
+auto Row::pos() const -> uint32_t { return pos_; }
+auto Row::length() const -> uint32_t { return length_; }
 
 #pragma endregion
 
@@ -276,10 +272,39 @@ auto Table::row_slot(const int32_t &row_num) const -> pointer
     auto offset = (row_num % database::ROWS_PER_PAGE) * database::ROW_SIZE;
     return reinterpret_cast<char *>(page) + offset;
 }
-void Table::insert(Row row)
+
+void leaf_node_insert(Cursor *cursor, string key, Row *value)
 {
-    Cursor cursor(this, TablePosition::END); // 在 Table 尾部插入.
-    row.serialize_to(cursor.ptr_value());
+    auto node_ptr = cursor->table()->pager()->get_page(cursor->page_num());
+    Node<void> node(node_ptr);
+    auto num_cells = *node.leaf_node_num_cells();
+    if (num_cells >= btree_node::MAX_CELLS)
+    {
+        exit(1);
+    }
+    if (cursor->cell_num() < num_cells)
+    {
+        for (auto i = num_cells; i > cursor->cell_num(); i--)
+        {
+            memcpy(node.leaf_node_cell(i),
+                   node.leaf_node_cell(i - 1),
+                   btree_node::CELL_SIZE);
+        }
+    }
+    *(node.leaf_node_num_cells()) += 1;
+    char *k = nullptr;
+    key.resize(btree_node::KEY_LENGTH, ' ');
+    snprintf(k, btree_node::KEY_LENGTH, "%s", key.c_str());
+    *node.leaf_node_key(cursor->cell_num()) = *k;
+    value->serialize_to(node.leaf_node_value(cursor->cell_num()));
+}
+
+void Table::insert(string key, Row row)
+{
+    Cursor *cursor = new Cursor(this, TablePosition::END); // 在 Table 尾部插入.
+    // row.serialize_to(cursor.ptr_value());
+    leaf_node_insert(cursor, key, &row);
+    delete cursor;
 }
 void Table::select()
 {

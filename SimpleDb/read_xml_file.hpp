@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "database.hpp"
+#include "bptree.hpp"
 
 #define KEY_MAX_SIZE 64
 
@@ -44,6 +45,37 @@ vector<string> &author_key_list = key_list[ParserState::AUTHOR];
 
 // 表明当前在 DOM 树中的层数.
 int layer_count;
+
+struct Key
+{
+    bool operator<(const Key &that) const
+    {
+        return strcmp(this->key, that.key) < 0;
+    }
+    bool operator<=(const Key &that) const
+    {
+        return strcmp(this->key, that.key) <= 0;
+    }
+    bool operator==(const Key &that) const
+    {
+        return strcmp(this->key, that.key) == 0;
+    }
+
+    char key[64];
+    int64_t page_id;
+    std::ostream &operator<<(std::ostream &out)
+    {
+        out << key;
+        return out;
+    }
+};
+
+struct Record
+{
+    char key[64];
+    uint32_t pos;
+    uint32_t len;
+};
 
 struct file_opening_error : public std::exception
 {
@@ -90,12 +122,12 @@ static void on_end_element(void *ctx, xstr name)
     {
         auto push_back_helper = [](string k) {
             // 这里保证插入的 key 最大长度为 KEY_LENGTH, 现在设置为 64.
-            if (k.size() > database::KEY_LENGTH)
+            if (k.size() > btree_node::KEY_LENGTH)
             {
-                k = k.substr(0, database::KEY_LENGTH - 3) + "...";
+                k = k.substr(0, btree_node::KEY_LENGTH - 3) + "...";
             }
-            k.resize(database::KEY_LENGTH, ' ');
-            assert(k.size() == database::KEY_LENGTH);
+            k.resize(btree_node::KEY_LENGTH, ' ');
+            assert(k.size() == btree_node::KEY_LENGTH);
             key_list[state].push_back(k);
         };
         string key;
@@ -121,7 +153,7 @@ static void on_end_element(void *ctx, xstr name)
         for (auto it : title_key_list)
         {
             // title_map.insert({it, pos});
-            db.table()->insert(Row(it, pos.first, pos.second));
+            db.table()->insert(it, Row(pos.first, pos.second));
         }
         pos.first = pos.second + 1;
         author_key_list.clear();

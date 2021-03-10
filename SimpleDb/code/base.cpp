@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "database.hpp"
-#include "read_xml_file.hpp"
+//#include "read_xml_file.hpp"
 
 using std::cin;
 using std::cout;
@@ -65,7 +65,7 @@ public:
         {
             assert(db.is_open());
             string xmlname = args_[0];
-            read_xmlfile(xmlname.c_str());
+            //read_xmlfile(xmlname.c_str());
             return MetaCommandResult::SUCCESS;
         }
         else

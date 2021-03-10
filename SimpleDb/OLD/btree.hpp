@@ -2,6 +2,7 @@
 #define SIMPLEDB_BTREE_HPP_
 // Ｂ木「ビーツリークリーチャー」
 
+#include <string>
 #include <iostream>
 #include "./cosmic_mind.h"
 #include "constants.hpp"
@@ -22,16 +23,16 @@ public:
     auto leaf_node_num_cells() -> uint32_t *
     {
         return reinterpret_cast<uint32_t *>(
-            reinterpret_cast<char *>(node_ptr_) + btree_node::NODE_TYPE_OFFSET);
+            reinterpret_cast<char *>(node_ptr_) + btree_node::NUM_CELLS_OFFSET);
     }
     auto leaf_node_cell(uint32_t cell_num) -> pointer
     {
         return reinterpret_cast<char *>(node_ptr_) +
                btree_node::HEADER_SIZE + cell_num * btree_node::CELL_SIZE;
     }
-    auto leaf_node_key(uint32_t cell_num) -> uint32_t *
+    auto leaf_node_key(uint32_t cell_num) -> char *
     {
-        return leaf_node_cell(cell_num);
+        return nullptr;
     }
     auto leaf_node_value(uint32_t cell_num) -> pointer
     {

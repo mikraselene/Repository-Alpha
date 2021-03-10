@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "database.hpp"
-#include "read_xml_file.hpp"
+//#include "read_xml_file.hpp"
 
 using std::cin;
 using std::cout;
@@ -53,7 +53,7 @@ public:
         if (command_ == ".test")
         {
             db.dbopen("test.db");
-            read_xmlfile("vs.xml");
+            //read_xmlfile("vs.xml");
             return MetaCommandResult::SUCCESS;
         }
         if (command_ == ".exit") // format: .exit
@@ -71,7 +71,7 @@ public:
         {
             assert(db.is_open());
             string xmlname = args_[0];
-            read_xmlfile(xmlname.c_str());
+            //read_xmlfile(xmlname.c_str());
             return MetaCommandResult::SUCCESS;
         }
         else
@@ -105,7 +105,7 @@ public:
             cout << "INSERT(" << db.dbname() << "): \n";
             cin >> key >> p1 >> p2; // TODO:
             getchar();
-            db.table()->insert(Row(key, p1, p2));
+            db.table()->insert(key, Row(p1, p2));
             break;
         }
         case Statement::SELECT: // print all the data
