@@ -3,14 +3,14 @@ MDB >>> read from `xml_name`
 MDB >>> load `dbname`
 
 MDB >>> insert into `table_name`
-   --> `key and value`
+    ? > `key and value`
 
 MDB >>> insert into `table_name` from `xml_file`
 
 MDB >>> select from `table_name`
 
 MDB >>> find in `table_name`
-    --> `key`
+    ? > `key`
 
 RES >>> delete `n`
 RES >>> show `n`

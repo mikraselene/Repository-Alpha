@@ -84,7 +84,7 @@ public:
             if (string((*iter).key).find(value) == 0)
             {
                 string str((*iter).key);
-                cout << cnt + 1 << ": ";
+                cout << "[" << cnt + 1 << "] ";
                 cout << BOLD GREEN << str.substr(0, value.size()) << RESET;
                 cout << str.substr(value.size(), str.size() - value.size());
                 cout << "\n";
@@ -167,15 +167,16 @@ public:
         {
         case Statement::INSERT: // insert
         {                       // value...
-            cout << "Waiting for inserting..." << endl;
-            cout << "value(string, int, int): " << endl;
-            execute_insert();
-            cout << "Inserted." << endl;
+            bool success = execute_insert();
+            break;
+        }
+        case Statement::READ:
+        {
+            bool success = execute_read();
             break;
         }
         case Statement::SELECT: // select
         {
-            cout << "Selected:" << endl;
             bool success = execute_select();
             break;
         }
@@ -186,7 +187,7 @@ public:
         }
         case Statement::EXIT: // exit
         {
-            cout << "so long" << endl;
+            cout << "So long..." << endl;
             exit(EXIT_SUCCESS);
         }
         case Statement::OPEN: // open
@@ -197,10 +198,12 @@ public:
                      << (args.size() > 1 ? "many" : "few")
                      << " arguments." << endl;
                 cerr << "Format: open `name`" << endl;
+                break;
             }
             auto name = args[0];
             bool success = execute_open(name);
-            cout << "Database '" << name << "' is open." << endl;
+            cout << GREEN << "Database '" << name << "' is open."
+                 << RESET << endl;
             break;
         }
         default:
@@ -211,6 +214,10 @@ public:
     }
 
 private:
+    bool execute_read()
+    {
+        return 1;
+    }
     bool execute_open(string name)
     {
         db.db_open(name);
@@ -270,11 +277,15 @@ private:
     }
     bool execute_find()
     {
-        cout << "    --> ";
+        cout << "    ? > ";
         string str;
         getline(cin, str);
+        if (str == "")
+        {
+            return false;
+        }
         int r = db.find(str);
-        cout << "Find " << r << " Records." << endl;
+        cout << r << " record" << (r == 1 ? "" : "s") << " found." << endl;
         return true;
     }
     string command;

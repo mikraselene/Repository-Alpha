@@ -122,12 +122,12 @@ static void on_end_element(void *ctx, xstr name)
     {
         auto push_back_helper = [](string k) {
             // 这里保证插入的 key 最大长度为 KEY_LENGTH, 现在设置为 64.
-            if (k.size() > btree_node::KEY_LENGTH)
+            if (k.size() > 64)
             {
-                k = k.substr(0, btree_node::KEY_LENGTH - 3) + "...";
+                k = k.substr(0, 64 - 3) + "...";
             }
-            k.resize(btree_node::KEY_LENGTH, ' ');
-            assert(k.size() == btree_node::KEY_LENGTH);
+            k.resize(64, ' ');
+            assert(k.size() == 64);
             key_list[state].push_back(k);
         };
         string key;
