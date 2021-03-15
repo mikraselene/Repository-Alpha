@@ -10,14 +10,6 @@
 #include "bptree.hpp"
 #include "util.hpp"
 
-#if defined(_WIN32) || defined(__WIN32__) || defined(WIN32)
-constexpr char MKDIR[] = "md";
-constexpr char CLEAR[] = "cls";
-#else
-constexpr char MKDIR[] = "mkdir";
-constexpr char CLEAR[] = "clear";
-#endif
-
 struct Key
 {
     Key() {}
@@ -52,10 +44,6 @@ class Database
 protected:
     void find(std::string value)
     {
-        if (!is_open())
-        {
-            throw database_not_open();
-        }
         Key k(-1);
         snprintf(k.key, sizeof(k.key), "%s", value.c_str());
         auto iter = bt->find_geq(k);
@@ -83,13 +71,8 @@ protected:
         }
         fmt::print("{} record(s) found.\n", cnt);
     }
-
     void insert(Record r, std::string key)
     {
-        if (!is_open())
-        {
-            throw database_not_open();
-        }
         record_manager->save(id, &r);
         char that[64];
         Key k(id);
@@ -97,52 +80,41 @@ protected:
         bt->insert(k);
         id++;
     }
-
     void select()
     {
-        if (!is_open())
-        {
-            throw database_not_open();
-        }
         bt->print();
     }
-
     void db_open(std::string name, bool new_file)
     {
-        this->name = name;
-        is_open = true;
-        if (new_file)
-        {
-            system(fmt::format("{} database/{}", MKDIR, name).c_str());
-        }
-        auto idx = fmt::format("database/{0}/{0}_idx.bin", name);
-        auto rec = fmt::format("database/{0}/{0}_rec.bin", name);
+        auto idx = fmt::format("database/{}_idx.bin", name);
+        auto rec = fmt::format("database/{}_rec.bin", name);
         page_manager = std::make_shared<Pager>(idx, new_file);
         record_manager = std::make_shared<Pager>(rec, new_file);
-        bt = new BPTree<Key, 3>(page_manager);
+        bt = new bptree<Key, 3>(page_manager);
         Record s;
         id = record_manager->get_id(&s);
+        fmt::print("{}\n", record_manager->get_id(&s));
     }
-
     void db_close()
     {
-        is_open = false;
-        name = "24601";
+        fmt::print("So long...\n");
     }
-
-    Property<bool> is_open{false};
-    Property<std::string> name{"24601"};
 
 private:
     int id = 0;
     std::shared_ptr<Pager> page_manager;
     std::shared_ptr<Pager> record_manager;
-    BPTree<Key, 3> *bt;
+    bptree<Key, 3> *bt;
 };
 Database db;
 
 class CommandLine
 {
+    enum class MetaCommandResult
+    {
+        SUCCESS,
+        UNRECOGNIZED_COMMAND,
+    };
     enum class Statement
     {
         INSERT,
@@ -151,8 +123,6 @@ class CommandLine
         EXIT,
         FIND,
         READ,
-        CREATE,
-        WHOAMI,
         UNKNOWN,
     };
     enum class State
@@ -160,40 +130,90 @@ class CommandLine
         FAILURE,
         SUCCESS,
     };
-    std::map<std::string, Statement> statement_map{
+    std::map<std::string, Statement> stmt{
         {"insert", Statement::INSERT},
         {"select", Statement::SELECT},
         {"open", Statement::OPEN},
         {"exit", Statement::EXIT},
         {"read", Statement::READ},
         {"find", Statement::FIND},
-        {"whoami", Statement::WHOAMI},
-    };
-    std::map<Statement, std::function<void(void)>> execute_map = {
-        {Statement::CREATE, [&]() { execute_create(); }},
-        {Statement::OPEN, [&]() { execute_open(); }},
-        {Statement::READ, [&]() { execute_read(); }},
-        {Statement::INSERT, [&]() { execute_insert(); }},
-        {Statement::SELECT, [&]() { execute_select(); }},
-        {Statement::FIND, [&]() { execute_find(); }},
-        {Statement::WHOAMI, [&]() { execute_whoami(); }},
-        {Statement::EXIT, [&]() { execute_exit(); }},
-        {Statement::UNKNOWN, [&]() { execute_unknown(); }},
     };
 
 public:
     CommandLine(std::string cmd, std::vector<std::string> a)
         : command(cmd), args(a) {}
-
     void execute()
     {
-        execute_map[statement_map.find(command) != statement_map.end()
-                        ? statement_map[command]
-                        : Statement::UNKNOWN]();
+        execute_command(command_statement());
+    }
+    auto command_statement() -> Statement
+    {
+        return stmt.find(command) != stmt.end()
+                   ? stmt[command]
+                   : Statement::UNKNOWN;
+    }
+    void execute_command(Statement s)
+    {
+        switch (s)
+        {
+        case Statement::INSERT:
+        {
+            execute_insert();
+            break;
+        }
+        case Statement::READ:
+        {
+            execute_read();
+            break;
+        }
+        case Statement::SELECT:
+        {
+            execute_select();
+            break;
+        }
+        case Statement::FIND:
+        {
+            execute_find();
+            break;
+        }
+        case Statement::EXIT:
+        {
+            execute_exit();
+            exit(EXIT_SUCCESS);
+        }
+        case Statement::OPEN:
+        {
+            execute_open();
+            break;
+        }
+        default:
+        {
+            break;
+        }
+        }
     }
 
 private:
+    void execute_exit()
+    {
+        db.db_close();
+    }
+    void execute_read()
+    {
+    }
     void execute_create()
+    {
+        if (args.size() != 1)
+        {
+            throw invalid_arguments_num(1, args.size());
+            return;
+        }
+        auto name = args[0];
+        db.db_open(name, true);
+        fmt::print(fg(fmt::terminal_color::bright_green),
+                   "Database {} is created.\n", name);
+    }
+    void execute_open()
     {
         try
         {
@@ -204,51 +224,6 @@ private:
             }
             auto name = args[0];
             db.db_open(name, true);
-            fmt::print(fg(fmt::terminal_color::bright_green),
-                       "Database {} is created.\n", name);
-        }
-        catch (invalid_arguments_num &e)
-        {
-            fmt::print(fg(fmt::terminal_color::bright_red), "{}", e.what());
-            fmt::print("Expected {} argument(s), but got {}.\n",
-                       e.expected_num, e.got_num);
-            fmt::print(fg(fmt::terminal_color::bright_cyan), "Format: ");
-            fmt::print("create [name]\n");
-            return;
-        }
-    }
-
-    void execute_read()
-    {
-    }
-
-    void execute_open()
-    {
-        try
-        {
-            if (args.size() != 1)
-            {
-                throw invalid_arguments_num(1, args.size());
-                return;
-            }
-            if (db.is_open())
-            {
-                fmt::print("Open a new database? (y/n) ");
-                std::string str;
-                getline(std::cin, str);
-                if (str == "y")
-                {
-                    fmt::print(fg(fmt::terminal_color::bright_magenta),
-                               "Database {} is closed.\n", db.name());
-                    db.db_close();
-                }
-                else
-                {
-                    return;
-                }
-            }
-            auto name = args[0];
-            db.db_open(name, false);
             fmt::print(fg(fmt::terminal_color::bright_green),
                        "Database {} is open.\n", name);
         }
@@ -273,31 +248,24 @@ private:
                 db.db_open(args[0], true);
                 fmt::print(fg(fmt::terminal_color::bright_green),
                            "Database {} is created.\n", args[0]);
+#if 0
+                auto name = fn.substr(0, fn.find("."));
+                auto res1 = remove(fmt::format("{}.bin", name).c_str());
+                auto res2 = remove(fmt::format("{}.index", name).c_str());
+                (res1 == EOF || res2 == EOF)
+                    ? fmt::print("This message should not be shown...\n")
+                    : fmt::print(fg(fmt::terminal_color::bright_green),
+                                 "File removed.\n");
+#endif
             }
             return;
         }
         catch (file_opening_error &e)
         {
-            fmt::print(fg(fmt::terminal_color::bright_red),
-                       "File corrupted.\n");
-            fmt::print("Remove it now? (y/n) ");
-            std::string str;
-            getline(std::cin, str);
-            if (str == "y")
-            {
-                auto fn = e.file_name;
-                auto name = fn.substr(0, fn.find("."));
-                auto res1 = remove(fmt::format("{}_rec.bin", name).c_str());
-                auto res2 = remove(fmt::format("{}_idx.bin", name).c_str());
-                (res1 == EOF || res2 == EOF)
-                    ? fmt::print("This message should not be shown...\n")
-                    : fmt::print(fg(fmt::terminal_color::bright_green),
-                                 "File removed.\n");
-            }
+            fmt::print("File opening error.\n");
             return;
         }
     }
-
     void execute_insert()
     {
         clk.tick();
@@ -349,22 +317,12 @@ private:
         clk.print_time_cost();
         fmt::print("\n");
     }
-
     void execute_select()
     {
-        try
-        {
-            db.select();
-            fmt::print("SELECT OK");
-            fmt::print("\n");
-        }
-        catch (database_not_open &e)
-        {
-            fmt::print(fg(fmt::terminal_color::bright_red), "{}\n", e.what());
-            fmt::print("Please open a database first.\n");
-        }
+        db.select();
+        fmt::print("SELECT OK");
+        fmt::print("\n");
     }
-
     void execute_find()
     {
         print_prompt2();
@@ -372,34 +330,11 @@ private:
         getline(std::cin, str);
         if (str == "")
         {
-            //
         }
         db.find(str);
         fmt::print("FIND OK");
         fmt::print("\n");
     }
-
-    void execute_whoami()
-    {
-        fmt::print("Who am I? ");
-        fmt::print(fg(fmt::terminal_color::bright_blue),
-                   "Database {}!\n", db.name());
-    }
-
-    void execute_exit()
-    {
-        db.db_close();
-        fmt::print("So long...\n");
-        exit(EXIT_SUCCESS);
-    }
-
-    void execute_unknown()
-    {
-        fmt::print(fg(fmt::terminal_color::bright_red),
-                   "Command not found: ");
-        fmt::print("{}\n", command);
-    }
-
     std::string command;
     std::vector<std::string> args;
 };

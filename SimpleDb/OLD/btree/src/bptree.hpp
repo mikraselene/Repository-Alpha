@@ -285,7 +285,7 @@ public:
         auto it = find_helper(value, root);
         return *it == value ? it : end();
     }
-    auto find_min_geq_than(const T &value) -> iterator
+    auto find_geq(const T &value) -> iterator
     {
         auto root = read_node(header->root_id);
         auto it = find_helper(value, root);

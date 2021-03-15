@@ -9,7 +9,6 @@
 #include <string>
 #include <vector>
 
-#include "database.hpp"
 #include "bptree.hpp"
 
 #define KEY_MAX_SIZE 64
@@ -77,19 +76,6 @@ struct Record
     uint32_t len;
 };
 
-struct file_opening_error : public std::exception
-{
-    const char *what() const throw() { return "file opening error"; }
-};
-struct file_reading_error : public std::exception
-{
-    const char *what() const throw() { return "file reading error"; }
-};
-struct xml_parsing_error : public std::exception
-{
-    const char *what() const throw() { return "xml parsing error"; }
-};
-
 // 插入是在这三个函数里. key 存在 key_list 内, 其他部分可以不用考虑.
 // 如果要用图或者其他数据结构来存 key-value 之类的数据, 就在这里添加代码.
 // 这里设计得好像还不够好, 以后有需求再改.
@@ -153,7 +139,7 @@ static void on_end_element(void *ctx, xstr name)
         for (auto it : title_key_list)
         {
             // title_map.insert({it, pos});
-            db.table()->insert(it, Row(pos.first, pos.second));
+            // db.table()->insert(it, Row(pos.first, pos.second));
         }
         pos.first = pos.second + 1;
         author_key_list.clear();
@@ -174,7 +160,6 @@ static void on_characters(void *ctx, xstr ch, int len)
 // 利用 libxml 读取 xml 文件.
 void read_xmlfile(const char *file_name)
 {
-    assert(db.is_open());
     FILE *file = fopen(file_name, "r");
     layer_count = 0;
     char chars[1024];
@@ -182,12 +167,12 @@ void read_xmlfile(const char *file_name)
     {
         if (file == nullptr)
         {
-            throw file_opening_error();
+            // throw file_opening_error();
         }
         auto res = fread(chars, 1, 4, file);
         if (res <= 0)
         {
-            throw file_reading_error();
+            // throw file_reading_error();
         }
         auto sax_hander = [&] {
             xmlSAXHandler sax_hander;
@@ -205,7 +190,7 @@ void read_xmlfile(const char *file_name)
             if (xmlParseChunk(ctxt, chars, res, 0))
             {
                 xmlParserError(ctxt, "xmlParseChunk");
-                throw xml_parsing_error();
+                // throw xml_parsing_error();
             }
         }
         xmlParseChunk(ctxt, chars, 0, 1);

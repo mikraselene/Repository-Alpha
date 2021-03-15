@@ -150,7 +150,7 @@ TEST_F(BTreeTest, TestC)
     }
 
     printf("FIND `Who':\n");
-    auto iter = bt.find_min_geq_than(Key{"Who", -1});
+    auto iter = bt.find_geq(Key{"Who", -1});
 
     Record s;
     record_manager.recover((*iter).page_id, &s);
